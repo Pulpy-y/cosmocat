@@ -15,13 +15,13 @@ class Info extends StatelessWidget {
     double defaultSize = SizeConfig.defaultSize!;
 
     return SizedBox(
-      height: defaultSize * 24, // 240
+      height: defaultSize * 22, // 240
       child: Stack(
         children: <Widget>[
           ClipPath(
             clipper: CustomShape(),
             child: Container(
-              height: defaultSize * 18, //150
+              height: defaultSize * 15, //150
               color: primaryColor,
             ),
           ),
