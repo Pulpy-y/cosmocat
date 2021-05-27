@@ -1,4 +1,5 @@
 import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
@@ -14,7 +15,7 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-  final Color barBackgroundColor = primaryColor;
+  final Color barBackgroundColor = Colors.grey[200]!;
   final Duration animDuration = const Duration(milliseconds: 250);
 
   int touchedIndex = -1;
@@ -23,59 +24,65 @@ class _ChartState extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        color: const Color(0xff81e5cd),
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    'Weekly Focus Time',
-                    style: TextStyle(
-                        color: const Color(0xff0f4a3c),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    'help making Coma\'s dreams come true',
-                    style: TextStyle(
-                        color: const Color(0xff379982),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 38,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: BarChart(
-                        mainBarData(),
-                        swapAnimationDuration: animDuration,
+    double defaultSize = SizeConfig.defaultSize!;
+
+    return Padding(
+        padding: EdgeInsets.fromLTRB(defaultSize * 2, defaultSize * 1.6,
+            defaultSize * 2, defaultSize * 1.6),
+        child: AspectRatio(
+          aspectRatio: 4 / 3,
+          child: Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            color: primaryColor,
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(defaultSize * 1.6),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Weekly Focus Time',
+                        style: TextStyle(
+                            color: const Color(0xff0f4a3c),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        'help making Coma\'s dreams come true',
+                        style: TextStyle(
+                            color: const Color(0xff379982),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 38,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: BarChart(
+                            mainBarData(),
+                            swapAnimationDuration: animDuration,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   BarChartGroupData makeGroupData(
