@@ -1,3 +1,4 @@
+import 'package:cosmocat/time_setter/body.dart';
 import 'package:flutter/material.dart';
 
 import '../size_config.dart';
@@ -11,7 +12,7 @@ class TimeSetter extends StatelessWidget {
         title: Text("Time Setter"),
         centerTitle: true,
       ),
-      body: null,
+      body: Body(),
     );
   }
 }
