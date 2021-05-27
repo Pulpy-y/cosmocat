@@ -2,7 +2,6 @@ import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:fl_chart/fl_chart.dart';
 
