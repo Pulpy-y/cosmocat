@@ -8,6 +8,7 @@ class TimeSetter extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text("Time Setter"),
         centerTitle: true,

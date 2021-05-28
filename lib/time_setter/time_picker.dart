@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../size_config.dart';
 
-class TimePicker extends StatelessWidget {
+class TimePicker extends StatefulWidget {
+  @override
+  _TimePickerState createState() => _TimePickerState();
+}
+
+class _TimePickerState extends State<TimePicker> {
   double defaultSize = SizeConfig.defaultSize!;
-  final hourController = TextEditingController();
-  final minuteController = TextEditingController();
   int hour = 0;
   int minute = 0;
 
@@ -36,7 +39,6 @@ class TimePicker extends StatelessWidget {
                     Container(
                       width: defaultSize * 15,
                       child: TextField(
-                        controller: hourController,
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
@@ -45,8 +47,8 @@ class TimePicker extends StatelessWidget {
                             border: OutlineInputBorder(),
                             labelText: 'Hours',
                             fillColor: Colors.yellow[50]),
-                        onEditingComplete: () {
-                          hour = hourController.text as int;
+                        onChanged: (value) {
+                          hour = int.parse(value.trim());
                         },
                       ),
                     ),
@@ -59,7 +61,6 @@ class TimePicker extends StatelessWidget {
                     Container(
                       width: defaultSize * 15,
                       child: TextField(
-                        controller: minuteController,
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
@@ -68,8 +69,8 @@ class TimePicker extends StatelessWidget {
                             border: OutlineInputBorder(),
                             labelText: 'Minutes',
                             fillColor: Colors.yellow[50]),
-                        onEditingComplete: () {
-                          minute = minuteController.text as int;
+                        onChanged: (value) {
+                          minute = int.parse(value.trim());
                         },
                       ),
                     ),
@@ -80,7 +81,12 @@ class TimePicker extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => CountDown()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => CountDown(
+                              hour: hour,
+                              minute: minute,
+                            )));
               },
               child: Padding(
                   padding: EdgeInsets.all(defaultSize * 1.6),

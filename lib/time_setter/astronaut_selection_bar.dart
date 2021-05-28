@@ -34,7 +34,7 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
                 // astronaut img
                 margin: EdgeInsets.fromLTRB(defaultSize * 3, defaultSize,
                     defaultSize * 3, defaultSize), //20
-                height: defaultSize * 14, //140
+                height: defaultSize * 12, //140
                 width: defaultSize * 14,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
