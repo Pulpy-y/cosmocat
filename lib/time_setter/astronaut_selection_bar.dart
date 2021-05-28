@@ -1,4 +1,6 @@
+import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/size_config.dart';
+import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:flutter/material.dart';
 
 class AstronautSelectionBar extends StatefulWidget {
@@ -7,17 +9,18 @@ class AstronautSelectionBar extends StatefulWidget {
 }
 
 class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
+  double defaultSize = SizeConfig.defaultSize!;
+  List<String> astronautIdList = <String>["0", "1", "2", "3"];
+  String selectedAnimal = "0";
+
   @override
   Widget build(BuildContext context) {
-    double defaultSize = SizeConfig.defaultSize!;
-    String selectedAnimal = "assets/image/animal_profile/pig_profile.png";
-
     return Padding(
         padding: EdgeInsets.all(defaultSize * 1.6),
         child: Column(children: <Widget>[
           Container(
               child: Text(
-                "Who's your astronaut today?",
+                "Astrounaut",
                 style: TextStyle(
                   fontSize: defaultSize * 2.2, // 22
                 ),
@@ -28,7 +31,9 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(bottom: defaultSize), //10
+                // astronaut img
+                margin: EdgeInsets.fromLTRB(defaultSize * 3, defaultSize,
+                    defaultSize * 3, defaultSize), //20
                 height: defaultSize * 14, //140
                 width: defaultSize * 14,
                 decoration: BoxDecoration(
@@ -39,13 +44,47 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
                   ),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(selectedAnimal),
+                    image: AssetImage(_combineImagePath(selectedAnimal)),
                   ),
                 ),
               ),
-              TextButton(onPressed: null, child: Text("change"))
+              TextButton(
+                  onPressed: () => _selectAnimalDialog(), child: Text("change"))
             ],
           )
         ]));
+  }
+
+  Future<void> _selectAnimalDialog() async {
+    List<Widget> tiles = astronautIdList.map((e) => _buildGridTile(e)).toList();
+
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (_) => AlertDialog(
+            title: const Text("Select an animal as your astrounaut!"),
+            content: Container(
+                width: defaultSize * 50, //500
+                child: GridView.count(
+                  crossAxisCount: 4,
+                  children: tiles,
+                ))));
+  }
+
+  Widget _buildGridTile(String id) {
+    String path = _combineImagePath(id);
+    return SimpleDialogOption(
+      child: Image.asset(path),
+      onPressed: () {
+        setState(() {
+          selectedAnimal = id;
+        });
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  String _combineImagePath(String id) {
+    return animal_profile_path + id + ".png";
   }
 }
