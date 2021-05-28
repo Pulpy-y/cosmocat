@@ -1,6 +1,5 @@
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/size_config.dart';
-import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:flutter/material.dart';
 
 class AstronautSelectionBar extends StatefulWidget {
