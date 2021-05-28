@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "522012636237",
+    "project_id": "cosmocat-25673",
+    "storage_bucket": "cosmocat-25673.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522012636237:android:de507aa81d611464209804",
+        "android_client_info": {
+          "package_name": "com.animalcoding.cosmo_cat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522012636237-sacoi5c06b5j6eq33fhg5ik24o32rpqo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSz9-pdD-iKbJYS5Sw-_CoB-OdO57xk08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522012636237-sacoi5c06b5j6eq33fhg5ik24o32rpqo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
