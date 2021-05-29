@@ -12,7 +12,7 @@ class Body extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        Info(name: "Bitch", image: "assets/image/coma_as.png"),
+        Info(name: "Username", image: "assets/image/coma_as.png"),
         Chart(),
         OutlinedButton(
           onPressed: () {

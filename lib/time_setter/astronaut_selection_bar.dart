@@ -19,7 +19,7 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
         child: Column(children: <Widget>[
           Container(
               child: Text(
-                "Astrounaut",
+                "Astronaut",
                 style: TextStyle(
                   fontSize: defaultSize * 2.2, // 22
                 ),
@@ -61,7 +61,7 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
         context: context,
         barrierDismissible: true,
         builder: (_) => AlertDialog(
-            title: const Text("Select an animal as your astrounaut!"),
+            title: const Text("Select an animal as your astronaut!"),
             content: Container(
                 width: defaultSize * 50, //500
                 child: GridView.count(
