@@ -64,7 +64,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   },
                 )
-              ])
+              ]),
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.center,
+            child: ElevatedButton(
+              onPressed: () async {
+                auth.signInAnonymously().then((_){
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                });
+                  },
+              child: Text('Anonymously sign in')
+            )
+          )
         ],),
     );
   }
