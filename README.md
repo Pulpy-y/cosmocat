@@ -1,16 +1,10 @@
 # cosmocat
 
-A new Flutter project.
+A mobile app that gamifies the process of focusing on tasks with attracting rewards to motivate users. 
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Documentation
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Milestone 1: https://drive.google.com/drive/folders/1MuzDrtX0Afh8HXNMKxBBBZ7XC-LH86BL?usp=sharing[Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- Progress Log: https://docs.google.com/spreadsheets/d/1IBfyqTEkaR4MoaA1mMs7AfjdqYei3X2i6GzJD3osJQw/edit?usp=sharing
+- apk: can be found in Milestone 1 folder 
