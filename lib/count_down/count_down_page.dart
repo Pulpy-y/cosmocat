@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cosmocat/home/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,19 +23,24 @@ class _CountDownState extends State<CountDown> {
   int _actual = 0;
   int _stars = 0;
   late Timer _timer;
+  bool _isPaused = false;
+  bool _begin = false;
+  String _timeFormatted = '';
 
   _CountDownState(int hour, int minute) {
     _counter = hour * 3600 + minute * 60;
+    _timeFormatted = _timeString(_counter);
   }
 
 
   void _startTimer(){
-    //_counter = 10;
+    _begin = true;
     _timer = Timer.periodic(Duration(seconds:1), (timer) {
       setState(() {
         if (_counter > 0) {
           _counter--;
           _actual++;
+          _timeFormatted = _timeString(_counter);
         } else {
           _timer.cancel();
         }
@@ -52,6 +58,22 @@ class _CountDownState extends State<CountDown> {
     }
   }
 
+  String _timeString(int seconds) {
+    int hours = (seconds / 3600).truncate();
+    seconds = (seconds % 3600).truncate();
+    int minutes = (seconds / 60).truncate();
+
+    String hoursStr = (hours).toString().padLeft(2, '0');
+    String minutesStr = (minutes).toString().padLeft(2, '0');
+    String secondsStr = (seconds % 60).toString().padLeft(2, '0');
+
+    if (hours == 0) {
+      return "$minutesStr:$secondsStr";
+    }
+
+    return "$hoursStr:$minutesStr:$secondsStr";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,28 +87,39 @@ class _CountDownState extends State<CountDown> {
           child: Column(
             children: <Widget>[
               Text(
-                '$_counter',
+                '$_timeFormatted',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 48,
                 ),
               ),
-              ElevatedButton(
+              if (!_begin) ElevatedButton(
                   onPressed: () => _startTimer(),
                   child: Text('Begin Journey!')),
-              Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children:[
+                 _isPaused?
                     ElevatedButton(
-                        child: Text('Pause'),
+                        child: Text('Resume'),
                           onPressed: (){
-                            _timer.cancel();
-                          }),
+                          setState(() {
+                            _startTimer();
+                            _isPaused = false;
+                          });
+                          })
+                    : ElevatedButton(child: Text('Pause'),
+                     onPressed: (){
+                      setState(() {
+                        _timer.cancel();
+                        _isPaused = true;
+                      });
+                     }),
                 ElevatedButton(
                     onPressed:() {
                       _timer.cancel();
                       _stars = _countStars(_actual);
-                      showDialog(context: context, builder: (_) => _taskCompletedDialog());
+                      showDialog(context: context, builder: (_) => _stopTaskDialog());
                       },
                     child: Text('Stop'))]
 
@@ -97,12 +130,48 @@ class _CountDownState extends State<CountDown> {
     );
   }
 
+  Widget _stopTaskDialog () {
+    return AlertDialog(
+        title: const Text("Quit?"),
+        content: Text("Are you sure?"),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _startTimer();
+                      });
+                      Navigator.pop(context); },
+                    child: Text("Cancel"),),
+              ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      showDialog(context: context, builder: (_) => _taskCompletedDialog());},
+                    child: Text("Yes"),),
+            ],
+          )
+        ]);
+
+  }
+
   Widget _taskCompletedDialog()  {
+    _stars = _countStars(_actual);
     return AlertDialog(
             title: const Text("YAY!"),
-            content: Container(
-              child: Text('You have helped Coma get $_stars stars!'),
-                ));
+            content:
+              Container(
+                  child: Text('You have helped Coma get $_stars stars!'),
+                ),
+              actions: [
+                ElevatedButton(
+                      onPressed: () {
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => HomePage()));},
+                      child: Text("Return to Home"),),
+              ],
+    );
   }
 }
 
