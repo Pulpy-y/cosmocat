@@ -12,6 +12,6 @@ A mobile app that gamifies the process of focusing on tasks with attracting rewa
 flutter instruction on how to test app bunddle (.abb file):
 https://flutter.dev/docs/deployment/android#test-the-app-bundle
 
-please contact us if you find yourself cannot open the apk/app bundle
-Jia-Cheng: telegram @dorazhu0703
-Yao Yi:telegram @Pulpy_y
+please contact us if you find yourself cannot open the apk/app bundle 
+- Jia-Cheng: telegram @dorazhu0703
+- Yao Yi:telegram @Pulpy_y
