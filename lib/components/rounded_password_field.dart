@@ -1,4 +1,3 @@
-
 import 'package:cosmocat/components/text_field_container.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,9 +5,6 @@ import 'package:flutter/material.dart';
 
 class RoundedPasswordField extends StatelessWidget {
   final ValueChanged<String> onChanged;
-  /*
-  final ValueChanged<String> suffixChanged;
-  final bool obscureText;*/
   final bool obscure;
 
   const RoundedPasswordField({

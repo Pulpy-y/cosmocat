@@ -2,7 +2,6 @@ import 'package:cosmocat/Login/background.dart';
 import 'package:cosmocat/Signup/sign_up.dart';
 import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/components/rounded_input_field.dart';
-import 'package:cosmocat/components/rounded_password_field.dart';
 import 'package:cosmocat/components/text_field_container.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
