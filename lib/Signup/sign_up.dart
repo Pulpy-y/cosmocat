@@ -10,6 +10,7 @@ class SignUpScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false, //fix pixel overflow
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text("Sign Up", style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
