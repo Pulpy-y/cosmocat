@@ -11,15 +11,23 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Page"),
-        centerTitle: true,
-        actions: [ElevatedButton(child: Text('Logout'),onPressed: (){
-          auth.signOut();
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
-        },),],
-      ),
-      body: Body()
-    );
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: Text("Home Page"),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            ElevatedButton(
+              child: Text('Logout'),
+              onPressed: () {
+                auth.signOut();
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+            ),
+          ],
+        ),
+        body: Body());
   }
 }

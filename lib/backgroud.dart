@@ -12,7 +12,10 @@ class Background extends StatelessWidget {
       children: <Widget>[
         new Container(
           decoration: new BoxDecoration(
-            image: new DecorationImage(image: new AssetImage("assets/image/background.png"), fit: BoxFit.cover,),
+            image: new DecorationImage(
+              image: new AssetImage("assets/image/background.png"),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         new Center(

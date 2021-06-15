@@ -1,17 +1,12 @@
-import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/components/rounded_empty_field.dart';
-import 'package:cosmocat/components/rounded_input_field.dart';
-import 'package:cosmocat/components/rounded_password_field.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'background.dart';
+import '../backgroud.dart';
 
 class Body extends StatefulWidget {
-
   @override
   _BodyState createState() => _BodyState();
 }
@@ -22,73 +17,73 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
 
     return Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                width: size.width * 0.8,
-                height: size.width * 0.1,
-              ),
-              RoundedEmptyField(
-                title: "Email",
-                hintText: "must be correct format",
-                onChanged: (value) {},
-              ),
-              RoundedEmptyField(
-                title: "Nickname",
-                  hintText: "type your nickname",
-                  onChanged: (_){}),
-
-              RoundedEmptyField(
-                title: "Password",
-                hintText: "at least 8 characters",
-                onChanged: (value) {},
-              ),
-              RoundedEmptyField(
-                title: "Confirm Password",
-                hintText: "type your password again",
-                onChanged: (value) {},
-              ),
-              Row(
+            child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 150,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: distinctPurple,// background
-                        onPrimary: Colors.white,
-                        side: BorderSide(color: Colors.white),
-                      ),
-                        onPressed: () {
-                          auth.createUserWithEmailAndPassword(email: _email, password: _password).then((_){
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                          });}, child: Text("Sign Up", style: TextStyle(fontWeight: FontWeight.bold)),),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+          SizedBox(
+            width: size.width * 0.8,
+            height: size.width * 0.1,
+          ),
+          RoundedEmptyField(
+            title: "Email",
+            hintText: "must be correct format",
+            onChanged: (value) {},
+          ),
+          RoundedEmptyField(
+              title: "Nickname",
+              hintText: "type your nickname",
+              onChanged: (_) {}),
+          RoundedEmptyField(
+            title: "Password",
+            hintText: "at least 8 characters",
+            onChanged: (value) {},
+          ),
+          RoundedEmptyField(
+            title: "Confirm Password",
+            hintText: "type your password again",
+            onChanged: (value) {},
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 150,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: distinctPurple, // background
+                    onPrimary: Colors.white,
+                    side: BorderSide(color: Colors.white),
                   ),
-                  Container(
-                      width: size.width * 0.4,
-                      height: size.height * 0.2,
-                      child: Image.asset('assets/image/coma_sign_up.png')
-                  ),
-                ],
-              )
-          ])
-        )
-    );
-
+                  onPressed: () {
+                    auth
+                        .createUserWithEmailAndPassword(
+                            email: _email, password: _password)
+                        .then((_) {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    });
+                  },
+                  child: Text("Sign Up",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ),
+              Container(
+                  width: size.width * 0.4,
+                  height: size.height * 0.2,
+                  child: Image.asset('assets/image/coma_sign_up.png')),
+            ],
+          )
+        ])));
   }
 }
 
-
-      /*
+/*
       child: SizedBox(
         width: size.width*0.75,
         height: size.height*0.6,
