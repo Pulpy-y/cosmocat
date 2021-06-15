@@ -1,4 +1,5 @@
 import 'package:cosmocat/home/info.dart';
+import 'package:cosmocat/home/sidebar.dart';
 import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,10 @@ class Body extends StatelessWidget {
             padding: EdgeInsets.only(top: defaultSize * 5),
             child: Column(
               children: <Widget>[
-                Info(name: "Username", image: "assets/image/coma_as.png"),
+                Stack(children: <Widget>[
+                  Info(name: "Username", image: "assets/image/coma_as.png"),
+                  Positioned(child: SideBar(), right: 0, top: defaultSize * 2)
+                ]),
                 Chart(),
                 OutlinedButton(
                   onPressed: () {
