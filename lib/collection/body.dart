@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../backgroud.dart';
 import '../size_config.dart';
+import "package:cosmocat/animals/animal.dart";
 
 class Body extends StatefulWidget {
   @override
@@ -26,7 +27,19 @@ class _BodyState extends State<Body> {
               child: Container(
                   margin: EdgeInsets.fromLTRB(defaultSize * 6, defaultSize * 11,
                       defaultSize * 6, defaultSize * 13),
-                  child: null))),
+                  child: ListView.builder(
+                      itemCount: animalList.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                            child: ListTile(
+                          onTap: () {},
+                          title: Text(animalList[index].name),
+                          leading: CircleAvatar(
+                            backgroundImage: AssetImage(
+                                'assets/image/animal_profile/${animalList[index].id}.png'),
+                          ),
+                        ));
+                      })))),
     );
   }
 }
