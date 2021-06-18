@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../Login/log_in.dart';
 import '../size_config.dart';
 import 'body.dart';
 
