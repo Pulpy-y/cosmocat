@@ -46,7 +46,22 @@ class _SelectionState extends State<Selection> {
     }
 
     return ListTile(
-        onTap: () {},
+        onTap: () {
+          showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                    title: const Text('Coma has not met this animal yet!'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: const <Widget>[
+                          Text(
+                              'Go to exchange station to make some friends XD'),
+                        ],
+                      ),
+                    ));
+              });
+        },
         title: Text("??? document locked"),
         leading: Icon(Icons.lock));
   }
