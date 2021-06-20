@@ -1,3 +1,4 @@
+import 'package:cosmocat/collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class SideBar extends StatelessWidget {
@@ -21,7 +22,11 @@ class SideBar extends StatelessWidget {
         ),
         Column(children: <Widget>[
           IconButton(
-            onPressed: () {},
+            //collection button
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => Collection()));
+            },
             icon: Icon(Icons.import_contacts_rounded),
             color: Colors.white,
           ),
