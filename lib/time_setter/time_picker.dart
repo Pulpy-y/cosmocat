@@ -48,6 +48,7 @@ class _TimePickerState extends State<TimePicker> {
                             labelText: 'Hours',
                             fillColor: Colors.yellow[50]),
                         onChanged: (value) {
+                          if (value == "") hour = 0;
                           hour = int.parse(value.trim());
                         },
                       ),
@@ -70,6 +71,7 @@ class _TimePickerState extends State<TimePicker> {
                             labelText: 'Minutes',
                             fillColor: Colors.yellow[50]),
                         onChanged: (value) {
+                          if (value == "") minute = 0;
                           minute = int.parse(value.trim());
                         },
                       ),
