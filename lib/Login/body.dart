@@ -4,6 +4,9 @@ import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/components/rounded_input_field.dart';
 import 'package:cosmocat/components/text_field_container.dart';
 import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/database.dart';
+import 'package:cosmocat/main.dart';
+import 'package:cosmocat/models/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../home/home_page.dart';
@@ -18,11 +21,43 @@ class _BodyState extends State<Body> {
   final auth = FirebaseAuth.instance;
   bool obscure = true;
 
+
+  void _logIn () async {
+    try {
+      final user =
+        await auth.signInWithEmailAndPassword(
+          email: _email, password: _password);
+
+      /*
+      DatabaseService()
+            .getUser(user.user!.uid)
+            .then((appUser) {
+          print("app user while logging in is: $appUser");
+          setState(() {
+            MyApp.appUser = appUser;
+          });
+            });*/
+
+      Navigator.of(context)
+          .pushReplacement(
+          MaterialPageRoute(
+              builder: (context) => HomePage()
+          )
+      );
+
+      } catch (e) {
+      print(e);
+    }}
+
+
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
         .of(context)
         .size;
+
     return Background(
         child: SingleChildScrollView(
             child: Column(
@@ -75,9 +110,8 @@ class _BodyState extends State<Body> {
                   RoundedButton(
                       text: "Log In",
                       press: () {
-                        auth.signInWithEmailAndPassword(email: _email, password: _password).then((_){
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                        });}),
+                        _logIn();
+                      }),
                   Padding(
                       padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
                       child: Row(
@@ -105,8 +139,18 @@ class _BodyState extends State<Body> {
                                     onPrimary: Colors.white// background
                                 ),
                                 onPressed: () async {
-                                  auth.signInAnonymously().then((_){
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                                  /*
+                                  dynamic result = await _auth.signInAnon();
+                                  if (result == null) {
+                                    print('error signing in');
+                                  } else {
+                                    print('signed in');
+                                    print(result.uid);
+                                  }*/
+
+                                  auth.signInAnonymously().then((_) {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(builder: (context) => HomePage()));
                                   });
                                 },
                                 child: Text('Guest Login'))
