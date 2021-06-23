@@ -1,10 +1,12 @@
 import 'package:cosmocat/backgroud.dart';
 import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/shop/match.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Body extends StatelessWidget {
-  double defaultSize = SizeConfig.defaultSize!;
+  final double defaultSize = SizeConfig.defaultSize!;
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -25,32 +27,7 @@ class Body extends StatelessWidget {
                 image: DecorationImage(
                     image: AssetImage("assets/image/shop.png"),
                     fit: BoxFit.fill)),
-            child: Column(children: <Widget>[
-              Container(),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(defaultSize * 10,
-                      defaultSize * 33, defaultSize * 10, defaultSize * 10),
-                  child: TextButton(
-                    child: Text("Match",
-                        style: TextStyle(
-                            color: Colors.white, fontSize: defaultSize * 3)),
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                        primary: primaryColor,
-                        backgroundColor: primaryColor,
-                        shadowColor: Colors.yellow,
-                        elevation: 10,
-                        padding: EdgeInsets.fromLTRB(
-                            defaultSize * 5,
-                            defaultSize * 1.2,
-                            defaultSize * 5,
-                            defaultSize * 1.2),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(defaultSize * 3.6), //36
-                            side: BorderSide(color: Colors.white))),
-                  ))
-            ])),
+            child: Match()),
       ],
     ));
   }
