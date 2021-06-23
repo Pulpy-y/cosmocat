@@ -6,6 +6,7 @@ import 'package:cosmocat/components/text_field_container.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../backgroud.dart';
 import '../home/home_page.dart';
 
 
@@ -144,15 +145,6 @@ class _BodyState extends State<Body> {
                                     onPrimary: Colors.white// background
                                 ),
                                 onPressed: () async {
-                                  /*
-                                  dynamic result = await _auth.signInAnon();
-                                  if (result == null) {
-                                    print('error signing in');
-                                  } else {
-                                    print('signed in');
-                                    print(result.uid);
-                                  }*/
-
                                   auth.signInAnonymously().then((_) {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(builder: (context) => HomePage()));

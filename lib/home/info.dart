@@ -18,13 +18,6 @@ class Info extends StatelessWidget {
       height: defaultSize * 22, // 240
       child: Stack(
         children: <Widget>[
-          ClipPath(
-            clipper: CustomShape(),
-            child: Container(
-              height: defaultSize * 15, //150
-              color: primaryColor,
-            ),
-          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,

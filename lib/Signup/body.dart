@@ -10,7 +10,6 @@ import 'package:cosmocat/components/background.dart';
 
 
 class Body extends StatefulWidget {
-
   @override
   _BodyState createState() => _BodyState();
 }
