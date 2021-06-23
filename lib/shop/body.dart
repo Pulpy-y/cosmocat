@@ -1,5 +1,4 @@
 import 'package:cosmocat/backgroud.dart';
-import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
@@ -52,8 +51,6 @@ class Body extends StatelessWidget {
                             side: BorderSide(color: Colors.white))),
                   ))
             ])),
-
-        //Image(image: AssetImage("assets/image/shop.png"))
       ],
     ));
   }
