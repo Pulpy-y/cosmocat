@@ -48,7 +48,7 @@ class _BodyState extends State<Body> {
             child: Column(
               children: <Widget>[
                 Stack(children: <Widget>[
-                  Info(name: "Username", image: "assets/image/coma_as.png"),
+                  Info(name: name, image: "assets/image/coma_as.png"),
                   Positioned(child: SideBar(), right: 0, top: defaultSize * 2)
                 ]),
                 Chart(),

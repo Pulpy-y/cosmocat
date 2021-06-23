@@ -6,13 +6,10 @@ import 'package:cosmocat/components/text_field_container.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../backgroud.dart';
 import '../home/home_page.dart';
 
 
 class Body extends StatefulWidget {
-  final User? user;
-  const Body(this.user);
 
   @override
   _BodyState createState() => _BodyState();
