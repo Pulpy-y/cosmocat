@@ -1,4 +1,5 @@
 import 'package:cosmocat/collection/collection.dart';
+import 'package:cosmocat/shop/shop_page.dart';
 import 'package:flutter/material.dart';
 
 class SideBar extends StatelessWidget {
@@ -31,11 +32,20 @@ class SideBar extends StatelessWidget {
             color: Colors.white,
           ),
           IconButton(
-              onPressed: () {}, icon: Icon(Icons.group), color: Colors.white),
+            //collection button
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => Shop()));
+            },
+            icon: Icon(Icons.storefront),
+            color: Colors.white,
+          ),
           IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.insert_chart),
-              color: Colors.white)
+              onPressed: () {}, icon: Icon(Icons.group), color: Colors.white),
+          //IconButton(
+          //   onPressed: () {},
+          //   icon: Icon(Icons.insert_chart),
+          //  color: Colors.white)
         ])
       ],
     );
