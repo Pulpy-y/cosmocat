@@ -1,4 +1,5 @@
 import 'package:cosmocat/collection/collection.dart';
+import 'package:cosmocat/friendboard/friendboard_page.dart';
 import 'package:cosmocat/shop/shop_page.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,12 @@ class SideBar extends StatelessWidget {
             color: Colors.white,
           ),
           IconButton(
-              onPressed: () {}, icon: Icon(Icons.group), color: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => Friendboard()));
+              },
+              icon: Icon(Icons.group),
+              color: Colors.white),
           //IconButton(
           //   onPressed: () {},
           //   icon: Icon(Icons.insert_chart),
