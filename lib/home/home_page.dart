@@ -4,7 +4,12 @@ import '../Login/log_in.dart';
 import '../size_config.dart';
 import 'body.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final auth = FirebaseAuth.instance;
 
   @override
@@ -31,3 +36,4 @@ class HomePage extends StatelessWidget {
         body: Body());
   }
 }
+
