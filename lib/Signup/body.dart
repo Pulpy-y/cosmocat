@@ -1,17 +1,13 @@
-import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/components/rounded_empty_field.dart';
-import 'package:cosmocat/components/rounded_input_field.dart';
-import 'package:cosmocat/components/rounded_password_field.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/home_page.dart';
-import 'package:cosmocat/main.dart';
 import 'package:cosmocat/models/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cosmocat/components/background.dart';
 
-import 'background.dart';
 
 class Body extends StatefulWidget {
 
@@ -32,18 +28,8 @@ class _BodyState extends State<Body> {
       AppUser appUser = new AppUser(
           email: _email, nickName: _userName);
 
-
       DatabaseService()
           .addUser(appUser, newUser.user!.uid);
-      /*
-          .then((value) {
-            setState(() {
-              appUser.uid = newUser.user!.uid;
-              MyApp.appUser = appUser;
-            });
-
-            //print (MyApp.appUser!.nickName);
-      });*/
 
       Navigator.of(context)
           .pushReplacement(
@@ -51,7 +37,6 @@ class _BodyState extends State<Body> {
                 builder: (context) => HomePage()
             )
       );
-
     } catch (e) {
       print("Exception in registration: " + e.toString());
     }
@@ -130,118 +115,3 @@ class _BodyState extends State<Body> {
 
   }
 }
-
-
-      /*
-      child: SizedBox(
-        width: size.width*0.75,
-        height: size.height*0.6,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Email"),
-                  TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          border: new OutlineInputBorder(
-                            //borderSide: const BorderSide(color: Colors. white, width: 2.0),
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                          ),
-                          hintText: "format: xxx@xx.com",
-                          fillColor: Colors.white70),
-                      keyboardType: TextInputType.emailAddress,
-                      onChanged: (value) {
-                        setState(() {
-                          _email = value.trim();
-                        });
-                      },
-                    )
-                ],
-              ),
-            ),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Nickname"),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        border: new OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors. white, width: 2.0),
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
-                          ),
-                        ),
-                        fillColor: Colors.white70),
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (_) {},
-                  )
-                ],
-              ),
-            ),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Password"),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        border: new OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors. white, width: 2.0),
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
-                          ),
-                        ),
-                        hintText: "at least 8 characters",
-                        fillColor: Colors.white70),
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) {
-                      setState(() {
-                        _password = value.trim();
-                      });
-                    },
-                  )
-                ],
-              ),
-            ),
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Confirm Password"),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        border: new OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors. white, width: 2.0),
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
-                          ),
-                        ),
-                        fillColor: Colors.white70),
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) {
-                      setState(() {
-                        _confirmPassword = value.trim();
-                      });
-                    },
-                  )
-                ],
-              ),
-            )
-          ],
-
-        ),
-      )
-    );
-  }
-}*/

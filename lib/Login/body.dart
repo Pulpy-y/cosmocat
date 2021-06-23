@@ -1,17 +1,18 @@
-import 'package:cosmocat/Login/background.dart';
+import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/Signup/sign_up.dart';
 import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/components/rounded_input_field.dart';
 import 'package:cosmocat/components/text_field_container.dart';
 import 'package:cosmocat/constant.dart';
-import 'package:cosmocat/database.dart';
-import 'package:cosmocat/main.dart';
-import 'package:cosmocat/models/app_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../home/home_page.dart';
 
+
 class Body extends StatefulWidget {
+  final User? user;
+  const Body(this.user);
+
   @override
   _BodyState createState() => _BodyState();
 }
@@ -22,21 +23,20 @@ class _BodyState extends State<Body> {
   bool obscure = true;
 
 
-  void _logIn () async {
+  Future<void> _logIn () async {
+    print("log in");
+
     try {
       final user =
-        await auth.signInWithEmailAndPassword(
-          email: _email, password: _password);
+      (await auth.signInWithEmailAndPassword(
+          email: _email, password: _password)).user;
 
-      /*
-      DatabaseService()
-            .getUser(user.user!.uid)
-            .then((appUser) {
-          print("app user while logging in is: $appUser");
-          setState(() {
-            MyApp.appUser = appUser;
-          });
-            });*/
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${user!.uid} signed in'),
+        ),
+      );
+
 
       Navigator.of(context)
           .pushReplacement(
@@ -46,7 +46,12 @@ class _BodyState extends State<Body> {
       );
 
       } catch (e) {
-      print(e);
+      print("error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to sign in with Email & Password'),
+        ),
+      );
     }}
 
 
@@ -109,8 +114,8 @@ class _BodyState extends State<Body> {
                   ),
                   RoundedButton(
                       text: "Log In",
-                      press: () {
-                        _logIn();
+                      press: () async {
+                        await _logIn();
                       }),
                   Padding(
                       padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),

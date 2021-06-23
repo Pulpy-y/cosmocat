@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:cosmocat/home/home_page.dart';
-import 'package:cosmocat/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

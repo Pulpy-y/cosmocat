@@ -1,42 +1,32 @@
+import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/info.dart';
-import 'package:cosmocat/main.dart';
-import 'package:cosmocat/models/app_user.dart';
 import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmocat/size_config.dart';
 import 'chart.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Body extends StatefulWidget {
-  //AppUser? appUser;
-  //Body(this.appUser);
-
+  final User? user;
+  Body(this.user);
+  
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-
-  /*
-  User? firebaseUser = FirebaseAuth.instance.currentUser;
-  AppUser appUser = DatabaseService().getUser(firebaseUser!.uid);*/
-
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String name;
+  bool loading = true;
 
-  Future<String> getCurrentUserName() async {
-    final User user = await auth.currentUser!;
-    final uid = user.uid;
-    print(uid);
 
-    return DatabaseService().getUser(uid).nickName;
-  }
-
-  void getName() async {
-    name = await getCurrentUserName();
+  Future<void> getName() async {
+    name = await DatabaseService().getUserName(widget.user!.uid);
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -45,16 +35,12 @@ class _BodyState extends State<Body> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     double defaultSize = SizeConfig.defaultSize!;
 
-
-    return Column(
+    return loading? Loading() : Column(
       children: <Widget>[
-        // Info(name: MyApp.appUser.nickName, image: "assets/image/coma_as.png"),
         Info(
             name: name,
             image: "assets/image/coma_as.png"),
