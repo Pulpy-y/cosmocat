@@ -15,14 +15,14 @@ class Body extends StatelessWidget {
         Container(height: defaultSize * 10),
         Text(
           "~ The friend matching store ~",
-          style: TextStyle(color: Colors.white, fontSize: defaultSize * 2.5),
+          style: TextStyle(color: Colors.white, fontSize: defaultSize * 2),
         ),
         Text(
           "~ 50 stars -> 1 match ~",
-          style: TextStyle(color: Colors.white, fontSize: defaultSize * 2.5),
+          style: TextStyle(color: Colors.white, fontSize: defaultSize * 2),
         ),
         Container(
-            height: defaultSize * 60,
+            height: defaultSize * 54,
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/image/shop.png"),
