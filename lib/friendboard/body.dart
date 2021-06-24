@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/constant.dart';

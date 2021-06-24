@@ -1,10 +1,9 @@
+import 'package:cosmocat/components/background.dart';
 import 'package:flutter/material.dart';
 
 class Receive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: null,
-    );
+    return Background(child: Container());
   }
 }

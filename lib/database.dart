@@ -48,4 +48,23 @@ class DatabaseService {
     });
     return friendList;
   }
+
+  Future<bool> sendFriendRequest(String senderId, String receiverName) async {
+    //assumption: userName is unique
+
+    await userCollection
+        .where("name", isEqualTo: receiverName)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      if (querySnapshot.size == 0) {
+        return false;
+      }
+
+      DocumentReference requestDoc = querySnapshot.docs.first.reference;
+      requestDoc.update({"friendRequest": senderId});
+      return true;
+    });
+
+    return false;
+  }
 }
