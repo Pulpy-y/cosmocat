@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/friendboard/friendRequest/friend_request_page.dart';
 import 'package:cosmocat/friendboard/leaderboard.dart';
 import 'package:cosmocat/friendboard/user_model.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +92,10 @@ class _BodyState extends State<Body> {
               ],
             )),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => FriendRequest()));
+            },
             icon:
                 Icon(Icons.person_add_alt_1_rounded, size: defaultWidth * 0.8))
       ],
