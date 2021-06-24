@@ -1,48 +1,55 @@
+import 'package:cosmocat/Login/log_in.dart';
+import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/friendboard/leaderboard.dart';
+import 'package:cosmocat/friendboard/user_model.dart';
 import 'package:flutter/material.dart';
+import '../database.dart';
 import '../size_config.dart';
 import 'package:cosmocat/components/background.dart';
 
-class Body extends StatelessWidget {
-  List<String> friendList = ["id1", "id2"]; //rmb to add the player it self
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  bool loading = true;
+  List<UserModel> friendList = [];
+  late UserModel currUser;
   double screenHeight = SizeConfig.screenHeight!;
   double screenWidth = SizeConfig.screenWidth!;
 
   @override
-  Widget build(BuildContext context) {
-    double defaultWidth = screenWidth * 0.1;
+  void initState() {
+    getData();
+    super.initState();
+  }
 
-    return Background(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          height: screenHeight * 2 / 11,
-        ),
-        Container(
-          height: screenHeight * 7 / 11,
-          child: ListView.builder(
-              itemCount: friendList.length,
-              itemBuilder: (context, index) {
-                return Card(
-                    margin: EdgeInsets.only(top: defaultWidth * 0.5),
-                    color: Colors.white.withOpacity(0.6),
-                    child: rankTile(index, friendList[index], "0 hr 0 min"));
-              }),
-          //decoration: BoxDecoration(color: Colors.black),
-        ),
-        Container(
-          height: screenHeight * 2 / 11,
-          decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.5),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(40.0),
-                  topRight: const Radius.circular(40.0))),
-          child: selfInfo("bitch", "O hr 0 min"),
-        )
-      ],
-    ));
+  @override
+  Widget build(BuildContext context) {
+    return loading
+        ? Loading()
+        : Background(
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: screenHeight * 2 / 11,
+              ),
+              LeaderBoard(friendList, currUser),
+              Container(
+                height: screenHeight * 2 / 11,
+                decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.5),
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(40.0),
+                        topRight: const Radius.circular(40.0))),
+                child: selfInfo(currUser.name, "O hr 0 min"),
+              )
+            ],
+          ));
   }
 
   //need a function to sort the rank
@@ -89,15 +96,20 @@ class Body extends StatelessWidget {
     );
   }
 
-  Widget rankTile(int index, String username, String time) {
-    double defaultWidth = screenWidth * 0.1;
-    double defaultHeight = screenHeight * 7 / 11 * 6;
+  Future<void> getData() async {
+    List<String> friendIdList =
+        await DatabaseService().getFriendList(user!.uid);
+    String name = await DatabaseService().getUserName(user!.uid);
 
-    return ListTile(
-      leading: Text((index + 1).toString()),
-      tileColor: Colors.transparent,
-      title: Text(username),
-      subtitle: Text(time),
-    );
+    currUser = new UserModel(name, 0, 0);
+
+    for (var id in friendIdList) {
+      String name = await DatabaseService().getUserName(id);
+      friendList.add(new UserModel(name, 0, 0));
+    }
+
+    setState(() {
+      loading = false;
+    });
   }
 }
