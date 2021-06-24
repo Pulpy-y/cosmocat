@@ -1,4 +1,4 @@
-import 'package:cosmocat/backgroud.dart';
+import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/shop/match.dart';
 import 'package:cosmocat/size_config.dart';

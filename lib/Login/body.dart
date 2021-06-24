@@ -2,8 +2,7 @@ import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/Signup/sign_up.dart';
 import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/components/rounded_input_field.dart';
-import 'package:cosmocat/components/text_field_container.dart';
-import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/components/rounded_password_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../home/home_page.dart';
@@ -28,6 +27,7 @@ class _BodyState extends State<Body> {
       final user =
       (await auth.signInWithEmailAndPassword(
           email: _email, password: _password)).user;
+
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -82,6 +82,16 @@ class _BodyState extends State<Body> {
                       _email = value.trim();
                     });},
                   ),
+                  RoundedPasswordField(
+                    icon: Icons.lock,
+                    text: "Password",
+                    onChanged: (value) {
+                      setState(() {
+                        _password = value.trim();
+                      });
+                    },
+                  ),
+                  /*
                   TextFieldContainer(
                     child: TextField(
                       obscureText: obscure,
@@ -109,7 +119,7 @@ class _BodyState extends State<Body> {
 
                       ),
                     ),
-                  ),
+                  ),*/
                   RoundedButton(
                       text: "Log In",
                       press: () async {

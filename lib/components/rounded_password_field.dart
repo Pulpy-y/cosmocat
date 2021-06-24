@@ -3,14 +3,30 @@ import 'package:cosmocat/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class RoundedPasswordField extends StatelessWidget {
-  final ValueChanged<String> onChanged;
-  final bool obscure;
+class RoundedPasswordField extends StatefulWidget {
+  final String text;
+  final onChanged;
+  IconData? icon;
 
-  const RoundedPasswordField({
-    required this.onChanged,
-    required this.obscure
-  }) : super();
+  RoundedPasswordField(
+      { required this.text,
+      this.onChanged,
+      this.icon}
+      );
+
+  @override
+  _RoundedPasswordFieldState createState() => _RoundedPasswordFieldState(text, onChanged,icon);
+}
+
+class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
+  bool obscure = true;
+  late final onChanged;
+  final text;
+  IconData? icon;
+
+
+
+  _RoundedPasswordFieldState(this.text, this.onChanged,this.icon);
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +37,18 @@ class RoundedPasswordField extends StatelessWidget {
         onChanged: onChanged,
         cursorColor: themePrimaryColor,
         decoration: InputDecoration(
-          hintText: "Password",
-          icon: Icon(
-            Icons.lock,
+          hintText: text,
+          icon: icon == null? null:Icon(
+            icon,
             color: themePrimaryColor,
           ),
           suffixIcon: IconButton(
             icon: Icon(
-              Icons.visibility,
-              color: themePrimaryColor,), onPressed: () {  },
+              obscure? Icons.visibility : Icons.visibility_off,
+              color: themePrimaryColor,),
+            onPressed: () {setState(() {
+              obscure = !obscure;
+            });},
           ),
           border: InputBorder.none,
 

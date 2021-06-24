@@ -1,6 +1,6 @@
 import 'package:cosmocat/collection/selection.dart';
 import 'package:flutter/material.dart';
-import '../backgroud.dart';
+import 'package:cosmocat/components/background.dart';
 import '../size_config.dart';
 
 class Body extends StatefulWidget {

@@ -24,6 +24,8 @@ class _BodyState extends State<Body> {
           await auth.createUserWithEmailAndPassword(
           email: _email, password: _password);
 
+
+
       AppUser appUser = new AppUser(
           email: _email, nickName: _userName);
 
@@ -36,8 +38,27 @@ class _BodyState extends State<Body> {
                 builder: (context) => HomePage()
             )
       );
-    } catch (e) {
-      print("Exception in registration: " + e.toString());
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = e.toString();
+      print("Exception in registration: " + errorMessage);
+      print(e.code);
+
+      if (e.code == "invalid-email") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Invalid email"),
+          ));
+      } else if (e.code == "weak-password"){
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("weak password: should be at least 6 characters"),
+            ));
+      } else if (e.code == "email-already-in-use") {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("You have already registered with this email"),
+            ));
+      }
     }
   }
 
@@ -58,25 +79,26 @@ class _BodyState extends State<Body> {
                 height: size.width * 0.1,
               ),
               RoundedEmptyField(
+                isPassword: false,
                 title: "Email",
                 hintText: "must be correct format",
                 onChanged: (value) {_email = value;},
               ),
               RoundedEmptyField(
+                isPassword: false,
                 title: "Nickname",
                   hintText: "type your nickname",
                   onChanged: (value){_userName = value;}),
-
               RoundedEmptyField(
-                title: "Password",
-                hintText: "at least 8 characters",
-                onChanged: (value) {_password = value;},
-              ),
+                  hintText: "At least 8 characters",
+                  onChanged: (value) {_password = value;} ,
+                  title: "Password",
+                  isPassword: true),
               RoundedEmptyField(
-                title: "Confirm Password",
-                hintText: "type your password again",
-                onChanged: (value) {_confirmPassword = value;},
-              ),
+                  hintText: "Enter your password again",
+                  onChanged: (value) {_confirmPassword = value;},
+                  title: "Confirm Password",
+                  isPassword: true),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -93,7 +115,10 @@ class _BodyState extends State<Body> {
                         if (_password == _confirmPassword) {
                           _register();
                         } else {
-
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Passwords do not match"),
+                              ));
                         }
                           },
                       child: Text(

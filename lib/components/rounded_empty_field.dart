@@ -1,3 +1,4 @@
+import 'package:cosmocat/components/rounded_password_field.dart';
 import 'package:cosmocat/components/text_field_container.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,10 +8,13 @@ class RoundedEmptyField extends StatelessWidget {
   final String title;
   final String hintText;
   final ValueChanged<String> onChanged;
-  const RoundedEmptyField({
+  final bool isPassword;
+
+  RoundedEmptyField({
     required this.hintText,
     required this.onChanged,
     required this.title,
+    required this.isPassword
   }) : super();
 
   @override
@@ -24,7 +28,9 @@ class RoundedEmptyField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text("    " + title, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-          TextFieldContainer(
+          isPassword?
+          RoundedPasswordField(text: hintText, onChanged: onChanged)
+          : TextFieldContainer(
             child: TextField(
               onChanged: onChanged,
               cursorColor: themePrimaryColor,

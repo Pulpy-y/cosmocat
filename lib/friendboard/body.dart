@@ -1,7 +1,7 @@
 import 'package:cosmocat/constant.dart';
 import 'package:flutter/material.dart';
 import '../size_config.dart';
-import '../backgroud.dart';
+import 'package:cosmocat/components/background.dart';
 
 class Body extends StatelessWidget {
   List<String> friendList = ["id1", "id2"]; //rmb to add the player it self

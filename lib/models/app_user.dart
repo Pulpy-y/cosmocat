@@ -1,5 +1,3 @@
-import 'animal.dart';
-
 class AppUser {
   String uid = '';
   String email = '';

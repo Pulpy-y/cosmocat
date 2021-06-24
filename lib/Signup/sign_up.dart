@@ -8,7 +8,7 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
-      resizeToAvoidBottomInset: false, //fix pixel overflow
+      resizeToAvoidBottomInset: true, //fix pixel overflow
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
