@@ -49,18 +49,22 @@ class DatabaseService {
     return friendList;
   }
 
-  Future<void> sendFriendRequest(String senderId, String receiverName) async {
+  Future<bool> sendFriendRequest(String senderId, String receiverName) async {
     //assumption: userName is unique
+
+    bool succ = false;
 
     await userCollection
         .where("nickname", isEqualTo: receiverName)
         .get()
         .then((QuerySnapshot querySnapshot) async {
-      if (querySnapshot.size == 0) {
-        return false;
-      }
+      if (querySnapshot.size == 0) return false;
 
       DocumentReference requestDoc = querySnapshot.docs.first.reference;
+
+      //check whether this is a existed friend
+      if (await isFriend(senderId, requestDoc.id)) return false;
+
       var receiverCurrentRequest = [];
 
       await requestDoc.get().then((document) {
@@ -78,8 +82,30 @@ class DatabaseService {
       requestDoc.update({
         "friendRequest": [senderId]
       });
-      return true;
+
+      succ = true;
     });
+
+    return succ;
+  }
+
+  Future<void> receiveFriendRequest(String id1, String id2) async {
+    //add 1 to 2
+    DocumentReference docRef1 = userCollection.doc(id1);
+    var friends1 = await getFriendList(id1);
+    friends1.add(id2);
+    await docRef1.update({"friends": friends1});
+
+    //add 2 to 1
+    DocumentReference docRef2 = userCollection.doc(id2);
+    var friends2 = await getFriendList(id2);
+    friends2.add(id1);
+    await docRef2.update({"friends": friends2});
+
+    //delete 2 from 1 request list
+    var reqList = await getFriendRequestList(id1);
+    reqList.remove(id2);
+    await docRef1.update({"friendRequest": reqList});
   }
 
   Future<bool> isUserNameExist(String receiverName) async {
@@ -94,6 +120,11 @@ class DatabaseService {
     });
 
     return exist;
+  }
+
+  Future<bool> isFriend(String uid, String targetId) async {
+    var friendlist = await getFriendList(uid);
+    return friendlist.contains(targetId);
   }
 
   Future<List<String>> getFriendRequestList(String userId) async {

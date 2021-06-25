@@ -105,11 +105,11 @@ class _BodyState extends State<Body> {
         await DatabaseService().getFriendList(user!.uid);
     String name = await DatabaseService().getUserName(user!.uid);
 
-    currUser = new UserModel(name, 0, 0);
+    currUser = new UserModel(name, "", 0, 0);
 
     for (var id in friendIdList) {
       String name = await DatabaseService().getUserName(id);
-      friendList.add(new UserModel(name, 0, 0));
+      friendList.add(new UserModel(name, id, 0, 0));
     }
 
     setState(() {
