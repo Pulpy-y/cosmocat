@@ -90,6 +90,8 @@ class DatabaseService {
   }
 
   Future<void> receiveFriendRequest(String id1, String id2) async {
+    if (await isFriend(id1, id2)) return;
+
     //add 1 to 2
     DocumentReference docRef1 = userCollection.doc(id1);
     var friends1 = await getFriendList(id1);

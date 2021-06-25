@@ -59,9 +59,9 @@ class _ReceiveState extends State<Receive> {
                     trailing: IconButton(
                       icon: Icon(Icons.add),
                       onPressed: () async {
-                        DatabaseService().receiveFriendRequest(
+                        await DatabaseService().receiveFriendRequest(
                             user!.uid, friendRequestList[index][1]);
-                        await getData().then((value) => setState(() {}));
+                        getData();
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: const Text('Friend request accepted!'),
                         ));
@@ -75,6 +75,7 @@ class _ReceiveState extends State<Receive> {
     List<String> requestList =
         await DatabaseService().getFriendRequestList(user!.uid);
 
+    friendRequestList.clear();
     for (String uid in requestList) {
       friendRequestList.add([await DatabaseService().getUserName(uid), uid]);
     }
