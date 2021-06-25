@@ -1,7 +1,12 @@
 import 'dart:async';
+import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/home/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+
+import '../constant.dart';
+import '../size_config.dart';
 
 class CountDown extends StatefulWidget {
   final int hour, minute;
@@ -76,60 +81,85 @@ class _CountDownState extends State<CountDown> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
         backgroundColor: Colors.grey,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
-          title: Text('Home'),
+          title: Text('Count Down'),
           centerTitle: true,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.transparent,
         ),
-        body: Center(
+        body: Background(
           child: Column(
-            children: <Widget>[
-              Text(
-                '$_timeFormatted',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 48,
-                ),
+            children: [
+              SizedBox(
+                height:SizeConfig.screenHeight! * 0.2
               ),
-              if (!_begin) ElevatedButton(
-                  onPressed: () => _startTimer(),
-                  child: Text('Begin Journey!')),
-               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:[
-                 _isPaused?
-                    ElevatedButton(
-                        child: Text('Resume'),
-                          onPressed: (){
-                          setState(() {
-                            _startTimer();
-                            _isPaused = false;
-                          });
-                          })
-                    : ElevatedButton(child: Text('Pause'),
-                     onPressed: (){
-                      setState(() {
-                        _timer.cancel();
-                        _isPaused = true;
-                      });
-                     }),
-                ElevatedButton(
-                    onPressed:() {
-                      _timer.cancel();
-                      _stars = _countStars(_actual);
-                      showDialog(context: context, builder: (_) => _stopTaskDialog());
-                      },
-                    child: Text('Stop'))]
-
+              Container(
+                height: SizeConfig.screenHeight! * 0.3,
+                child: _timerWidget(),
+              ),
+              Container(
+                height: SizeConfig.screenHeight! * 0.3,
+                width: SizeConfig.screenWidth! * 0.6,
+                child: Image.asset('assets/image/coma_floating_trans.png')
+              ),
+              Container(
+                height: SizeConfig.screenHeight! * 0.1,
+                child: _progressBar(),
               )
             ],
-          ),
+          )
         )
     );
   }
+  
+  Widget _timerWidget() {
+    return Column(
+      children: <Widget>[
+        Text(
+          '$_timeFormatted',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 50,
+            color: Colors.white
+          ),
+        ),
+        SizedBox(
+          height: SizeConfig.defaultSize,
+        ),
 
+        _begin? _startedButtons():
+            CountDownButtons(text: 'Begin Journey!', press: () => _startTimer())
+      ],
+    );
+  }
+
+  Widget _startedButtons() {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _isPaused?
+          CountDownButtons(text: 'Resume', press: (){setState(() {
+            _startTimer();
+            _isPaused = false;
+          });
+          }) : CountDownButtons(text: 'Pause', press: (){
+            setState(() {
+              _timer.cancel();
+              _isPaused = true;
+            });
+          }),
+          CountDownButtons(text: 'Stop', press: () {
+            _timer.cancel();
+            _stars = _countStars(_actual);
+            showDialog(context: context, builder: (_) => _stopTaskDialog());
+          },)]);
+
+
+  }
   Widget _stopTaskDialog () {
     return AlertDialog(
         title: const Text("Quit?"),
@@ -142,6 +172,7 @@ class _CountDownState extends State<CountDown> {
                     onPressed: () {
                       setState(() {
                         _startTimer();
+                        _isPaused = false;
                       });
                       Navigator.pop(context); },
                     child: Text("Cancel"),),
@@ -155,7 +186,6 @@ class _CountDownState extends State<CountDown> {
         ]);
 
   }
-
   Widget _taskCompletedDialog()  {
     _stars = _countStars(_actual);
     return AlertDialog(
@@ -173,6 +203,53 @@ class _CountDownState extends State<CountDown> {
               ],
     );
   }
+  Widget _progressBar() {
+    return Padding(
+      padding: EdgeInsets.all(15.0),
+      child: LinearPercentIndicator(
+        alignment: MainAxisAlignment.center,
+        width: SizeConfig.screenWidth! - 50,
+        animation: false,
+        lineHeight: 20.0,
+        percent: _actual/_counter,
+        //animationDuration: 500,
+        //center: Text("80.0%"),
+        linearStrokeCap: LinearStrokeCap.roundAll,
+        progressColor: themeSecondaryColor,
+        //fillColor: themePrimaryColor,
+      ),
+    );
+  }
+
 }
+
+
+class CountDownButtons extends StatelessWidget {
+  final String text;
+  final press;
+  const CountDownButtons({
+    required this.text,
+    required this.press,
+  }) : super();
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          primary:themeSecondaryColor,
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SizeConfig.defaultSize! * 3.6), //36
+              side: BorderSide(color: Colors.white))),
+      onPressed: press,
+      child: Text(text,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+          )),
+    );
+  }
+}
+
 
 

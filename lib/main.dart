@@ -1,9 +1,11 @@
+import 'package:cosmocat/count_down/count_down_page.dart';
 import 'package:cosmocat/models/app_user.dart';
+import 'package:cosmocat/time_setter/time_picker.dart';
+import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Login/log_in.dart';
 import 'constant.dart';
-import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +14,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  //static AppUser? appUser;
 
   @override
   Widget build(BuildContext context) {
