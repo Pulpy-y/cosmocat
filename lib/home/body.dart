@@ -13,7 +13,7 @@ import 'chart.dart';
 class Body extends StatefulWidget {
   final User? user;
   Body(this.user);
-  
+
   @override
   _BodyState createState() => _BodyState();
 }
@@ -22,7 +22,6 @@ class _BodyState extends State<Body> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String name;
   bool loading = true;
-
 
   Future<void> getName() async {
     name = await DatabaseService().getUserName(widget.user!.uid);
@@ -41,31 +40,33 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     double defaultSize = SizeConfig.defaultSize!;
 
-    return loading? Loading() : 
-    Background(
-        child: Padding(
-            padding: EdgeInsets.only(top: defaultSize * 5),
-            child: Column(
-              children: <Widget>[
-                Stack(children: <Widget>[
-                  Info(name: name, image: "assets/image/coma_as.png"),
-                  Positioned(child: SideBar(), right: 0, top: defaultSize * 2)
-                ]),
-                Chart(),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => TimeSetter()));
-                  },
-                  child: Padding(
-                      padding: EdgeInsets.all(defaultSize * 1.6),
-                      child: Text("Start Timer")),
-                  style: OutlinedButton.styleFrom(
-                      textStyle: TextStyle(
-                    fontSize: defaultSize * 2.2,
-                  )),
-                )
-              ],
-            )));
+    return loading
+        ? Loading()
+        : Background(
+            child: Padding(
+                padding: EdgeInsets.only(top: defaultSize * 5),
+                child: Column(
+                  children: <Widget>[
+                    Stack(children: <Widget>[
+                      Info(name: name, image: "assets/image/coma_as.png"),
+                      Positioned(
+                          child: SideBar(), right: 0, top: defaultSize * 2)
+                    ]),
+                    Chart(),
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => TimeSetter()));
+                      },
+                      child: Padding(
+                          padding: EdgeInsets.all(defaultSize * 1.6),
+                          child: Text("Start Timer")),
+                      style: OutlinedButton.styleFrom(
+                          textStyle: TextStyle(
+                        fontSize: defaultSize * 2.2,
+                      )),
+                    )
+                  ],
+                )));
   }
 }
