@@ -19,15 +19,12 @@ class _BodyState extends State<Body> {
   final auth = FirebaseAuth.instance;
   bool obscure = true;
 
-
   Future<void> _logIn () async {
     print("log in");
-
     try {
       final user =
       (await auth.signInWithEmailAndPassword(
           email: _email, password: _password)).user;
-
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -35,15 +32,12 @@ class _BodyState extends State<Body> {
         ),
       );
 
-
       Navigator.of(context)
           .pushReplacement(
           MaterialPageRoute(
               builder: (context) => HomePage()
           )
-      );
-
-      } catch (e) {
+      ); } catch (e) {
       print("error");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -51,9 +45,6 @@ class _BodyState extends State<Body> {
         ),
       );
     }}
-
-
-
 
   @override
   Widget build(BuildContext context) {

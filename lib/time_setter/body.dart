@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'astronaut_selection_bar.dart';
 
 class Body extends StatelessWidget {
-  //final Size size;
-  //Body(this.size);
-
   @override
   Widget build(BuildContext context) {
 

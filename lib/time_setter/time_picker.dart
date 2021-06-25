@@ -6,8 +6,6 @@ import 'package:flutter_tags/flutter_tags.dart';
 import '../size_config.dart';
 
 class TimePicker extends StatefulWidget {
-  //final Size size;
-  //TimePicker(this.size);
 
   @override
   _TimePickerState createState() => _TimePickerState();
@@ -17,10 +15,7 @@ class _TimePickerState extends State<TimePicker> {
   double defaultSize = SizeConfig.defaultSize!;
   int hour = 0;
   int minute = 0;
-  //Size size;
   List tags = [];
-
-  //_TimePickerState(this.size);
 
 
   @override
