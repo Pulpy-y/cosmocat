@@ -49,22 +49,69 @@ class DatabaseService {
     return friendList;
   }
 
-  Future<bool> sendFriendRequest(String senderId, String receiverName) async {
+  Future<void> sendFriendRequest(String senderId, String receiverName) async {
     //assumption: userName is unique
 
     await userCollection
-        .where("name", isEqualTo: receiverName)
+        .where("nickname", isEqualTo: receiverName)
         .get()
-        .then((QuerySnapshot querySnapshot) {
+        .then((QuerySnapshot querySnapshot) async {
       if (querySnapshot.size == 0) {
         return false;
       }
 
       DocumentReference requestDoc = querySnapshot.docs.first.reference;
-      requestDoc.update({"friendRequest": senderId});
+      var receiverCurrentRequest = [];
+
+      await requestDoc.get().then((document) {
+        try {
+          receiverCurrentRequest = document.get("friendRequest");
+        } catch (StateError) {
+          print("rq list does not exist");
+        }
+
+        if (!receiverCurrentRequest.contains(senderId)) {
+          receiverCurrentRequest.add(senderId);
+        }
+      });
+
+      requestDoc.update({
+        "friendRequest": [senderId]
+      });
       return true;
     });
+  }
 
-    return false;
+  Future<bool> isUserNameExist(String receiverName) async {
+    bool exist = true;
+    await userCollection
+        .where("nickname", isEqualTo: receiverName)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      if (querySnapshot.size == 0) {
+        exist = false;
+      }
+    });
+
+    return exist;
+  }
+
+  Future<List<String>> getFriendRequestList(String userId) async {
+    late List<String> requestList;
+    DocumentReference docRef = userCollection.doc(userId);
+    await docRef.get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        var requestListRaw = [];
+        try {
+          requestListRaw = documentSnapshot.get("friendRequest");
+        } catch (StateError) {
+          print("rq list does not exist");
+        }
+
+        requestList = List<String>.from(requestListRaw);
+      }
+    });
+
+    return requestList;
   }
 }
