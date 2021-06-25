@@ -15,12 +15,17 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(defaultSize * 1.6),
-        child: Column(children: <Widget>[
+        padding: EdgeInsets.fromLTRB(
+            defaultSize * 1.6, defaultSize * 0.5,
+            defaultSize * 1.6, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
           Container(
               child: Text(
                 "Astronaut",
                 style: TextStyle(
+                  color: Colors.white,
                   fontSize: defaultSize * 2.2, // 22
                 ),
                 textAlign: TextAlign.left,
@@ -48,7 +53,11 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
                 ),
               ),
               TextButton(
-                  onPressed: () => _selectAnimalDialog(), child: Text("change"))
+                  onPressed: () => _selectAnimalDialog(),
+                  child: Text(
+                      "change",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ))
             ],
           )
         ]));
