@@ -207,6 +207,7 @@ class _CountDownState extends State<CountDown> {
     return Padding(
       padding: EdgeInsets.all(15.0),
       child: LinearPercentIndicator(
+        alignment: MainAxisAlignment.center,
         width: SizeConfig.screenWidth! - 50,
         animation: false,
         lineHeight: 20.0,
