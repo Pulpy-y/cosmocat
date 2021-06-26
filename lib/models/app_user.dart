@@ -4,6 +4,7 @@ class AppUser {
   String nickName = '';
   List<String> friends = List.of(Iterable.empty());
   List<String> animals = ["0"];
+  int stars = 0;
 
   AppUser({
     //required this.uid,

@@ -2,10 +2,28 @@ import 'package:cosmocat/collection/collection.dart';
 import 'package:cosmocat/friendboard/friendboard_page.dart';
 import 'package:cosmocat/shop/shop_page.dart';
 import 'package:flutter/material.dart';
+import 'package:cosmocat/database.dart';
 
-class SideBar extends StatelessWidget {
-  const SideBar({Key? key}) : super(key: key);
+class SideBar extends StatefulWidget {
 
+  @override
+  _SideBarState createState() => _SideBarState();
+}
+
+class _SideBarState extends State<SideBar> {
+
+  int stars = 0;
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  Future<void> getData() async {
+    stars = await DatabaseService().getStars();
+    //print("stars:${stars}");
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,7 +36,7 @@ class SideBar extends StatelessWidget {
               color: Colors.yellow,
             ),
             Card(
-                child: Text("000"), //Number of stars of the users
+                child: Text("$stars"), //Number of stars of the users
                 color: Colors.white)
           ],
         ),

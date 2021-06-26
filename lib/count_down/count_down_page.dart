@@ -64,13 +64,17 @@ class _CountDownState extends State<CountDown> {
   }
 
   int _countStars(int second) {
+    /*
     int tMinute = second ~/ 60;
 
     if (tMinute < 15) {
       return tMinute < 10? 0: 1;
     } else {
       return 4 * tMinute ~/ 30 + 1 * tMinute % 30 ~/ 10;
-    }
+    }*/
+
+    //for testing:
+    return second;
   }
 
   String _timeString(int seconds) {
@@ -208,6 +212,7 @@ class _CountDownState extends State<CountDown> {
                 ElevatedButton(
                       onPressed: () {
                         DatabaseService().saveFocusTime(_tag!, _actual~/60, date);
+                        DatabaseService().updateStars(_stars);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (_) => HomePage()));},
                       child: Text("Return to Home"),),

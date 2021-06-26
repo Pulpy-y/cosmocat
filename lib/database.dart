@@ -10,6 +10,9 @@ class DatabaseService {
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
 
+  DocumentReference userDoc =
+      FirebaseFirestore.instance.collection('users').doc(user!.uid);
+
   CollectionReference focusTimeCollection =
       FirebaseFirestore.instance.collection('users')
           .doc(user!.uid).collection('FocusTime');
@@ -24,6 +27,7 @@ class DatabaseService {
       'nickname': user.nickName,
       'friends': user.friends,
       'animals': user.animals,
+      'stars': user.stars
     }).then((value) {
       print("User added");
     }).catchError((error) => print("Failed to add user: $error"));
@@ -169,10 +173,9 @@ class DatabaseService {
   }
 
   //star
-  Future<int> getStars(String uid) async {
+  Future<int> getStars() async {
     int starCount = 0;
-    DocumentReference docRef = userCollection.doc(uid);
-    await docRef.get().then((DocumentSnapshot documentSnapshot) {
+    await userDoc.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         starCount = documentSnapshot.get("stars");
       }
@@ -181,20 +184,25 @@ class DatabaseService {
     return starCount;
   }
 
-  Future<void> updateStars(String uid, int amt) async {
-    int starsCount = await getStars(uid);
-    var doc = userCollection.doc(uid);
-    doc.update({"stars": starsCount + amt});
+  Future<void> updateStars(int amt) async {
+
+    int starsCount = await getStars();
+    userDoc.update({"stars": starsCount + amt});
   }
 
   Future<List<Item>> getTags () async {
-
     List<Item> tagList = [];
     tagsCollection.get().then((querySnapshot) => {
         querySnapshot.docs.forEach((doc) {tagList.add(Item(title:doc.id)); })
     });
 
     return tagList;
+  }
+
+  Future<void> addTag(String tagName) async{
+    Map<String, String> field = HashMap<String, String>();
+    field['tagName'] = tagName;
+    tagsCollection.doc("$tagName").set(field);
   }
 
 
@@ -218,15 +226,12 @@ class DatabaseService {
 
 
     //update Tags->tagName->date->currDate(duration:)
-      final tagNameDoc = await tagsCollection
-          .doc("$tagName")
-          .get();
       final tagDate = await tagsCollection
           .doc("$tagName")
           .collection("date")
           .doc("$date")
           .get();
-      if(tagNameDoc.exists && tagDate.exists){
+      if(tagDate.exists){
            int originalDur = tagDate.get("duration");
            tagsCollection
                .doc("$tagName")
@@ -235,12 +240,6 @@ class DatabaseService {
              "duration": originalDur + duration
            });
       } else {
-        Map<String, String> field = HashMap<String, String>();
-        field['tagName'] = tagName;
-        tagsCollection
-            .doc("$tagName")
-            .set(field,SetOptions(merge:true));
-
         tagsCollection
             .doc("$tagName")
             .collection("date")

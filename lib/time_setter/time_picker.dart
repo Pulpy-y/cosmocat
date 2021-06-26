@@ -128,6 +128,7 @@ class _TimePickerState extends State<TimePicker> {
                         textStyle: TextStyle(fontSize:14),
                         onSubmitted: (string) {
                           setState(() {
+                            DatabaseService().addTag(string);
                             tags.add(Item(title: string));
                           });
                         }

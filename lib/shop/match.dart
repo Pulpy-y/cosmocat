@@ -101,7 +101,7 @@ class _MatchState extends State<Match> {
     }
 
     //minus stars
-    DatabaseService().updateStars(user!.uid, -50);
+    DatabaseService().updateStars(-50);
     //add animals
     DatabaseService().addAnimal(user!.uid, selectedAnimal.id);
   }
@@ -125,6 +125,6 @@ class _MatchState extends State<Match> {
   //a func that determine whether the user has enough stars
 
   Future<bool> hasEnoughStars() async {
-    return await DatabaseService().getStars(user!.uid) >= 50;
+    return await DatabaseService().getStars() >= 50;
   }
 }
