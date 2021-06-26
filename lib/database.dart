@@ -160,10 +160,16 @@ class DatabaseService {
     DocumentReference docRef = userCollection.doc(uid);
     await docRef.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        starCount = documentSnapshot.get("nickname");
+        starCount = documentSnapshot.get("stars");
       }
     });
 
     return starCount;
+  }
+
+  Future<void> updateStars(String uid, int amt) async {
+    int starsCount = await getStars(uid);
+    var doc = userCollection.doc(uid);
+    doc.update({"stars": starsCount + amt});
   }
 }
