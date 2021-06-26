@@ -1,4 +1,6 @@
+import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/animals/animal.dart';
+import 'package:cosmocat/database.dart';
 import 'package:flutter/material.dart';
 import '../size_config.dart';
 
@@ -8,11 +10,17 @@ class Selection extends StatefulWidget {
 }
 
 class _SelectionState extends State<Selection> {
-  final Set<String> userAnimals = {"0", "1"};
+  List<String> userAnimals = [];
   double defaultSize = SizeConfig.defaultSize!;
   double screenHeight = SizeConfig.screenHeight!;
   double screenWidth = SizeConfig.screenWidth!;
   String selectedID = "-1";
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,5 +124,10 @@ class _SelectionState extends State<Selection> {
         )
       ],
     );
+  }
+
+  void getData() async {
+    userAnimals = await DatabaseService().getAnimalList(user!.uid);
+    setState(() {});
   }
 }
