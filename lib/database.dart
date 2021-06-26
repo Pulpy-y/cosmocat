@@ -141,4 +141,16 @@ class DatabaseService {
   Future<List<String>> getFriendRequestList(String userId) {
     return getList("friendRequest", userId);
   }
+
+  //anaimal system
+  Future<List<String>> getAnimalList(String userId) {
+    return getList("animals", userId);
+  }
+
+  Future<void> addAnimal(String userId, String animalId) async {
+    var animalList = await getAnimalList(userId);
+    var doc = userCollection.doc(userId);
+    animalList.add(animalId);
+    doc.update({"animals": animalList});
+  }
 }
