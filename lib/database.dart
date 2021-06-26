@@ -1,9 +1,21 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/models/app_user.dart';
+import 'package:flutter_tags/flutter_tags.dart';
 
 class DatabaseService {
+
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
+
+  CollectionReference focusTimeCollection =
+      FirebaseFirestore.instance.collection('users')
+          .doc(user!.uid).collection('FocusTime');
+
+  CollectionReference tagsCollection = FirebaseFirestore.instance.collection('users')
+      .doc(user!.uid).collection('Tags');
 
   Future<void> addUser(AppUser user, String uid) async {
     await userCollection.doc(uid).set({
@@ -30,10 +42,6 @@ class DatabaseService {
     return name;
   }
 
-  Stream<QuerySnapshot> get user {
-    return userCollection.snapshots();
-  }
-
   //friend system
   Future<List<String>> getFriendList(String userId) async {
     late List<String> friendList;
@@ -48,6 +56,10 @@ class DatabaseService {
     });
     return friendList;
   }
+
+
+
+
 
   Future<bool> sendFriendRequest(String senderId, String receiverName) async {
     //assumption: userName is unique
@@ -147,4 +159,70 @@ class DatabaseService {
 
     return requestList;
   }
+
+  Future<List<Item>> getTags () async {
+
+    List<Item> tagList = [];
+    tagsCollection.get().then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc) {tagList.add(Item(title:doc.id)); })
+    });
+
+    return tagList;
+  }
+
+
+
+  Future<void> saveFocusTime(String tagName, int duration, String date) async {
+
+    //update FocusTime->Date->tags[]
+      final focusDate = await focusTimeCollection
+          .doc("$date")
+          .get();
+      if(focusDate.exists){
+        focusTimeCollection
+            .doc("$date").update({
+          "tags": FieldValue.arrayUnion([tagName])
+        });
+      } else {
+        focusTimeCollection
+            .doc("$date").set({
+          "tags": [tagName]});
+      }
+
+
+    //update Tags->tagName->date->currDate(duration:)
+      final tagNameDoc = await tagsCollection
+          .doc("$tagName")
+          .get();
+      final tagDate = await tagsCollection
+          .doc("$tagName")
+          .collection("date")
+          .doc("$date")
+          .get();
+      if(tagNameDoc.exists && tagDate.exists){
+           int originalDur = tagDate.get("duration");
+           tagsCollection
+               .doc("$tagName")
+               .collection("date")
+               .doc("$date").set({
+             "duration": originalDur + duration
+           });
+      } else {
+        Map<String, String> field = HashMap<String, String>();
+        field['tagName'] = tagName;
+        tagsCollection
+            .doc("$tagName")
+            .set(field,SetOptions(merge:true));
+
+        tagsCollection
+            .doc("$tagName")
+            .collection("date")
+            .doc("$date").set({
+          "duration": duration
+        });
+      }
+
+  }
+
+
 }
