@@ -1,4 +1,6 @@
+import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/animals/animal.dart';
+import 'package:cosmocat/database.dart';
 import 'package:flutter/material.dart';
 import '../size_config.dart';
 
@@ -8,9 +10,17 @@ class Selection extends StatefulWidget {
 }
 
 class _SelectionState extends State<Selection> {
-  final Set<String> userAnimals = {"0", "1"};
+  List<String> userAnimals = [];
   double defaultSize = SizeConfig.defaultSize!;
+  double screenHeight = SizeConfig.screenHeight!;
+  double screenWidth = SizeConfig.screenWidth!;
   String selectedID = "-1";
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,39 +77,30 @@ class _SelectionState extends State<Selection> {
   }
 
   Widget animalInfo() {
-    return Container(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
       children: <Widget>[
         Container(
-          height: defaultSize * 7,
+          height: screenHeight * 0.15,
+          //decoration: BoxDecoration(color: Colors.black),
         ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(0, defaultSize * 5, defaultSize, 0),
-          child: Container(
-              height: defaultSize * 20,
-              width: defaultSize * 20,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors.amber, width: defaultSize * 0.2)),
-              child: Image(
-                  image: AssetImage(
-                      'assets/image/animal_profile/${selectedID}.png'))),
-        ),
-        Padding(
-            padding: EdgeInsets.fromLTRB(
-                defaultSize, defaultSize * 2, defaultSize, 0),
-            child: Container(
-                width: defaultSize * 30,
-                child: Image(
-                  image: AssetImage(
-                      'assets/image/animal_profile/${selectedID}_des.png'),
-                ))),
+        Container(
+            height: screenHeight * 0.22,
+            decoration: BoxDecoration(
+                border:
+                    Border.all(color: Colors.grey, width: defaultSize * 0.2)),
+            child: Image(
+                image: AssetImage(
+                    'assets/image/animal_profile/${selectedID}.png'))),
+        Container(
+            height: screenHeight * 0.35,
+            padding: EdgeInsets.all(defaultSize * 1.25),
+            child: Image(
+              image: AssetImage(
+                  'assets/image/animal_profile/${selectedID}_des.png'),
+            )),
         Row(
           children: [
-            Container(
-              width: defaultSize * 26,
-            ),
+            Container(width: screenWidth * 0.7),
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -122,6 +123,11 @@ class _SelectionState extends State<Selection> {
           ],
         )
       ],
-    ));
+    );
+  }
+
+  void getData() async {
+    userAnimals = await DatabaseService().getAnimalList(user!.uid);
+    setState(() {});
   }
 }
