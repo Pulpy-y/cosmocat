@@ -1,5 +1,6 @@
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/count_down/count_down_page.dart';
+import 'package:cosmocat/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tags/flutter_tags.dart';
@@ -16,6 +17,18 @@ class _TimePickerState extends State<TimePicker> {
   int hour = 0;
   int minute = 0;
   List tags = [];
+  late String? selectedTag;
+  bool selected = false;
+
+  @override
+  initState()  {
+    getData();
+    super.initState();
+  }
+
+  Future<void> getData() async {
+    tags = await DatabaseService().getTags();
+  }
 
 
   @override
@@ -135,6 +148,10 @@ class _TimePickerState extends State<TimePicker> {
                               return true;
                             }
                         ),
+                        onPressed: (item) {
+                          selectedTag = item.title;
+                          selected = !selected;
+                        },
                       );
                     },
                   ),
@@ -152,14 +169,27 @@ class _TimePickerState extends State<TimePicker> {
                     fontWeight: FontWeight.bold,
                 color: Colors.white)),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => CountDown(
-                        hour: hour,
-                        minute: minute,
-                      )));
-            },
+              if(!selected) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please select a tag!"),
+                    ));
+              } else if (hour == 0 && minute == 0) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please select a duration!"),
+                    ));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) =>
+                            CountDown(
+                                hour: hour,
+                                minute: minute,
+                                tag: selectedTag!
+                            )));
+              }},
             style: TextButton.styleFrom(
                 primary: primaryColor,
                 backgroundColor: primaryColor,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cosmocat/components/background.dart';
+import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,33 +11,41 @@ import '../size_config.dart';
 
 class CountDown extends StatefulWidget {
   final int hour, minute;
+  final String tag;
 
   const CountDown({
     required this.hour,
     required this.minute,
+    required this.tag,
   });
 
 
   @override
-  _CountDownState createState() => _CountDownState(hour, minute);
+  _CountDownState createState() => _CountDownState(hour, minute,tag);
 
 }
 
 
 class _CountDownState extends State<CountDown> {
   int _counter = 0;
+  int _set = 0;
   int _actual = 0;
   int _stars = 0;
   late Timer _timer;
   bool _isPaused = false;
   bool _begin = false;
   String _timeFormatted = '';
+  String? _tag = '';
 
-  _CountDownState(int hour, int minute) {
+  //DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  String date = "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+
+  _CountDownState(int hour, int minute, String tag) {
     _counter = hour * 3600 + minute * 60;
+    _set = _counter;
     _timeFormatted = _timeString(_counter);
+    _tag = tag;
   }
-
 
   void _startTimer(){
     _begin = true;
@@ -48,6 +57,7 @@ class _CountDownState extends State<CountDown> {
           _timeFormatted = _timeString(_counter);
         } else {
           _timer.cancel();
+          showDialog(context: context, builder: (_) => _taskCompletedDialog());
         }
       });
     });
@@ -108,7 +118,7 @@ class _CountDownState extends State<CountDown> {
               Container(
                 height: SizeConfig.screenHeight! * 0.1,
                 child: _progressBar(),
-              )
+              ),
             ],
           )
         )
@@ -197,7 +207,8 @@ class _CountDownState extends State<CountDown> {
               actions: [
                 ElevatedButton(
                       onPressed: () {
-                          Navigator.push(context,
+                        DatabaseService().saveFocusTime(_tag!, _actual~/60, date);
+                        Navigator.push(context,
                             MaterialPageRoute(builder: (_) => HomePage()));},
                       child: Text("Return to Home"),),
               ],
@@ -211,7 +222,7 @@ class _CountDownState extends State<CountDown> {
         width: SizeConfig.screenWidth! - 50,
         animation: false,
         lineHeight: 20.0,
-        percent: _actual/_counter,
+        percent: _actual / _set,
         //animationDuration: 500,
         //center: Text("80.0%"),
         linearStrokeCap: LinearStrokeCap.roundAll,
