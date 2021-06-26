@@ -25,6 +25,7 @@ class CountDown extends StatefulWidget {
 
 class _CountDownState extends State<CountDown> {
   int _counter = 0;
+  int _set = 0;
   int _actual = 0;
   int _stars = 0;
   late Timer _timer;
@@ -34,7 +35,10 @@ class _CountDownState extends State<CountDown> {
 
   _CountDownState(int hour, int minute) {
     _counter = hour * 3600 + minute * 60;
+    _set = _counter;
     _timeFormatted = _timeString(_counter);
+
+
   }
 
 
@@ -48,6 +52,9 @@ class _CountDownState extends State<CountDown> {
           _timeFormatted = _timeString(_counter);
         } else {
           _timer.cancel();
+          showDialog(context: context, builder: (_) => _taskCompletedDialog());
+
+
         }
       });
     });
@@ -108,7 +115,7 @@ class _CountDownState extends State<CountDown> {
               Container(
                 height: SizeConfig.screenHeight! * 0.1,
                 child: _progressBar(),
-              )
+              ),
             ],
           )
         )
@@ -211,7 +218,7 @@ class _CountDownState extends State<CountDown> {
         width: SizeConfig.screenWidth! - 50,
         animation: false,
         lineHeight: 20.0,
-        percent: _actual/_counter,
+        percent: _actual / _set,
         //animationDuration: 500,
         //center: Text("80.0%"),
         linearStrokeCap: LinearStrokeCap.roundAll,
