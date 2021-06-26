@@ -43,11 +43,6 @@ class DatabaseService {
   }
 
 
-  //friend system
-  Future<List<String>> getFriendList(String userId) async {
-    late List<String> friendList;
-
- 
 
   Future<List<String>> getList(String databaseField, String userId) async {
     late List<String> requestList;
