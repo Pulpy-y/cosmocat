@@ -1,6 +1,10 @@
+import 'package:cosmocat/Login/log_in.dart';
+import 'package:cosmocat/animals/animal.dart';
+import 'package:cosmocat/database.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'dart:math';
 
 import '../constant.dart';
 
@@ -11,6 +15,10 @@ class Match extends StatefulWidget {
 
 class _MatchState extends State<Match> {
   double defaultSize = SizeConfig.defaultSize!;
+  double screenHeight = SizeConfig.screenHeight!;
+  double screenWidth = SizeConfig.screenWidth!;
+  bool _bigger = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
@@ -23,7 +31,7 @@ class _MatchState extends State<Match> {
             highlightColor: Colors.yellow,
             enabled: true,
             child: Text("Match", style: TextStyle(fontSize: defaultSize * 3))),
-        onPressed: () {},
+        onPressed: () => _matchDialogWidget(),
         style: TextButton.styleFrom(
             primary: primaryColor,
             backgroundColor: primaryColor,
@@ -38,6 +46,85 @@ class _MatchState extends State<Match> {
     ]);
   }
 
+  Future<void> _matchDialogWidget() async {
+    String message = "";
+    bool success = true;
+
+    if (!await hasEnoughStars()) {
+      message = "You don't have enough stars mew ~";
+      success = false;
+    }
+
+    var selectedAnimal = await pickAnimal();
+
+    if (selectedAnimal.id == "0") {
+      message = "Fufu~ seems like you already know everyone";
+      success = false;
+    }
+
+    if (success) {
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (_) => AlertDialog(
+                title:
+                    Text("Mystery shop owner has introduce you a new friend!"),
+                content: AnimatedContainer(
+                  duration: Duration(seconds: 2),
+                  padding: _bigger
+                      ? EdgeInsets.all(defaultSize)
+                      : EdgeInsets.all(defaultSize * 10),
+                  child: Image(
+                    image: AssetImage(
+                        "assets/image/animal_profile/${selectedAnimal.id}.png"),
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        _bigger = false;
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Yay"))
+                ],
+              ));
+      _bigger = true;
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                title: Text(message),
+                content: Container(
+                  height: screenHeight * 0.2,
+                ),
+              ));
+    }
+
+    //minus stars
+    DatabaseService().updateStars(user!.uid, -50);
+    //add animals
+    DatabaseService().addAnimal(user!.uid, selectedAnimal.id);
+  }
+
   //a func that pick the animal
+  Future<Animal> pickAnimal() async {
+    var userAnimals = await DatabaseService().getAnimalList(user!.uid);
+    List<Animal> uncatchAnimals = [];
+    for (var animal in animalList) {
+      if (!userAnimals.contains(animal.id)) uncatchAnimals.add(animal);
+    }
+
+    var _random = Random();
+    int index = _random.nextInt(uncatchAnimals.length);
+
+    return uncatchAnimals.length == 0
+        ? animalList.first
+        : uncatchAnimals[index];
+  }
+
   //a func that determine whether the user has enough stars
+
+  Future<bool> hasEnoughStars() async {
+    return await DatabaseService().getStars(user!.uid) >= 50;
+  }
 }

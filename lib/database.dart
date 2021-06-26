@@ -153,4 +153,23 @@ class DatabaseService {
     animalList.add(animalId);
     doc.update({"animals": animalList});
   }
+
+  //star
+  Future<int> getStars(String uid) async {
+    int starCount = 0;
+    DocumentReference docRef = userCollection.doc(uid);
+    await docRef.get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        starCount = documentSnapshot.get("stars");
+      }
+    });
+
+    return starCount;
+  }
+
+  Future<void> updateStars(String uid, int amt) async {
+    int starsCount = await getStars(uid);
+    var doc = userCollection.doc(uid);
+    doc.update({"stars": starsCount + amt});
+  }
 }

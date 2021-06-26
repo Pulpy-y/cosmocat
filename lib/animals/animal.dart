@@ -9,6 +9,4 @@ class Animal {
 List<Animal> animalList = [
   Animal("0", "Coma", "200"),
   Animal("1", "Peggy", "200"),
-  Animal("2", "2", "200"),
-  Animal("3", "3", "200"),
 ];
