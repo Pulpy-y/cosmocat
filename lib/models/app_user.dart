@@ -3,8 +3,7 @@ class AppUser {
   String email = '';
   String nickName = '';
   List<String> friends = List.of(Iterable.empty());
-  List<int> animals = List.of(Iterable.empty());
-
+  List<String> animals = ["0"];
 
   AppUser({
     //required this.uid,
@@ -26,10 +25,7 @@ class AppUser {
     this.friends.add(friend);
   }
 
-  void addAnimal(int animalId ) {
+  void addAnimal(String animalId) {
     this.animals.add(animalId);
   }
-
-
-
 }

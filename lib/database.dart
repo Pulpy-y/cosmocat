@@ -42,19 +42,35 @@ class DatabaseService {
     return name;
   }
 
+
   //friend system
   Future<List<String>> getFriendList(String userId) async {
     late List<String> friendList;
+
+ 
+
+  Future<List<String>> getList(String databaseField, String userId) async {
+    late List<String> requestList;
     DocumentReference docRef = userCollection.doc(userId);
     await docRef.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        var friendListRaw = documentSnapshot.get("friends");
-        friendList = List<String>.from(friendListRaw);
-      } else {
-        friendList = [];
+        var requestListRaw = [];
+        try {
+          requestListRaw = documentSnapshot.get(databaseField);
+        } catch (StateError) {
+          print("rq list does not exist");
+        }
+
+        requestList = List<String>.from(requestListRaw);
       }
     });
-    return friendList;
+
+    return requestList;
+  }
+
+  //friend system
+  Future<List<String>> getFriendList(String userId) {
+    return getList("friends", userId);
   }
 
 
@@ -117,7 +133,7 @@ class DatabaseService {
     await docRef2.update({"friends": friends2});
 
     //delete 2 from 1 request list
-    var reqList = await getFriendRequestList(id1);
+    var reqList = await getList("friendRequest", id1);
     reqList.remove(id2);
     await docRef1.update({"friendRequest": reqList});
   }
@@ -141,23 +157,39 @@ class DatabaseService {
     return friendlist.contains(targetId);
   }
 
-  Future<List<String>> getFriendRequestList(String userId) async {
-    late List<String> requestList;
-    DocumentReference docRef = userCollection.doc(userId);
+  Future<List<String>> getFriendRequestList(String userId) {
+    return getList("friendRequest", userId);
+  }
+
+  //anaimal system
+  Future<List<String>> getAnimalList(String userId) {
+    return getList("animals", userId);
+  }
+
+  Future<void> addAnimal(String userId, String animalId) async {
+    var animalList = await getAnimalList(userId);
+    var doc = userCollection.doc(userId);
+    animalList.add(animalId);
+    doc.update({"animals": animalList});
+  }
+
+  //star
+  Future<int> getStars(String uid) async {
+    int starCount = 0;
+    DocumentReference docRef = userCollection.doc(uid);
     await docRef.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        var requestListRaw = [];
-        try {
-          requestListRaw = documentSnapshot.get("friendRequest");
-        } catch (StateError) {
-          print("rq list does not exist");
-        }
-
-        requestList = List<String>.from(requestListRaw);
+        starCount = documentSnapshot.get("stars");
       }
     });
 
-    return requestList;
+    return starCount;
+  }
+
+  Future<void> updateStars(String uid, int amt) async {
+    int starsCount = await getStars(uid);
+    var doc = userCollection.doc(uid);
+    doc.update({"stars": starsCount + amt});
   }
 
   Future<List<Item>> getTags () async {
