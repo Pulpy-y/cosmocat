@@ -17,8 +17,9 @@ class _TimePickerState extends State<TimePicker> {
   int hour = 0;
   int minute = 0;
   List tags = [];
-  late String? selectedTag;
+  String? selectedTag = 'noTagNow';
   bool selected = false;
+  bool allowPress = true;
 
   @override
   initState()  {
@@ -137,6 +138,9 @@ class _TimePickerState extends State<TimePicker> {
                       final Item currentItem = tags[index];
 
                       return ItemTags(
+                        pressEnabled: selectedTag == 'noTagNow' || selectedTag == currentItem.title
+                            ? true
+                            : false,
                         index: index,
                         title: currentItem.title!,
                         customData: currentItem.customData,
@@ -150,8 +154,15 @@ class _TimePickerState extends State<TimePicker> {
                             }
                         ),
                         onPressed: (item) {
-                          selectedTag = item.title;
-                          selected = !selected;
+                          setState(() {
+                            selectedTag == item.title
+                                ? selectedTag = "noTagNow"
+                                : selectedTag = item.title;
+                            print("Selected tag: $selectedTag");
+                            selected = !selected;
+                            print("Selected? $selected");
+                          });
+
                         },
                       );
                     },
