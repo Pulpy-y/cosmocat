@@ -90,7 +90,7 @@ class _BodyState extends State<Body> {
                   hintText: "type your nickname",
                   onChanged: (value){_userName = value;}),
               RoundedEmptyField(
-                  hintText: "At least 8 characters",
+                  hintText: "At least 6 characters",
                   onChanged: (value) {_password = value;} ,
                   title: "Password",
                   isPassword: true),

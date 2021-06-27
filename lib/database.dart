@@ -46,8 +46,6 @@ class DatabaseService {
     return name;
   }
 
-
-
   Future<List<String>> getList(String databaseField, String userId) async {
     late List<String> requestList;
     DocumentReference docRef = userCollection.doc(userId);
@@ -71,10 +69,6 @@ class DatabaseService {
   Future<List<String>> getFriendList(String userId) {
     return getList("friends", userId);
   }
-
-
-
-
 
   Future<bool> sendFriendRequest(String senderId, String receiverName) async {
     //assumption: userName is unique
@@ -190,6 +184,7 @@ class DatabaseService {
     userDoc.update({"stars": starsCount + amt});
   }
 
+  //tags
   Future<List<Item>> getTags () async {
     List<Item> tagList = [];
     tagsCollection.get().then((querySnapshot) => {
@@ -204,8 +199,6 @@ class DatabaseService {
     field['tagName'] = tagName;
     tagsCollection.doc("$tagName").set(field);
   }
-
-
 
   Future<void> saveFocusTime(String tagName, int duration, String date) async {
 
