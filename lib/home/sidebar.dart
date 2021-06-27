@@ -28,7 +28,7 @@ class _SideBarState extends State<SideBar> {
 
   Future<void> getData() async {
     stars = await DatabaseService().getStars();
-    //print("stars:${stars}");
+    print("get data: stars:$stars");
     setState(() {
       loading = false;
     });

@@ -42,7 +42,7 @@ class Info extends StatelessWidget {
                   name,
                   style: TextStyle(
                     fontSize: defaultSize * 2.2, // 22
-                    color: primaryColor,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(height: defaultSize / 2), //5

@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/database.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -16,16 +19,31 @@ class Chart extends StatefulWidget {
 class _ChartState extends State<Chart> {
   final Color barBackgroundColor = Colors.grey[200]!;
   final Duration animDuration = const Duration(milliseconds: 250);
+  List<double> weekHours = [0,0,0,0,0,0,0];
+  bool loading = true;
+
 
   int touchedIndex = -1;
 
   bool isPlaying = false;
 
   @override
+  void initState() {
+    hourOfTheDay().then((value) {
+      setState(() {
+        loading = false;
+      });
+    });
+    print("initializing");
+    super.initState();
+    print(weekHours[6]);
+  }
+
+  @override
   Widget build(BuildContext context) {
     double defaultSize = SizeConfig.defaultSize!;
 
-    return Padding(
+    return loading? Loading():Padding(
         padding: EdgeInsets.fromLTRB(defaultSize * 2, defaultSize * 1.6,
             defaultSize * 2, defaultSize * 1.6),
         child: AspectRatio(
@@ -44,11 +62,12 @@ class _ChartState extends State<Chart> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
-                        'Weekly Focus Time',
+                        'Your Weekly Focus Time',
                         style: TextStyle(
-                            color: const Color(0xff0f4a3c),
+                            color: themeSecondaryColor,
                             fontSize: 24,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(
                         height: 4,
@@ -56,7 +75,7 @@ class _ChartState extends State<Chart> {
                       Text(
                         'help making Coma\'s dreams come true',
                         style: TextStyle(
-                            color: const Color(0xff379982),
+                            color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
@@ -113,19 +132,19 @@ class _ChartState extends State<Chart> {
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 5, isTouched: i == touchedIndex);
+            return makeGroupData(0, weekHours[0], isTouched: i == touchedIndex);
           case 1:
-            return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
+            return makeGroupData(1, weekHours[1], isTouched: i == touchedIndex);
           case 2:
-            return makeGroupData(2, 5, isTouched: i == touchedIndex);
+            return makeGroupData(2, weekHours[2], isTouched: i == touchedIndex);
           case 3:
-            return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
+            return makeGroupData(3, weekHours[3], isTouched: i == touchedIndex);
           case 4:
-            return makeGroupData(4, 9, isTouched: i == touchedIndex);
+            return makeGroupData(4, weekHours[4], isTouched: i == touchedIndex);
           case 5:
-            return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
+            return makeGroupData(5, weekHours[5], isTouched: i == touchedIndex);
           case 6:
-            return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
+            return makeGroupData(6, weekHours[6], isTouched: i == touchedIndex);
           default:
             return throw Error();
         }
@@ -241,4 +260,28 @@ class _ChartState extends State<Chart> {
       await refreshState();
     }
   }
+
+  Future<void> hourOfTheDay() async {
+    DateTime date = DateTime.now();
+    int currDay = date.weekday; //Monday -> 1
+    int fromCurrToMon = currDay - 1;
+    DateTime monday = date.subtract(Duration(days:fromCurrToMon));
+
+    for (int i = 0; i < 7; i++)  {
+      DateTime thisDay = monday.add(Duration(days:i));
+      String id = "${thisDay.year}-${thisDay.month}-${thisDay.day}";
+
+      await DatabaseService()
+          .getTimeOfTheDay(id)
+          .then((value) {
+            setState(() {
+              weekHours[i] = value.roundToDouble();
+            });
+
+      });
+    }
+
+
+  }
+
 }

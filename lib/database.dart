@@ -174,12 +174,10 @@ class DatabaseService {
         starCount = documentSnapshot.get("stars");
       }
     });
-
     return starCount;
   }
 
   Future<void> updateStars(int amt) async {
-
     int starsCount = await getStars();
     userDoc.update({"stars": starsCount + amt});
   }
@@ -200,6 +198,7 @@ class DatabaseService {
     tagsCollection.doc("$tagName").set(field);
   }
 
+  //focusTime
   Future<void> saveFocusTime(String tagName, int duration, String date) async {
 
     //update FocusTime->Date->tags[]
@@ -242,6 +241,45 @@ class DatabaseService {
       }
 
   }
+
+  Future<num> getTagDurationOfDay(String tag, String day) async {
+    num duration = 0;
+    await tagsCollection
+        .doc(tag)
+        .collection("date")
+        .doc(day)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      duration = documentSnapshot.get("duration");
+
+    });
+    return duration;
+  }
+
+
+  Future<num> getTimeOfTheDay(String day)  async {
+    num totalMinutes = 0;
+    List<num> durations = [];
+
+    //get list of tags used during that day
+     await focusTimeCollection
+        .doc(day)
+        .get()
+        .then(
+            (DocumentSnapshot documentSnapshot)  async {
+              if (documentSnapshot.exists) {
+                List tagsOfTheDay = documentSnapshot.get("tags");
+                for (dynamic tag in tagsOfTheDay) {
+                  num duration = await getTagDurationOfDay(tag, day);
+                  totalMinutes +=  duration;
+                }
+              }
+            });
+
+     return totalMinutes;
+  }
+
+
 
 
 }

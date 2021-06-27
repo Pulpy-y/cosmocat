@@ -1,4 +1,5 @@
 import 'package:cosmocat/components/loading.dart';
+import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/info.dart';
 import 'package:cosmocat/home/sidebar.dart';
@@ -53,19 +54,12 @@ class _BodyState extends State<Body> {
                           child: SideBar(), right: 0, top: defaultSize * 2)
                     ]),
                     Chart(),
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => TimeSetter()));
-                      },
-                      child: Padding(
-                          padding: EdgeInsets.all(defaultSize * 1.6),
-                          child: Text("Start Timer")),
-                      style: OutlinedButton.styleFrom(
-                          textStyle: TextStyle(
-                        fontSize: defaultSize * 2.2,
-                      )),
-                    )
+                    RoundedButton(
+                        text: "Start Timer",
+                        press: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) => TimeSetter()));
+                        },)
                   ],
                 )));
   }

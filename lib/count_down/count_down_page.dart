@@ -211,7 +211,7 @@ class _CountDownState extends State<CountDown> {
               actions: [
                 ElevatedButton(
                       onPressed: () {
-                        DatabaseService().saveFocusTime(_tag!, _actual~/60, date);
+                        DatabaseService().saveFocusTime(_tag!, _actual, date);
                         DatabaseService().updateStars(_stars);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (_) => HomePage()));},
