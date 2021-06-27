@@ -1,3 +1,4 @@
+import 'package:cosmocat/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Login/log_in.dart';
@@ -23,8 +24,12 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           actions: [
-            ElevatedButton(
-              child: Text('Logout'),
+            TextButton(
+              child: Row(
+                children: [
+                  Icon(Icons.person,color: themePrimaryColor,),
+                  Text("Log out", style: TextStyle(color: themePrimaryColor),)
+              ],),
               onPressed: () {
                 auth.signOut();
                 Navigator.of(context).pushReplacement(
