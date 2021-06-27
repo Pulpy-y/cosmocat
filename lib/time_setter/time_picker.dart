@@ -107,7 +107,7 @@ class _TimePickerState extends State<TimePicker> {
                         ))),
                 Container(
                     child: Text(
-                      "Tag",
+                      "Tag (select only one)",
                       style: TextStyle(
                           fontSize: defaultSize * 2.2, //22
                           color: Colors.white
