@@ -39,6 +39,8 @@ dependencies:
   #flutter_tags: "^0.4.9+1"
   flutter_tags: "^1.0.0-nullsafety.1"
   percent_indicator: ^3.0.1
+  animate_do: ^2.0.0
+
 
 
 
