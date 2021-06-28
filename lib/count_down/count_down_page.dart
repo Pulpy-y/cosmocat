@@ -6,7 +6,7 @@ import 'package:cosmocat/home/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-
+import 'countdown_helper.dart';
 import '../constant.dart';
 import '../size_config.dart';
 
@@ -20,12 +20,9 @@ class CountDown extends StatefulWidget {
     required this.tag,
   });
 
-
   @override
-  _CountDownState createState() => _CountDownState(hour, minute,tag);
-
+  _CountDownState createState() => _CountDownState(hour, minute, tag);
 }
-
 
 class _CountDownState extends State<CountDown> {
   int _counter = 0;
@@ -37,61 +34,33 @@ class _CountDownState extends State<CountDown> {
   bool _begin = false;
   String _timeFormatted = '';
   String? _tag = '';
+  var helper = CountdownHelper();
 
   //DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  String date = "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+  String date =
+      "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
 
   _CountDownState(int hour, int minute, String tag) {
     _counter = hour * 3600 + minute * 60;
     _set = _counter;
-    _timeFormatted = _timeString(_counter);
+    _timeFormatted = helper.timeString(_counter);
     _tag = tag;
   }
 
-  void _startTimer(){
+  void _startTimer() {
     _begin = true;
-    _timer = Timer.periodic(Duration(seconds:1), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         if (_counter > 0) {
           _counter--;
           _actual++;
-          _timeFormatted = _timeString(_counter);
+          _timeFormatted = helper.timeString(_counter);
         } else {
           _timer.cancel();
           showDialog(context: context, builder: (_) => _taskCompletedDialog());
         }
       });
     });
-  }
-
-  int _countStars(int second) {
-    /*
-    int tMinute = second ~/ 60;
-
-    if (tMinute < 15) {
-      return tMinute < 10? 0: 1;
-    } else {
-      return 4 * tMinute ~/ 30 + 1 * tMinute % 30 ~/ 10;
-    }*/
-
-    //for testing:
-    return second;
-  }
-
-  String _timeString(int seconds) {
-    int hours = (seconds / 3600).truncate();
-    seconds = (seconds % 3600).truncate();
-    int minutes = (seconds / 60).truncate();
-
-    String hoursStr = (hours).toString().padLeft(2, '0');
-    String minutesStr = (minutes).toString().padLeft(2, '0');
-    String secondsStr = (seconds % 60).toString().padLeft(2, '0');
-
-    if (hours == 0) {
-      return "$minutesStr:$secondsStr";
-    }
-
-    return "$hoursStr:$minutesStr:$secondsStr";
   }
 
   @override
@@ -106,6 +75,7 @@ class _CountDownState extends State<CountDown> {
           backgroundColor: Colors.transparent,
         ),
         body: Background(
+
           child: Column(
             children: [
               SizedBox(
@@ -131,25 +101,24 @@ class _CountDownState extends State<CountDown> {
           )
         )
     );
+
   }
-  
+
   Widget _timerWidget() {
     return Column(
       children: <Widget>[
         Text(
           '$_timeFormatted',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 50,
-            color: Colors.white
-          ),
+              fontWeight: FontWeight.bold, fontSize: 50, color: Colors.white),
         ),
         SizedBox(
           height: SizeConfig.defaultSize,
         ),
-
-        _begin? _startedButtons():
-            CountDownButtons(text: 'Begin Journey!', press: () => _startTimer())
+        _begin
+            ? _startedButtons()
+            : CountDownButtons(
+                text: 'Begin Journey!', press: () => _startTimer())
       ],
     );
   }
@@ -159,26 +128,35 @@ class _CountDownState extends State<CountDown> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _isPaused?
-          CountDownButtons(text: 'Resume', press: (){setState(() {
-            _startTimer();
-            _isPaused = false;
-          });
-          }) : CountDownButtons(text: 'Pause', press: (){
-            setState(() {
+          _isPaused
+              ? CountDownButtons(
+                  text: 'Resume',
+                  press: () {
+                    setState(() {
+                      _startTimer();
+                      _isPaused = false;
+                    });
+                  })
+              : CountDownButtons(
+                  text: 'Pause',
+                  press: () {
+                    setState(() {
+                      _timer.cancel();
+                      _isPaused = true;
+                    });
+                  }),
+          CountDownButtons(
+            text: 'Stop',
+            press: () {
               _timer.cancel();
-              _isPaused = true;
-            });
-          }),
-          CountDownButtons(text: 'Stop', press: () {
-            _timer.cancel();
-            _stars = _countStars(_actual);
-            showDialog(context: context, builder: (_) => _stopTaskDialog());
-          },)]);
-
-
+              _stars = helper.countStars(_actual);
+              showDialog(context: context, builder: (_) => _stopTaskDialog());
+            },
+          )
+        ]);
   }
-  Widget _stopTaskDialog () {
+
+  Widget _stopTaskDialog() {
     return AlertDialog(
         title: const Text("Quit?"),
         content: Text("Are you sure?"),
@@ -187,42 +165,49 @@ class _CountDownState extends State<CountDown> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _startTimer();
-                        _isPaused = false;
-                      });
-                      Navigator.pop(context); },
-                    child: Text("Cancel"),),
+                onPressed: () {
+                  setState(() {
+                    _startTimer();
+                    _isPaused = false;
+                  });
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel"),
+              ),
               ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      showDialog(context: context, builder: (_) => _taskCompletedDialog());},
-                    child: Text("Yes"),),
+                onPressed: () {
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context, builder: (_) => _taskCompletedDialog());
+                },
+                child: Text("Yes"),
+              ),
             ],
           )
         ]);
-
   }
-  Widget _taskCompletedDialog()  {
-    _stars = _countStars(_actual);
+
+  Widget _taskCompletedDialog() {
+    _stars = helper.countStars(_actual);
     return AlertDialog(
-            title: const Text("YAY!"),
-            content:
-              Container(
-                  child: Text('You have helped Coma get $_stars stars!'),
-                ),
-              actions: [
-                ElevatedButton(
-                      onPressed: () {
-                        DatabaseService().saveFocusTime(_tag!, _actual, date);
-                        DatabaseService().updateStars(_stars);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => HomePage()));},
-                      child: Text("Return to Home"),),
-              ],
+      title: const Text("YAY!"),
+      content: Container(
+        child: Text('You have helped Coma get $_stars stars!'),
+      ),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            DatabaseService().saveFocusTime(_tag!, _actual, date);
+            DatabaseService().updateStars(_stars);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => HomePage()));
+          },
+          child: Text("Return to Home"),
+        ),
+      ],
     );
   }
+
   Widget _progressBar() {
     return Padding(
       padding: EdgeInsets.all(15.0),
@@ -240,9 +225,7 @@ class _CountDownState extends State<CountDown> {
       ),
     );
   }
-
 }
-
 
 class CountDownButtons extends StatelessWidget {
   final String text;
@@ -256,10 +239,11 @@ class CountDownButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary:themeSecondaryColor,
+          primary: themeSecondaryColor,
           elevation: 10,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SizeConfig.defaultSize! * 3.6), //36
+              borderRadius:
+                  BorderRadius.circular(SizeConfig.defaultSize! * 3.6), //36
               side: BorderSide(color: Colors.white))),
       onPressed: press,
       child: Text(text,
@@ -270,6 +254,3 @@ class CountDownButtons extends StatelessWidget {
     );
   }
 }
-
-
-

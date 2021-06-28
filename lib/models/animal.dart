@@ -1,13 +1,12 @@
 class Animal {
-  int id;
-  String name = '';
-  int price = 0;
+  String id;
+  String name;
+  String value;
 
-  Animal({ required this.id}) {
-    if (id == 1) {
-      name = 'coma';
-      price = 100;
-    }
-  }
-
+  Animal(this.id, this.name, this.value);
 }
+
+List<Animal> animalList = [
+  Animal("0", "Coma", "200"),
+  Animal("1", "Peggy", "200"),
+];

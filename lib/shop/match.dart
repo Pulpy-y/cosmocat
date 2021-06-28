@@ -1,5 +1,5 @@
 import 'package:cosmocat/Login/log_in.dart';
-import 'package:cosmocat/animals/animal.dart';
+import 'package:cosmocat/models/animal.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +76,7 @@ class _MatchState extends State<Match> {
                       : EdgeInsets.all(defaultSize * 10),
                   child: Image(
                     image: AssetImage(
-                        "assets/image/animal_profile/${selectedAnimal.id}.png"),
+                        "${animal_profile_path}${selectedAnimal.id}.png"),
                   ),
                 ),
                 actions: [
@@ -89,6 +89,10 @@ class _MatchState extends State<Match> {
                 ],
               ));
       _bigger = true;
+      //minus stars
+      DatabaseService().updateStars(-50);
+      //add animals
+      DatabaseService().addAnimal(user!.uid, selectedAnimal.id);
     } else {
       showDialog(
           context: context,
@@ -99,11 +103,6 @@ class _MatchState extends State<Match> {
                 ),
               ));
     }
-
-    //minus stars
-    DatabaseService().updateStars(-50);
-    //add animals
-    DatabaseService().addAnimal(user!.uid, selectedAnimal.id);
   }
 
   //a func that pick the animal
@@ -115,11 +114,10 @@ class _MatchState extends State<Match> {
     }
 
     var _random = Random();
-    int index = _random.nextInt(uncatchAnimals.length);
 
     return uncatchAnimals.length == 0
         ? animalList.first
-        : uncatchAnimals[index];
+        : uncatchAnimals[_random.nextInt(uncatchAnimals.length)];
   }
 
   //a func that determine whether the user has enough stars
