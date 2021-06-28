@@ -16,16 +16,37 @@ flutter instruction on how to test app bunddle (.abb file):
 https://flutter.dev/docs/deployment/android#test-the-app-bundle 
 
 ## Features 
-### Authentication
-login:
-- email : needs to be proper email format eg. xxx@xxx.com
-- password: 8 digit password 
+### Home Page
+### Animal Collection
+### Shop 
+### Friend Board
+### Time setter 
+### Countdown 
 
 ## Development Plan  
+### Statistic page 
+with more detailed and visual representation of the user's focus time such as hot map, pie chart etc.
+### Todo List
+Replace current bar chart on homepage to Todo List, so that users can view and edit their ToDo list when they first enter the app. 
+### Add predefined timer to system 
+(eg. tomato clock mode)
+### Town 
+Harvest stars with friends
+### Constellation cat
+### Settings 
+### Animal foster page under collection
+### Others 
+User guide when they first use the app.
+Show story after user signed up 
+Sound effect 
+
+## Testing of app 
+### Authentication
+- email : needs to be proper email format eg. xxx@xxx.com
+- password: at least 6 characters 
+- tag: can only select one at a time
 
 
-
-
-please contact us if you find yourself cannot open the apk/app bundle 
+please contact us if you cannot open the apk/app bundle 
 - Jia-Cheng: telegram @dorazhu0703
-- Yao Yi:telegram @Pulpy_y
+- Yao Yi: telegram @Pulpy_y
