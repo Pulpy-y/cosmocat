@@ -89,6 +89,10 @@ class _MatchState extends State<Match> {
                 ],
               ));
       _bigger = true;
+      //minus stars
+      DatabaseService().updateStars(-50);
+      //add animals
+      DatabaseService().addAnimal(user!.uid, selectedAnimal.id);
     } else {
       showDialog(
           context: context,
@@ -99,11 +103,6 @@ class _MatchState extends State<Match> {
                 ),
               ));
     }
-
-    //minus stars
-    DatabaseService().updateStars(-50);
-    //add animals
-    DatabaseService().addAnimal(user!.uid, selectedAnimal.id);
   }
 
   //a func that pick the animal
