@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: Text("Home Page"),
+          automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -27,9 +28,16 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               child: Row(
                 children: [
-                  Icon(Icons.person,color: themePrimaryColor,),
-                  Text("Log out", style: TextStyle(color: themePrimaryColor),)
-              ],),
+                  Icon(
+                    Icons.person,
+                    color: themePrimaryColor,
+                  ),
+                  Text(
+                    "Log out",
+                    style: TextStyle(color: themePrimaryColor),
+                  )
+                ],
+              ),
               onPressed: () {
                 auth.signOut();
                 Navigator.of(context).pushReplacement(
@@ -41,4 +49,3 @@ class _HomePageState extends State<HomePage> {
         body: Body(user));
   }
 }
-
