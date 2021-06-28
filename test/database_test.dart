@@ -7,29 +7,13 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 class MockFirestore extends Mock implements FirebaseFirestore {}
 
 void main() {
-  group("database get test", () {
+  group("star system test", () {
     var firestore = FakeFirebaseFirestore();
     DatabaseService ds = new DatabaseService(instanceInjection: firestore);
     test("[get star] value should return 0", () async {
       await ds.userDoc.set({"stars": 0});
       var result = await ds.getStars();
       expect(result, 0);
-    });
-
-    test("[get friendRequestlist] value should return ['1']", () async {
-      await ds.userDoc.update({
-        'friendRequest': ["1"]
-      });
-      var result = await ds.getFriendRequestList("0");
-      expect(result, ["1"]);
-    });
-
-    test("[get animalList] value should return ['0']", () async {
-      await ds.userDoc.update({
-        'animals': ["0"]
-      });
-      var result = await ds.getAnimalList("0");
-      expect(result, ["0"]);
     });
   });
 
@@ -114,6 +98,25 @@ void main() {
       var rqlist = await ds.getFriendRequestList("4");
 
       expect(rqlist.length == 0, true);
+    });
+  });
+
+  group("animal system test", () {
+    var firestore = FakeFirebaseFirestore();
+    DatabaseService ds = new DatabaseService(instanceInjection: firestore);
+
+    test("[get animalList] value should return ['0']", () async {
+      await ds.userDoc.update({
+        'animals': ["0"]
+      });
+      var result = await ds.getAnimalList("0");
+      expect(result, ["0"]);
+    });
+
+    test("[add animal] value should be true", () async {
+      await ds.addAnimal("0", "1");
+      var animalList = await ds.getAnimalList("0");
+      expect(animalList.contains("1"), true);
     });
   });
 }
