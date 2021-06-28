@@ -116,7 +116,7 @@ class _ChartState extends State<Chart> {
       barRods: [
         BarChartRodData(
           y: isTouched ? y + 1 : y,
-          colors: isTouched ? [Colors.yellow] : [barColor],
+          colors: isTouched ? [themePrimaryColor] : [themeSecondaryColor],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
@@ -193,7 +193,7 @@ class _ChartState extends State<Chart> {
                   TextSpan(
                     text: (rod.y - 1).toString(),
                     style: TextStyle(
-                      color: Colors.yellow,
+                      color: themeSecondaryColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),

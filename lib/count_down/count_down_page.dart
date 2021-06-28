@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:animate_do/animate_do.dart';
 import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/home_page.dart';
@@ -74,23 +75,33 @@ class _CountDownState extends State<CountDown> {
           backgroundColor: Colors.transparent,
         ),
         body: Background(
-            child: Column(
-          children: [
-            SizedBox(height: SizeConfig.screenHeight! * 0.2),
-            Container(
-              height: SizeConfig.screenHeight! * 0.3,
-              child: _timerWidget(),
-            ),
-            Container(
+
+          child: Column(
+            children: [
+              SizedBox(
+                height:SizeConfig.screenHeight! * 0.2
+              ),
+              Container(
                 height: SizeConfig.screenHeight! * 0.3,
-                width: SizeConfig.screenWidth! * 0.6,
-                child: Image.asset('assets/image/coma_floating_trans.png')),
-            Container(
-              height: SizeConfig.screenHeight! * 0.1,
-              child: _progressBar(),
-            ),
-          ],
-        )));
+                child: _timerWidget(),
+              ),
+              Bounce(
+                infinite: true,
+                child: Container(
+                  height: SizeConfig.screenHeight! * 0.3,
+                  width: SizeConfig.screenWidth! * 0.6,
+                  child: Image.asset('assets/image/coma_floating_trans.png')
+                ),
+              ),
+              Container(
+                height: SizeConfig.screenHeight! * 0.1,
+                child: _progressBar(),
+              ),
+            ],
+          )
+        )
+    );
+
   }
 
   Widget _timerWidget() {
