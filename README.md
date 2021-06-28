@@ -16,7 +16,7 @@ flutter instruction on how to test app bunddle (.abb file):
 https://flutter.dev/docs/deployment/android#test-the-app-bundle 
 
 ## Features 
-
+### Authentication
 login:
 - email : needs to be proper email format eg. xxx@xxx.com
 - password: 8 digit password 
