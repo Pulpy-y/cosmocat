@@ -6,21 +6,30 @@ import 'package:cosmocat/models/app_user.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 
 class DatabaseService {
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
+  late CollectionReference userCollection;
+  late DocumentReference userDoc;
+  late CollectionReference focusTimeCollection;
+  late CollectionReference tagsCollection;
 
-  DocumentReference userDoc =
-      FirebaseFirestore.instance.collection('users').doc(user!.uid);
+  DatabaseService({FirebaseFirestore? instanceInjection}) {
+    FirebaseFirestore instance;
+    String uid;
 
-  CollectionReference focusTimeCollection = FirebaseFirestore.instance
-      .collection('users')
-      .doc(user!.uid)
-      .collection('FocusTime');
+    if (instanceInjection == null) {
+      instance = FirebaseFirestore.instance;
+      uid = user!.uid;
+    } else {
+      instance = instanceInjection;
+      uid = "0";
+    }
 
-  CollectionReference tagsCollection = FirebaseFirestore.instance
-      .collection('users')
-      .doc(user!.uid)
-      .collection('Tags');
+    userCollection = instance.collection('users');
+    userDoc = instance.collection('users').doc(uid);
+    focusTimeCollection =
+        instance.collection('users').doc(uid).collection('FocusTime');
+
+    tagsCollection = instance.collection('users').doc(uid).collection('Tags');
+  }
 
   Future<void> addUser(AppUser user, String uid) async {
     await userCollection.doc(uid).set({
@@ -77,6 +86,9 @@ class DatabaseService {
 
     bool succ = false;
 
+    //check whether user search himself
+    if (await getUserName(senderId) == receiverName) return false;
+
     await userCollection
         .where("nickname", isEqualTo: receiverName)
         .get()
@@ -87,6 +99,8 @@ class DatabaseService {
 
       //check whether this is a existed friend
       if (await isFriend(senderId, requestDoc.id)) return false;
+      //check whether there is alr an exist request
+      if (await isReqeustExist(requestDoc.id, senderId)) return false;
 
       var receiverCurrentRequest = [];
 
@@ -150,6 +164,11 @@ class DatabaseService {
   Future<bool> isFriend(String uid, String targetId) async {
     var friendlist = await getFriendList(uid);
     return friendlist.contains(targetId);
+  }
+
+  Future<bool> isReqeustExist(String uid, String targetId) async {
+    var targetRequestList = await getFriendRequestList(targetId);
+    return targetRequestList.contains(uid);
   }
 
   Future<List<String>> getFriendRequestList(String userId) {
