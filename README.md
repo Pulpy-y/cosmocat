@@ -29,25 +29,24 @@ The main functionality of the app. User can set a duration of time to focus on t
 
 ## Development Plan  
 (To be completed as much as possible in MS3) 
-### Statistic page 
-with more detailed and visual representation of the user's focus time such as heat map, pie chart etc.
-### Todo List
-Replace current bar chart on homepage to Todo List, so that users can view and edit their ToDo list when they first enter the app. 
-### Predefined timer 
-(eg. tomato clock mode)
-### Town 
-Harvest stars with friends, unlock individual/group achievements to gain more motivation.
-### Constellation cat
-Surprise! What animal the user gets might be dependent on the date itself.
-### Settings 
-Move log out button to settings. User may set their preferences(e.g. keep screen on) in settings.
-### Animal foster page 
-Under collection page. Animals may have lifecycles. 
-
-### Others 
-User guide when they first use the app.
-Show story background after user signs up.
-Sound effect.
+1. Statistic page 
+- with more detailed and visual representation of the user's focus time such as heat map, pie chart etc.
+2. Todo List
+- Replace current bar chart on homepage to Todo List, so that users can view and edit their ToDo list when they first enter the app. 
+3. Predefined timer 
+- (eg. tomato clock mode)
+4. Town 
+- Harvest stars with friends, unlock individual/group achievements to gain more motivation.
+5. Constellation cat
+- Surprise! What animal the user gets might be dependent on the date itself.
+6. Settings 
+- Move log out button to settings. User may set their preferences(e.g. keep screen on) in settings.
+7. Animal foster page 
+- Under collection page. Animals may have lifecycles. 
+8. Others 
+- User guide when they first use the app.
+- Show story background after user signs up.
+- Sound effect.
 
 ## Testing of app 
 ### Authentication
