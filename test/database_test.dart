@@ -83,5 +83,37 @@ void main() {
       var result = await ds.isUserNameExist("b");
       expect(result, false);
     });
+
+    test("[send friend request to user] value should return true", () async {
+      await ds.userCollection
+          .doc("4")
+          .set({"nickname": "4", "friendRequest": [], "friends": []});
+      var result = await ds.sendFriendRequest("0", "4");
+      expect(result, true);
+    });
+
+    test("[send repeated friend request] value should return false", () async {
+      await ds.sendFriendRequest("0", "4");
+      var rqlist = await ds.getFriendRequestList("4");
+      expect(rqlist.length == 1, true);
+    });
+
+    test("[send friend request to myself] value should return false", () async {
+      var result = await ds.sendFriendRequest("0", "bla");
+      expect(result, false);
+    });
+
+    test("[send friend request to non exist user] value should return false",
+        () async {
+      var result = await ds.sendFriendRequest("0", "b");
+      expect(result, false);
+    });
+
+    test("[accept friend rq] value should return true", () async {
+      await ds.receiveFriendRequest("4", "0");
+      var rqlist = await ds.getFriendRequestList("4");
+
+      expect(rqlist.length == 0, true);
+    });
   });
 }
