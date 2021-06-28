@@ -114,11 +114,10 @@ class _MatchState extends State<Match> {
     }
 
     var _random = Random();
-    int index = _random.nextInt(uncatchAnimals.length);
 
     return uncatchAnimals.length == 0
         ? animalList.first
-        : uncatchAnimals[index];
+        : uncatchAnimals[_random.nextInt(uncatchAnimals.length)];
   }
 
   //a func that determine whether the user has enough stars
