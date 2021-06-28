@@ -1,5 +1,5 @@
 import 'package:cosmocat/Login/log_in.dart';
-import 'package:cosmocat/animals/animal.dart';
+import 'package:cosmocat/models/animal.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
