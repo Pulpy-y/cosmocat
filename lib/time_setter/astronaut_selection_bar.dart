@@ -12,7 +12,6 @@ class AstronautSelectionBar extends StatefulWidget {
 class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
   double defaultSize = SizeConfig.defaultSize!;
   List<String> astronautIdList = ["0"];
-  String selectedAnimal = "0";
 
   @override
   void initState() {

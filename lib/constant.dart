@@ -7,3 +7,4 @@ const distinctPurple = Color.fromARGB(255, 128, 2, 255);
 const String animal_profile_path = "assets/image/animal_profile/";
 String date =
     "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
+String selectedAnimal = '0';

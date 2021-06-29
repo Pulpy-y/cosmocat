@@ -8,6 +8,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'countdown_helper.dart';
 import '../constant.dart';
 import '../size_config.dart';
+import '../time_setter/astronaut_selection_bar.dart';
 
 class CountDown extends StatefulWidget {
   final int hour, minute;
@@ -35,8 +36,8 @@ class _CountDownState extends State<CountDown> {
   String? _tag = '';
   var helper = CountdownHelper();
 
-  //DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
+  //DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   _CountDownState(int hour, int minute, String tag) {
     _counter = hour * 3600 + minute * 60;
     _set = _counter;
@@ -85,8 +86,9 @@ class _CountDownState extends State<CountDown> {
               child: Container(
                   height: SizeConfig.screenHeight! * 0.3,
                   width: SizeConfig.screenWidth! * 0.6,
-                  child: Image.asset('assets/image/coma_floating_trans.png')),
-            ),
+                  child: Image.asset(
+                      'assets/image/animal_floating/$selectedAnimal.png'),
+            )),
             Container(
               height: SizeConfig.screenHeight! * 0.1,
               child: _progressBar(),
