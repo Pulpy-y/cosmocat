@@ -35,7 +35,8 @@ class DatabaseService {
       'nickname': user.nickName,
       'friends': user.friends,
       'animals': user.animals,
-      'stars': user.stars
+      'stars': user.stars,
+      'tags' : user.tags
     }).then((value) {
       print("User added");
     }).catchError((error) => print("Failed to add user: $error"));
@@ -203,13 +204,8 @@ class DatabaseService {
   //tags
   Future<List<Item>> getTags(String uid) async {
     List<Item> tagList = [];
-    var tagsCollection = userCollection.doc(uid).collection('Tags');
-    tagsCollection.get().then((querySnapshot) => {
-          querySnapshot.docs.forEach((doc) {
-            tagList.add(Item(title: doc.id));
-          })
-        });
-
+    List<String> tagStrings = await getList("tags", user!.uid);
+    tagStrings.forEach((tagString) {tagList.add(Item(title: tagString));});
     return tagList;
   }
 
@@ -218,6 +214,15 @@ class DatabaseService {
     field['tagName'] = tagName;
     var tagsCollection = userDoc.collection('Tags');
     tagsCollection.doc("$tagName").set(field);
+    userDoc.update({
+      "tags": FieldValue.arrayUnion([tagName]
+    )});
+  }
+
+  Future<void> removeTag(String tagName) async {
+    userDoc.update({
+      "tags": FieldValue.arrayRemove([tagName]
+      )});
   }
 
   //focusTime

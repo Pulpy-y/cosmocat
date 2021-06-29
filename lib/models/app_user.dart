@@ -5,6 +5,7 @@ class AppUser {
   List<String> friends = List.of(Iterable.empty());
   List<String> animals = ["0"];
   int stars = 0;
+  List<String> tags = List.of(Iterable.empty());
 
   AppUser({
     //required this.uid,
@@ -21,7 +22,7 @@ class AppUser {
   void setNickName(String nickName) {
     this.nickName = nickName;
   }
-
+/*
   void addFriend(String friend) {
     this.friends.add(friend);
   }
@@ -29,4 +30,6 @@ class AppUser {
   void addAnimal(String animalId) {
     this.animals.add(animalId);
   }
+  */
+
 }
