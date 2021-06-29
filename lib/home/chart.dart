@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/database.dart';
@@ -19,9 +20,8 @@ class Chart extends StatefulWidget {
 class _ChartState extends State<Chart> {
   final Color barBackgroundColor = Colors.grey[200]!;
   final Duration animDuration = const Duration(milliseconds: 250);
-  List<double> weekHours = [0,0,0,0,0,0,0];
+  List<double> weekHours = [0, 0, 0, 0, 0, 0, 0];
   bool loading = true;
-
 
   int touchedIndex = -1;
 
@@ -43,64 +43,67 @@ class _ChartState extends State<Chart> {
   Widget build(BuildContext context) {
     double defaultSize = SizeConfig.defaultSize!;
 
-    return loading? Loading():Padding(
-        padding: EdgeInsets.fromLTRB(defaultSize * 2, defaultSize * 1.6,
-            defaultSize * 2, defaultSize * 1.6),
-        child: AspectRatio(
-          aspectRatio: 4 / 3,
-          child: Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-            color: primaryColor,
-            child: Stack(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(defaultSize * 1.6),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Your Weekly Focus Time',
-                        style: TextStyle(
-                            color: themeSecondaryColor,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        'help making Coma\'s dreams come true',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 38,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: BarChart(
-                            mainBarData(),
-                            swapAnimationDuration: animDuration,
+    return loading
+        ? Loading()
+        : Padding(
+            padding: EdgeInsets.fromLTRB(defaultSize * 2, defaultSize * 1.6,
+                defaultSize * 2, defaultSize * 1.6),
+            child: AspectRatio(
+              aspectRatio: 4 / 3,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18)),
+                color: primaryColor,
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(defaultSize * 1.6),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            'Your Weekly Focus Time',
+                            style: TextStyle(
+                              color: themeSecondaryColor,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            'help making Coma\'s dreams come true',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 38,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: BarChart(
+                                mainBarData(),
+                                swapAnimationDuration: animDuration,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ));
+              ),
+            ));
   }
 
   BarChartGroupData makeGroupData(
@@ -265,23 +268,17 @@ class _ChartState extends State<Chart> {
     DateTime date = DateTime.now();
     int currDay = date.weekday; //Monday -> 1
     int fromCurrToMon = currDay - 1;
-    DateTime monday = date.subtract(Duration(days:fromCurrToMon));
+    DateTime monday = date.subtract(Duration(days: fromCurrToMon));
 
-    for (int i = 0; i < 7; i++)  {
-      DateTime thisDay = monday.add(Duration(days:i));
-      String id = "${thisDay.year}-${thisDay.month}-${thisDay.day}";
+    for (int i = 0; i < 7; i++) {
+      DateTime thisDay = monday.add(Duration(days: i));
+      String date = "${thisDay.year}-${thisDay.month}-${thisDay.day}";
 
-      await DatabaseService()
-          .getTimeOfTheDay(id)
-          .then((value) {
-            setState(() {
-              weekHours[i] = value.roundToDouble();
-            });
-
+      await DatabaseService().getTimeOfTheDay(user!.uid, date).then((value) {
+        setState(() {
+          weekHours[i] = value.roundToDouble();
+        });
       });
     }
-
-
   }
-
 }
