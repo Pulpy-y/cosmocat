@@ -11,7 +11,9 @@ import 'package:cosmocat/components/background.dart';
 
 class Body extends StatefulWidget {
   @override
-  _BodyState createState() => _BodyState();
+  _BodyState createState() => _BodyState(_category);
+  String _category;
+  Body(this._category);
 }
 
 class _BodyState extends State<Body> {
@@ -20,6 +22,9 @@ class _BodyState extends State<Body> {
   late UserModel currUser;
   double screenHeight = SizeConfig.screenHeight!;
   double screenWidth = SizeConfig.screenWidth!;
+  String _category;
+
+  _BodyState(this._category);
 
   @override
   void initState() {
@@ -38,7 +43,7 @@ class _BodyState extends State<Body> {
               Container(
                 height: screenHeight * 2 / 11,
               ),
-              LeaderBoard(friendList, currUser),
+              LeaderBoard(friendList, currUser, _category),
               Container(
                 height: screenHeight * 2 / 11,
                 decoration: BoxDecoration(
@@ -47,7 +52,7 @@ class _BodyState extends State<Body> {
                     borderRadius: BorderRadius.only(
                         topLeft: const Radius.circular(40.0),
                         topRight: const Radius.circular(40.0))),
-                child: selfInfo(currUser.name, "O hr 0 min"),
+                child: selfInfo(currUser),
               )
             ],
           ));
@@ -55,9 +60,16 @@ class _BodyState extends State<Body> {
 
   //need a function to sort the rank
 
-  Widget selfInfo(String username, String time) {
+  Widget selfInfo(UserModel user) {
     double defaultWidth = screenWidth * 0.1;
     double defaultHeight = screenHeight * 2 / 11 * 0.1;
+
+    String time;
+    if (_category == "day") {
+      time = user.dayTime.toString();
+    } else {
+      time = user.weekTime.toString();
+    }
 
     return Row(
       children: <Widget>[
@@ -80,7 +92,7 @@ class _BodyState extends State<Body> {
                 Container(
                   height: defaultHeight * 1.8,
                 ),
-                Text(username,
+                Text(user.name,
                     style: TextStyle(
                         color: primaryColor, fontSize: defaultWidth * 0.8)),
                 Container(
@@ -101,15 +113,21 @@ class _BodyState extends State<Body> {
   }
 
   Future<void> getData() async {
+    String currUserId = user!.uid;
     List<String> friendIdList =
-        await DatabaseService().getFriendList(user!.uid);
-    String name = await DatabaseService().getUserName(user!.uid);
+        await DatabaseService().getFriendList(currUserId);
+    String name = await DatabaseService().getUserName(currUserId);
+    num daytime = await DatabaseService().getTimeOfTheDay(currUserId, date);
+    num weekTime = await DatabaseService().getTimeOfTheWeek(currUserId);
 
-    currUser = new UserModel(name, "", 0, 0);
+    currUser = new UserModel(name, "", daytime, weekTime);
 
     for (var id in friendIdList) {
       String name = await DatabaseService().getUserName(id);
-      friendList.add(new UserModel(name, id, 0, 0));
+      num daytime = await DatabaseService().getTimeOfTheDay(id, date);
+      num weekTime = await DatabaseService().getTimeOfTheWeek(id);
+
+      friendList.add(new UserModel(name, id, daytime, weekTime));
     }
 
     setState(() {

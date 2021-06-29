@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/models/app_user.dart';
@@ -294,5 +293,48 @@ class DatabaseService {
     });
 
     return totalMinutes;
+  }
+
+  Future<num> getTimeOfTheWeek(String uid) async {
+    List<String> dates = getDatesOfTheWeek();
+    num time = 0;
+    for (var date in dates) {
+      time += await getTimeOfTheDay(uid, date);
+    }
+
+    return time;
+  }
+
+  List<String> getDatesOfTheWeek() {
+    List<String> dates = [];
+    DateTime today = DateTime.now();
+    int weekday = today.weekday;
+    var date = [today.day, today.month, today.year];
+
+    while (weekday != 0) {
+      dates.add('${date[2]}-${date[1]}-${date[0]}');
+      date = prevDay(date);
+      weekday -= 1;
+    }
+    return dates;
+  }
+
+  List<int> prevDay(List<int> date) {
+    List<int> smallMonth = [2, 4, 6, 9, 11];
+    date[0] -= 1; //prev day
+    if (date[0] == 0) {
+      date[1] -= 1; //prev month
+      if (date[1] == 0) {
+        date[2] -= 1; //prev year
+        date[1] = 12;
+        date[0] = 31;
+      } else if (smallMonth.contains(date[1])) {
+        date[0] = 30;
+      } else {
+        date[0] = 31;
+      }
+    }
+
+    return date;
   }
 }

@@ -28,7 +28,10 @@ class Friendboard extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: <Widget>[Body(), Body()], //day and week, need to pass vars
+          children: <Widget>[
+            Body("day"),
+            Body("week")
+          ], //day and week, need to pass vars
         ),
       ),
     );
