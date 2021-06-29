@@ -146,9 +146,10 @@ class _TimePickerState extends State<TimePicker> {
                         customData: currentItem.customData,
                         combine: ItemTagsCombine.withTextBefore,
                         removeButton: ItemTagsRemoveButton(
-                            onRemoved: (){
+                            onRemoved: ()  {
+                              DatabaseService().removeTag(currentItem.title!);
                               setState(() {
-                                tags.remove(index);
+                                tags.remove(currentItem);
                               });
                               return true;
                             }
