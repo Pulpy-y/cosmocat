@@ -23,21 +23,26 @@ class _BodyState extends State<Body> {
       final newUser =
           await auth.createUserWithEmailAndPassword(
           email: _email, password: _password);
-
-
-
       AppUser appUser = new AppUser(
           email: _email, nickName: _userName);
+      final bool exist =
+          await DatabaseService().isUserNameExist(_userName);
 
-      DatabaseService()
-          .addUser(appUser, newUser.user!.uid);
-
-      Navigator.of(context)
-          .pushReplacement(
+      if (!exist) {
+        DatabaseService()
+            .addUser(appUser, newUser.user!.uid);
+        Navigator.of(context)
+            .pushReplacement(
             MaterialPageRoute(
                 builder: (context) => HomePage()
             )
-      );
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Username is taken, please select another one"),
+            ));
+      }
     } on FirebaseAuthException catch (e) {
       String errorMessage = e.toString();
       print("Exception in registration: " + errorMessage);
@@ -88,7 +93,11 @@ class _BodyState extends State<Body> {
                 isPassword: false,
                 title: "Nickname",
                   hintText: "type your nickname",
-                  onChanged: (value){_userName = value;}),
+                  onChanged: (value){
+                  setState(() {
+                    _userName = value;
+                  });
+                  }),
               RoundedEmptyField(
                   hintText: "At least 6 characters",
                   onChanged: (value) {_password = value;} ,
@@ -111,9 +120,9 @@ class _BodyState extends State<Body> {
                         onPrimary: Colors.white,
                         side: BorderSide(color: Colors.white),
                       ),
-                      onPressed: () {
+                      onPressed: ()  {
                         if (_password == _confirmPassword) {
-                          _register();
+                            _register();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -136,6 +145,5 @@ class _BodyState extends State<Body> {
           ])
         )
     );
-
   }
 }
