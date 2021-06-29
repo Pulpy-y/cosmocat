@@ -100,23 +100,11 @@ class DatabaseService {
       //check whether there is alr an exist request
       if (await isReqeustExist(requestDoc.id, senderId)) return false;
 
-      var receiverCurrentRequest = [];
-
-      await requestDoc.get().then((document) {
-        try {
-          receiverCurrentRequest = document.get("friendRequest");
-        } catch (StateError) {
-          print("rq list does not exist");
-        }
-
-        if (!receiverCurrentRequest.contains(senderId)) {
-          receiverCurrentRequest.add(senderId);
-        }
-      });
-
       requestDoc.update({
-        "friendRequest": [senderId]
+        "friendRequest": FieldValue.arrayUnion([senderId])
       });
+
+
 
       succ = true;
     });
