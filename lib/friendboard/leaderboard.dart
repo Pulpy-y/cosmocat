@@ -1,6 +1,5 @@
 import 'package:cosmocat/friendboard/user_model.dart';
 import 'package:flutter/material.dart';
-import 'package:cosmocat/constant.dart';
 import '../size_config.dart';
 
 class LeaderBoard extends StatefulWidget {
@@ -67,7 +66,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
       leading: Text((index + 1).toString()),
       tileColor: Colors.transparent,
       title: Text(user.name),
-      subtitle: Text(time),
+      subtitle: Text(time + " seconds"),
     );
   }
 }
