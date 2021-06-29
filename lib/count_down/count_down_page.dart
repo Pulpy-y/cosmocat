@@ -3,7 +3,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/home_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'countdown_helper.dart';
@@ -37,8 +36,6 @@ class _CountDownState extends State<CountDown> {
   var helper = CountdownHelper();
 
   //DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  String date =
-      "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
 
   _CountDownState(int hour, int minute, String tag) {
     _counter = hour * 3600 + minute * 60;
