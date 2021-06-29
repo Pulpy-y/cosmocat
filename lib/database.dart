@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/models/app_user.dart';
@@ -8,8 +7,6 @@ import 'package:flutter_tags/flutter_tags.dart';
 class DatabaseService {
   late CollectionReference userCollection;
   late DocumentReference userDoc;
-  late CollectionReference focusTimeCollection;
-  late CollectionReference tagsCollection;
 
   DatabaseService({FirebaseFirestore? instanceInjection}) {
     FirebaseFirestore instance;
@@ -25,10 +22,10 @@ class DatabaseService {
 
     userCollection = instance.collection('users');
     userDoc = instance.collection('users').doc(uid);
-    focusTimeCollection =
-        instance.collection('users').doc(uid).collection('FocusTime');
+    // focusTimeCollection =
+    //     instance.collection('users').doc(uid).collection('FocusTime');
 
-    tagsCollection = instance.collection('users').doc(uid).collection('Tags');
+    // tagsCollection = instance.collection('users').doc(uid).collection('Tags');
   }
 
   Future<void> addUser(AppUser user, String uid) async {
@@ -204,8 +201,9 @@ class DatabaseService {
   }
 
   //tags
-  Future<List<Item>> getTags() async {
+  Future<List<Item>> getTags(String uid) async {
     List<Item> tagList = [];
+    var tagsCollection = userCollection.doc(uid).collection('Tags');
     tagsCollection.get().then((querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
             tagList.add(Item(title: doc.id));
@@ -218,12 +216,16 @@ class DatabaseService {
   Future<void> addTag(String tagName) async {
     Map<String, String> field = HashMap<String, String>();
     field['tagName'] = tagName;
+    var tagsCollection = userDoc.collection('Tags');
     tagsCollection.doc("$tagName").set(field);
   }
 
   //focusTime
   Future<void> saveFocusTime(String tagName, int duration, String date) async {
     //update FocusTime->Date->tags[]
+    var tagsCollection = userDoc.collection('Tags');
+    var focusTimeCollection = userDoc.collection('FocusTime');
+
     final focusDate = await focusTimeCollection.doc("$date").get();
     if (focusDate.exists) {
       focusTimeCollection.doc("$date").update({
@@ -257,8 +259,9 @@ class DatabaseService {
     }
   }
 
-  Future<num> getTagDurationOfDay(String tag, String day) async {
+  Future<num> getTagDurationOfDay(String uid, String tag, String day) async {
     num duration = 0;
+    var tagsCollection = userCollection.doc(uid).collection('Tags');
     await tagsCollection
         .doc(tag)
         .collection("date")
@@ -270,24 +273,68 @@ class DatabaseService {
     return duration;
   }
 
-  Future<num> getTimeOfTheDay(String day) async {
+  Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;
-    List<num> durations = [];
+
+    var timeCollection = userCollection.doc(uid).collection('FocusTime');
 
     //get list of tags used during that day
-    await focusTimeCollection
+    await timeCollection
         .doc(day)
         .get()
         .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
         List tagsOfTheDay = documentSnapshot.get("tags");
         for (dynamic tag in tagsOfTheDay) {
-          num duration = await getTagDurationOfDay(tag, day);
+          num duration = await getTagDurationOfDay(uid, tag, day);
           totalMinutes += duration;
         }
       }
     });
 
     return totalMinutes;
+  }
+
+  Future<num> getTimeOfTheWeek(String uid) async {
+    List<String> dates = getDatesOfTheWeek();
+    num time = 0;
+    for (var date in dates) {
+      time += await getTimeOfTheDay(uid, date);
+    }
+
+    return time;
+  }
+
+  List<String> getDatesOfTheWeek() {
+    List<String> dates = [];
+    DateTime today = DateTime.now();
+    int weekday = today.weekday;
+    var date = [today.day, today.month, today.year];
+
+    while (weekday != 0) {
+      dates.add('${date[2]}-${date[1]}-${date[0]}');
+      date = prevDay(date);
+      weekday -= 1;
+    }
+    return dates;
+  }
+
+  List<int> prevDay(List<int> date) {
+    List<int> smallMonth = [2, 4, 6, 9, 11];
+    date[0] -= 1; //prev day
+    if (date[0] == 0) {
+      date[1] -= 1; //prev month
+      if (date[1] == 0) {
+        date[2] -= 1; //prev year
+        date[1] = 12;
+        date[0] = 31;
+      } else if (smallMonth.contains(date[1])) {
+        date[0] = 30;
+      } else {
+        date[0] = 31;
+      }
+    }
+
+    return date;
   }
 }

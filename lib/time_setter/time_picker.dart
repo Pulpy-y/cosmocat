@@ -1,3 +1,4 @@
+import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/count_down/count_down_page.dart';
 import 'package:cosmocat/database.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_tags/flutter_tags.dart';
 import '../size_config.dart';
 
 class TimePicker extends StatefulWidget {
-
   @override
   _TimePickerState createState() => _TimePickerState();
 }
@@ -22,41 +22,38 @@ class _TimePickerState extends State<TimePicker> {
   bool allowPress = true;
 
   @override
-  initState()  {
+  initState() {
     getData();
     super.initState();
   }
 
   Future<void> getData() async {
-    tags = await DatabaseService().getTags();
+    tags = await DatabaseService().getTags(user!.uid);
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: defaultSize,
-          horizontal: defaultSize * 1.6),
+          vertical: defaultSize, horizontal: defaultSize * 1.6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                     child: Text(
                       "Pick a time",
                       style: TextStyle(
                           fontSize: defaultSize * 2.2, //22
-                          color: Colors.white
-                      ),
+                          color: Colors.white),
                       textAlign: TextAlign.left,
                     ),
-                  margin: EdgeInsets.all(defaultSize * 1.8) // 18
-                ),
+                    margin: EdgeInsets.all(defaultSize * 1.8) // 18
+                    ),
                 Card(
-                  // input time
+                    // input time
                     color: themeSecondaryColor,
                     child: Padding(
                         padding: EdgeInsets.all(defaultSize * 1.6), //16
@@ -110,49 +107,45 @@ class _TimePickerState extends State<TimePicker> {
                       "Tag (select only one)",
                       style: TextStyle(
                           fontSize: defaultSize * 2.2, //22
-                          color: Colors.white
-                      ),
+                          color: Colors.white),
                       textAlign: TextAlign.left,
                     ),
-                    margin: EdgeInsets.fromLTRB(
-                        defaultSize * 1.8, defaultSize *1.8,
-                        defaultSize * 1.8, 0) // 18
-                ),
+                    margin: EdgeInsets.fromLTRB(defaultSize * 1.8,
+                        defaultSize * 1.8, defaultSize * 1.8, 0) // 18
+                    ),
                 Padding(
-                  padding:  EdgeInsets.symmetric(
-                      vertical: defaultSize*0.5,
+                  padding: EdgeInsets.symmetric(
+                      vertical: defaultSize * 0.5,
                       horizontal: defaultSize * 1.6),
                   child: Tags(
                     itemCount: tags.length,
                     columns: 6,
                     textField: TagsTextField(
-                        textStyle: TextStyle(fontSize:14),
+                        textStyle: TextStyle(fontSize: 14),
                         onSubmitted: (string) {
                           setState(() {
                             DatabaseService().addTag(string);
                             tags.add(Item(title: string));
                           });
-                        }
-                    ),
+                        }),
                     itemBuilder: (index) {
                       final Item currentItem = tags[index];
 
                       return ItemTags(
-                        pressEnabled: selectedTag == 'noTagNow' || selectedTag == currentItem.title
+                        pressEnabled: selectedTag == 'noTagNow' ||
+                                selectedTag == currentItem.title
                             ? true
                             : false,
                         index: index,
                         title: currentItem.title!,
                         customData: currentItem.customData,
                         combine: ItemTagsCombine.withTextBefore,
-                        removeButton: ItemTagsRemoveButton(
-                            onRemoved: (){
-                              setState(() {
-                                tags.remove(index);
-                              });
-                              return true;
-                            }
-                        ),
+                        removeButton: ItemTagsRemoveButton(onRemoved: () {
+                          setState(() {
+                            tags.remove(index);
+                          });
+                          return true;
+                        }),
                         onPressed: (item) {
                           setState(() {
                             selectedTag == item.title
@@ -162,46 +155,38 @@ class _TimePickerState extends State<TimePicker> {
                             selected = !selected;
                             print("Selected? $selected");
                           });
-
                         },
                       );
                     },
                   ),
                 ),
-              ]
-          ),
+              ]),
           SizedBox(
             height: 10,
           ),
           TextButton(
-            child: Text(
-                "Focus Now",
+            child: Text("Focus Now",
                 style: TextStyle(
                     fontSize: defaultSize * 2,
                     fontWeight: FontWeight.bold,
-                color: Colors.white)),
+                    color: Colors.white)),
             onPressed: () {
-              if(!selected) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Please select a tag!"),
-                    ));
+              if (!selected) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Please select a tag!"),
+                ));
               } else if (hour == 0 && minute == 0) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Please select a duration!"),
-                    ));
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Please select a duration!"),
+                ));
               } else {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) =>
-                            CountDown(
-                                hour: hour,
-                                minute: minute,
-                                tag: selectedTag!
-                            )));
-              }},
+                        builder: (_) => CountDown(
+                            hour: hour, minute: minute, tag: selectedTag!)));
+              }
+            },
             style: TextButton.styleFrom(
                 primary: primaryColor,
                 backgroundColor: primaryColor,
