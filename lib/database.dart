@@ -7,6 +7,8 @@ import 'package:flutter_tags/flutter_tags.dart';
 class DatabaseService {
   late CollectionReference userCollection;
   late DocumentReference userDoc;
+  late CollectionReference focusTimeCollection;
+  late CollectionReference tagsCollection;
 
   DatabaseService({FirebaseFirestore? instanceInjection}) {
     FirebaseFirestore instance;
@@ -22,11 +24,13 @@ class DatabaseService {
 
     userCollection = instance.collection('users');
     userDoc = instance.collection('users').doc(uid);
-    // focusTimeCollection =
-    //     instance.collection('users').doc(uid).collection('FocusTime');
+    focusTimeCollection =
+         instance.collection('users').doc(uid).collection('FocusTime');
 
-    // tagsCollection = instance.collection('users').doc(uid).collection('Tags');
+    tagsCollection = instance.collection('users').doc(uid).collection('Tags');
   }
+
+
 
   Future<void> addUser(AppUser user, String uid) async {
     await userCollection.doc(uid).set({
@@ -198,15 +202,16 @@ class DatabaseService {
   }
 
   Future<void> addTag(String tagName) async {
-    Map<String, String> field = HashMap<String, String>();
-    field['tagName'] = tagName;
-    var tagsCollection = userDoc.collection('Tags');
-    tagsCollection.doc("$tagName").set(field);
+    Map newPair = new HashMap<String, int>();
+    tagsCollection.doc("$tagName").set({
+      "tagName": tagName,
+      "dates": [],
+      "date_duration": newPair
+    });
     userDoc.update({
-      "tags": FieldValue.arrayUnion([tagName]
-    )});
+      "tags": FieldValue.arrayUnion([tagName]),
+      });
   }
-
   Future<void> removeTag(String tagName) async {
     userDoc.update({
       "tags": FieldValue.arrayRemove([tagName]
@@ -215,43 +220,46 @@ class DatabaseService {
 
   //focusTime
   Future<void> saveFocusTime(String tagName, int duration, String date) async {
-    //update FocusTime->Date->tags[]
+    //update FocusTime->Date->tags[],total time
     var tagsCollection = userDoc.collection('Tags');
     var focusTimeCollection = userDoc.collection('FocusTime');
 
     final focusDate = await focusTimeCollection.doc("$date").get();
     if (focusDate.exists) {
       focusTimeCollection.doc("$date").update({
-        "tags": FieldValue.arrayUnion([tagName])
+        "tags": FieldValue.arrayUnion([tagName]),
+        "totalTime": FieldValue.increment(duration)
       });
     } else {
       focusTimeCollection.doc("$date").set({
-        "tags": [tagName]
+        "tags": [tagName],
+        "totalTime":duration
       });
     }
 
-    //update Tags->tagName->date->currDate(duration:)
-    final tagDate = await tagsCollection
+    //update Tags->tagName->dates,date_duration pair
+    final tagDoc = await tagsCollection
         .doc("$tagName")
-        .collection("date")
-        .doc("$date")
         .get();
-    if (tagDate.exists) {
-      int originalDur = tagDate.get("duration");
+    if (tagDoc.exists) {
+      //int originalDur = tagDate.get("duration");
+      Map originPair = tagDoc.get("date_duration");
+      //Map newPair = new HashMap<String, int>();
+      originPair.update(
+          date,
+              (value) => value + duration,
+          ifAbsent:() => duration);
+
       tagsCollection
           .doc("$tagName")
-          .collection("date")
-          .doc("$date")
-          .set({"duration": originalDur + duration});
-    } else {
-      tagsCollection
-          .doc("$tagName")
-          .collection("date")
-          .doc("$date")
-          .set({"duration": duration});
+          .update({
+        "dates": FieldValue.arrayUnion([date]),
+        "date_duration": originPair
+      });
     }
   }
 
+  /*
   Future<num> getTagDurationOfDay(String uid, String tag, String day) async {
     num duration = 0;
     var tagsCollection = userCollection.doc(uid).collection('Tags');
@@ -266,25 +274,19 @@ class DatabaseService {
     return duration;
   }
 
+   */
+
   Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;
 
-    var timeCollection = userCollection.doc(uid).collection('FocusTime');
-
-    //get list of tags used during that day
-    await timeCollection
+    await focusTimeCollection
         .doc(day)
         .get()
-        .then((DocumentSnapshot documentSnapshot) async {
-      if (documentSnapshot.exists) {
-        List tagsOfTheDay = documentSnapshot.get("tags");
-        for (dynamic tag in tagsOfTheDay) {
-          num duration = await getTagDurationOfDay(uid, tag, day);
-          totalMinutes += duration;
-        }
+        .then((DocumentSnapshot doc) {
+      if (doc.exists){
+        totalMinutes = doc.get("totalTime");
       }
     });
-
     return totalMinutes;
   }
 
