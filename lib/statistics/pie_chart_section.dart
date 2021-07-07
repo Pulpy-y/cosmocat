@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cosmocat/components/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

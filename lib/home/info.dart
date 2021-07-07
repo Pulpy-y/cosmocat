@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../constant.dart';
 import '../size_config.dart';
 
 class Info extends StatelessWidget {

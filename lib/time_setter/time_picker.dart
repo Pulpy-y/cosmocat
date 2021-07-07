@@ -2,7 +2,6 @@ import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/count_down/count_down_page.dart';
 import 'package:cosmocat/database.dart';
-import 'package:cosmocat/time_setter/astronaut_selection_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tags/flutter_tags.dart';

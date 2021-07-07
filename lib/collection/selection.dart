@@ -50,7 +50,7 @@ class _SelectionState extends State<Selection> {
         },
         title: Text(animalList[index].name),
         leading: CircleAvatar(
-          backgroundImage: AssetImage('${animal_profile_path}${animalID}.png'),
+          backgroundImage: AssetImage('$animal_profile_path$animalID.png'),
         ),
       );
     }
@@ -89,12 +89,12 @@ class _SelectionState extends State<Selection> {
                 border:
                     Border.all(color: Colors.grey, width: defaultSize * 0.2)),
             child: Image(
-                image: AssetImage('${animal_profile_path}${selectedID}.png'))),
+                image: AssetImage('$animal_profile_path$selectedID.png'))),
         Container(
             height: screenHeight * 0.35,
             padding: EdgeInsets.all(defaultSize * 1.25),
             child: Image(
-              image: AssetImage('${animal_profile_path}${selectedID}_des.png'),
+              image: AssetImage('$animal_profile_path${selectedID}_des.png'),
             )),
         Row(
           children: [

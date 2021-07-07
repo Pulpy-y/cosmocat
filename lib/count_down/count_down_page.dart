@@ -8,7 +8,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'countdown_helper.dart';
 import '../constant.dart';
 import '../size_config.dart';
-import '../time_setter/astronaut_selection_bar.dart';
 
 class CountDown extends StatefulWidget {
   final int hour, minute;

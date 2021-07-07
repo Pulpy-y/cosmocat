@@ -1,11 +1,8 @@
-import 'dart:collection';
-
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heatmap_calendar/heatmap_calendar.dart';
-import 'package:heatmap_calendar/time_utils.dart';
 
 import '../size_config.dart';
 
