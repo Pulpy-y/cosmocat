@@ -107,22 +107,6 @@ class _PieChartSectionState extends State<PieChartSection> {
             )
 
         );
-
-
-      /*SimpleDialog(
-            title: const Text("Select a duration to check tag distribution"),
-            insetPadding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 100),
-            contentPadding: EdgeInsets.zero,
-          children: <Widget>[
-            SfDateRangePicker(
-              onSelectionChanged: _onSelectionChanged,
-              selectionMode: DateRangePickerSelectionMode.range,
-              initialSelectedRange: PickerDateRange(
-                  DateTime.now().subtract(const Duration(days: 4)),
-                  DateTime.now().add(const Duration(days: 3))),
-            )
-          ],
-          )*/
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
