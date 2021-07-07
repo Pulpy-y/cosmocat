@@ -1,4 +1,5 @@
 import 'package:cosmocat/components/background.dart';
+import 'package:cosmocat/statistics/pie_chart_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,13 +22,9 @@ class Body extends StatelessWidget {
             ),
             HeatMap(),//heatmap
             Container(
-              height: SizeConfig.screenHeight! * 0.05,
-              color: Colors.yellow,
+              height: SizeConfig.screenHeight! * 0.01,
             ), //space
-            Container(
-              height: SizeConfig.screenHeight! * 0.4,
-              color: Colors.red,
-            ),//pie chart
+            PieChartSection()//pie chart
           ],
         ),
       ),

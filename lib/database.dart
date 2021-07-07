@@ -268,7 +268,6 @@ class DatabaseService {
         .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((QueryDocumentSnapshot doc) {
           DateTime dt = TimeUtils.removeTime(DateTime.parse('${doc.get("DateTime")}z'));
-          print(dt);
           int duration = doc.get("totalTime");
           mapInput.putIfAbsent(dt, () => duration);
       });
@@ -277,22 +276,46 @@ class DatabaseService {
     return mapInput;
   }
 
-  /*
-  Future<num> getTagDurationOfDay(String uid, String tag, String day) async {
-    num duration = 0;
-    var tagsCollection = userCollection.doc(uid).collection('Tags');
-    await tagsCollection
-        .doc(tag)
-        .collection("date")
-        .doc(day)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      duration = documentSnapshot.get("duration");
+  Future<Map<String, double>> pieChartData(DateTime start, DateTime end) async{
+    String startStr = start.toString();
+    String endStr = end.add(Duration(days:1)).toString();
+    String startDate = "${start.year}-${start.month}-${start.day}";
+    String endDate = "${end.year}-${end.month}-${end.day}";
+    //one more day after end day
+    Map<String, double> tagDataMap = new HashMap<String, double>();
+    List tagList = [];
+    await focusTimeCollection
+        .where("DateTime", isGreaterThanOrEqualTo: startStr)
+        .where("DateTime", isLessThanOrEqualTo: endStr)
+        .get().then((query){
+          query.docs.forEach((doc) async {
+            tagList+= doc.get("tags") ;
+          });
+          tagList.toSet().toList(); // remove duplicate tags
     });
-    return duration;
-  }
 
-   */
+    tagList.forEach((tag) async {
+      double total = 0;
+      await tagsCollection
+          .doc(tag)
+          .get()
+          .then((doc) async {
+            Map<String, dynamic> dateDurationPair = await doc.get("date_duration");
+            dateDurationPair.removeWhere((date, dur) =>
+                date.compareTo(startDate) < 0
+                || date.compareTo(endDate) > 0);
+            dateDurationPair.values.forEach((v) { total += v;});
+
+      });
+      tagDataMap.putIfAbsent(tag.toString(), () => total);
+    });
+
+    return tagDataMap;
+
+
+
+  }
+  
 
   Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;
