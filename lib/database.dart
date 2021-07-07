@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/models/app_user.dart';
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:heatmap_calendar/time_utils.dart';
 
 class DatabaseService {
   late CollectionReference userCollection;
@@ -233,7 +234,8 @@ class DatabaseService {
     } else {
       focusTimeCollection.doc("$date").set({
         "tags": [tagName],
-        "totalTime":duration
+        "totalTime":duration,
+        "DateTime": DateTime.now().toString()
       });
     }
 
@@ -259,22 +261,61 @@ class DatabaseService {
     }
   }
 
-  /*
-  Future<num> getTagDurationOfDay(String uid, String tag, String day) async {
-    num duration = 0;
-    var tagsCollection = userCollection.doc(uid).collection('Tags');
-    await tagsCollection
-        .doc(tag)
-        .collection("date")
-        .doc(day)
+  Future<Map<DateTime, int>> heatMapData() async {
+    Map<DateTime, int> mapInput = new HashMap<DateTime, int>();
+    await focusTimeCollection
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      duration = documentSnapshot.get("duration");
+        .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((QueryDocumentSnapshot doc) {
+          DateTime dt = TimeUtils.removeTime(DateTime.parse('${doc.get("DateTime")}z'));
+          int duration = doc.get("totalTime");
+          mapInput.putIfAbsent(dt, () => duration);
+      });
     });
-    return duration;
+
+    return mapInput;
   }
 
-   */
+  Future<Map<String, double>> pieChartData(DateTime start, DateTime end) async{
+    String startStr = start.toString();
+    String endStr = end.add(Duration(days:1)).toString();
+    String startDate = "${start.year}-${start.month}-${start.day}";
+    String endDate = "${end.year}-${end.month}-${end.day}";
+    //one more day after end day
+    Map<String, double> tagDataMap = new HashMap<String, double>();
+    List tagList = [];
+    await focusTimeCollection
+        .where("DateTime", isGreaterThanOrEqualTo: startStr)
+        .where("DateTime", isLessThanOrEqualTo: endStr)
+        .get().then((query){
+          query.docs.forEach((doc) async {
+            tagList+= doc.get("tags") ;
+          });
+          tagList.toSet().toList(); // remove duplicate tags
+    });
+
+    tagList.forEach((tag) async {
+      double total = 0;
+      await tagsCollection
+          .doc(tag)
+          .get()
+          .then((doc) async {
+            Map<String, dynamic> dateDurationPair = await doc.get("date_duration");
+            dateDurationPair.removeWhere((date, dur) =>
+                date.compareTo(startDate) < 0
+                || date.compareTo(endDate) > 0);
+            dateDurationPair.values.forEach((v) { total += v;});
+
+      });
+      tagDataMap.putIfAbsent(tag.toString(), () => total);
+    });
+
+    return tagDataMap;
+
+
+
+  }
+  
 
   Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;
@@ -289,6 +330,8 @@ class DatabaseService {
     });
     return totalMinutes;
   }
+
+
 
   Future<num> getTimeOfTheWeek(String uid) async {
     List<String> dates = getDatesOfTheWeek();
