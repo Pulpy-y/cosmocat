@@ -36,7 +36,6 @@ class _ChartState extends State<Chart> {
     });
     print("initializing");
     super.initState();
-    print(weekHours[6]);
   }
 
   @override

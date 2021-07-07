@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/models/app_user.dart';
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:heatmap_calendar/time_utils.dart';
 
 class DatabaseService {
   late CollectionReference userCollection;
@@ -233,7 +234,8 @@ class DatabaseService {
     } else {
       focusTimeCollection.doc("$date").set({
         "tags": [tagName],
-        "totalTime":duration
+        "totalTime":duration,
+        "DateTime": DateTime.now().toString()
       });
     }
 
@@ -257,6 +259,22 @@ class DatabaseService {
         "date_duration": originPair
       });
     }
+  }
+
+  Future<Map<DateTime, int>> heatMapData() async {
+    Map<DateTime, int> mapInput = new HashMap<DateTime, int>();
+    await focusTimeCollection
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((QueryDocumentSnapshot doc) {
+          DateTime dt = TimeUtils.removeTime(DateTime.parse('${doc.get("DateTime")}z'));
+          print(dt);
+          int duration = doc.get("totalTime");
+          mapInput.putIfAbsent(dt, () => duration);
+      });
+    });
+
+    return mapInput;
   }
 
   /*
@@ -289,6 +307,8 @@ class DatabaseService {
     });
     return totalMinutes;
   }
+
+
 
   Future<num> getTimeOfTheWeek(String uid) async {
     List<String> dates = getDatesOfTheWeek();

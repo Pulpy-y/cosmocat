@@ -3,6 +3,7 @@ import 'package:cosmocat/collection/collection.dart';
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/friendboard/friendboard_page.dart';
 import 'package:cosmocat/shop/shop_page.dart';
+import 'package:cosmocat/statistics/statistics_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmocat/database.dart';
 
@@ -39,9 +40,12 @@ class _SideBarState extends State<SideBar> {
     loading? Loading():Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
+        /*
         SizedBox(
-          height: SizeConfig.screenHeight! * 0.04,
+          height: SizeConfig.screenHeight! * 0.01,
         ),
+
+         */
         Row(
           children: <Widget>[
             Icon(
@@ -79,6 +83,13 @@ class _SideBarState extends State<SideBar> {
               },
               icon: Icon(Icons.group),
               color: Colors.white),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => StatisticsPage()));
+              },
+              icon: Icon(Icons.bar_chart_rounded),
+              color: Colors.white)
           //IconButton(
           //   onPressed: () {},
           //   icon: Icon(Icons.insert_chart),
