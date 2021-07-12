@@ -277,10 +277,8 @@ class DatabaseService {
   }
 
   Future<Map<String, double>> pieChartData(DateTime start, DateTime end) async{
-    String startStr = start.toString();
-    String endStr = end.add(Duration(days:1)).toString();
-    String startDate = "${start.year}-${start.month}-${start.day}";
-    String endDate = "${end.year}-${end.month}-${end.day}";
+    String startStr = start.subtract(Duration(days: 1)).toString();
+    String endStr = end.toString();
     //one more day after end day
     Map<String, double> tagDataMap = new HashMap<String, double>();
     List tagList = [];
@@ -291,8 +289,9 @@ class DatabaseService {
           query.docs.forEach((doc) async {
             tagList+= doc.get("tags") ;
           });
-          tagList.toSet().toList(); // remove duplicate tags
+          tagList = tagList.toSet().toList(); // remove duplicate tags
     });
+
 
     tagList.forEach((tag) async {
       double total = 0;
@@ -302,8 +301,9 @@ class DatabaseService {
           .then((doc) async {
             Map<String, dynamic> dateDurationPair = await doc.get("date_duration");
             dateDurationPair.removeWhere((date, dur) =>
-                date.compareTo(startDate) < 0
-                || date.compareTo(endDate) > 0);
+                date.compareTo(startStr) < 0
+                || date.compareTo(endStr) > 0 );
+
             dateDurationPair.values.forEach((v) { total += v;});
 
       });
@@ -315,7 +315,8 @@ class DatabaseService {
 
 
   }
-  
+
+
 
   Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;

@@ -18,11 +18,8 @@ class _HeatMapState extends State<HeatMap> {
 
   @override
   void initState() {
-    setMap().then((value) {
-      setState(() {
-        loading = false;
-      });
-    });
+    loading = true;
+    setMap();
     super.initState();
 
   }
@@ -32,8 +29,13 @@ class _HeatMapState extends State<HeatMap> {
             (input) {
               setState(() {
                 mapInput = input;
+                loading = false;
               });
             });
+
+
+
+
   }
 
 

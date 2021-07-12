@@ -22,11 +22,7 @@ class _PieChartSectionState extends State<PieChartSection> {
 
   @override
   void initState() {
-    setMap().then((value) {
-      setState(() {
-        loading = false;
-      });
-    });
+    setMap();
     super.initState();
 
   }
@@ -36,10 +32,10 @@ class _PieChartSectionState extends State<PieChartSection> {
             (output) {
           setState(() {
             data = output;
-            print("data fetched-$start, $end");
-            print(output);
+            loading = false;
           });
         });
+
   }
 
 
@@ -97,15 +93,16 @@ class _PieChartSectionState extends State<PieChartSection> {
                       DateTime.now().add(const Duration(days: 3))),
                 ),
               ),
-              ElevatedButton(onPressed: () {
-                setState(() {
-                  Navigator.pop(context);
-                });
-              }, child: Text("Ok"))
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: Text("Ok"))
             ],
           )
             )
-
         );
   }
 
