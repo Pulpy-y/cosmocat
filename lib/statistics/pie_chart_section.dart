@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cosmocat/components/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +22,7 @@ class _PieChartSectionState extends State<PieChartSection> {
 
   @override
   void initState() {
-    setMap().then((value) {
-      setState(() {
-        loading = false;
-      });
-    });
+    setMap();
     super.initState();
 
   }
@@ -38,10 +32,10 @@ class _PieChartSectionState extends State<PieChartSection> {
             (output) {
           setState(() {
             data = output;
-            print("data fetched-$start, $end");
-            print(output);
+            loading = false;
           });
         });
+
   }
 
 
@@ -99,32 +93,17 @@ class _PieChartSectionState extends State<PieChartSection> {
                       DateTime.now().add(const Duration(days: 3))),
                 ),
               ),
-              ElevatedButton(onPressed: () {
-                setState(() {
-                  Navigator.pop(context);
-                });
-              }, child: Text("Ok"))
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: Text("Ok"))
             ],
           )
             )
-
         );
-
-
-      /*SimpleDialog(
-            title: const Text("Select a duration to check tag distribution"),
-            insetPadding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 100),
-            contentPadding: EdgeInsets.zero,
-          children: <Widget>[
-            SfDateRangePicker(
-              onSelectionChanged: _onSelectionChanged,
-              selectionMode: DateRangePickerSelectionMode.range,
-              initialSelectedRange: PickerDateRange(
-                  DateTime.now().subtract(const Duration(days: 4)),
-                  DateTime.now().add(const Duration(days: 3))),
-            )
-          ],
-          )*/
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {

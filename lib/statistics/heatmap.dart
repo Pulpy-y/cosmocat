@@ -1,11 +1,8 @@
-import 'dart:collection';
-
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heatmap_calendar/heatmap_calendar.dart';
-import 'package:heatmap_calendar/time_utils.dart';
 
 import '../size_config.dart';
 
@@ -21,11 +18,8 @@ class _HeatMapState extends State<HeatMap> {
 
   @override
   void initState() {
-    setMap().then((value) {
-      setState(() {
-        loading = false;
-      });
-    });
+    loading = true;
+    setMap();
     super.initState();
 
   }
@@ -35,8 +29,13 @@ class _HeatMapState extends State<HeatMap> {
             (input) {
               setState(() {
                 mapInput = input;
+                loading = false;
               });
             });
+
+
+
+
   }
 
 
