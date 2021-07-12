@@ -332,8 +332,27 @@ class DatabaseService {
     return totalMinutes;
   }
 
+  Future<num> getTimeOfTheWeek(String uid) async {
+    DateTime date = DateTime.now();
+    int currDay = date.weekday; //Monday -> 1
+    int fromCurrToMon = currDay - 1;
+    DateTime monday = date.subtract(Duration(days: fromCurrToMon));
+    num time = 0;
+
+    for (int i = 0; i < 7; i++) {
+      DateTime thisDay = monday.add(Duration(days: i));
+      String date = "${thisDay.year}-${thisDay.month.toString().padLeft(2,'0')}-${thisDay.day.toString().padLeft(2,'0')}";
+
+      await DatabaseService().getTimeOfTheDay(user!.uid, date).then((value) {
+        time += value;
+      });
+    }
+
+    return time;
+  }
 
 
+/*
   Future<num> getTimeOfTheWeek(String uid) async {
     List<String> dates = getDatesOfTheWeek();
     num time = 0;
@@ -376,4 +395,7 @@ class DatabaseService {
 
     return date;
   }
+
+
+ */
 }
