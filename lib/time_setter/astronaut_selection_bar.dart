@@ -1,6 +1,7 @@
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/database.dart';
+import 'package:cosmocat/models/animal.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,7 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
                     "Astronaut",
                     style: TextStyle(
                       color: Colors.white,
+                      fontWeight: FontWeight.bold,
                       fontSize: defaultSize * 2.2, // 22
                     ),
                     textAlign: TextAlign.left,
@@ -45,7 +47,7 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
                     margin: EdgeInsets.fromLTRB(defaultSize * 3, defaultSize,
                         defaultSize * 3, defaultSize), //20
                     height: defaultSize * 12, //140
-                    width: defaultSize * 14,
+                    width: defaultSize * 12,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
@@ -58,12 +60,25 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
                       ),
                     ),
                   ),
-                  TextButton(
-                      onPressed: () => _selectAnimalDialog(),
-                      child: Text(
-                        "change",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ))
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          animalList[int.parse(selectedAnimal)].name,
+                          style: TextStyle(
+                              color: themeSecondaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30),
+                        ),
+                        TextButton(
+                            onPressed: () => _selectAnimalDialog(),
+                            child: Text(
+                              "change",
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.6),
+                                  fontSize: 20),
+                            ))
+                      ])
                 ],
               )
             ]));
