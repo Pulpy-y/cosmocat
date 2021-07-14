@@ -1,10 +1,11 @@
 class ToDoModel {
-  String startDatetime; //this will be an unique id of every todoTask
+  DateTime startDatetime; //this will be an unique id of every todoTask
   String category;
-  String durationHour;
-  String durationMinute;
+  int durationHour;
+  int durationMinute;
   String austronautId;
+  String description;
 
   ToDoModel(this.startDatetime, this.category, this.durationHour,
-      this.durationMinute, this.austronautId);
+      this.durationMinute, this.austronautId, this.description);
 }
