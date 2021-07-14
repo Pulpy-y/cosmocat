@@ -3,6 +3,7 @@ import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/info.dart';
 import 'package:cosmocat/home/sidebar.dart';
+import 'package:cosmocat/home/todo.dart';
 import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,7 +54,7 @@ class _BodyState extends State<Body> {
                       Positioned(
                           child: SideBar(), right: 0, top: defaultSize * 2)
                     ]),
-                    Chart(),
+                    ToDo(),
                     RoundedButton(
                         text: "Start Timer",
                         press: () {
