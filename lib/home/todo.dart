@@ -21,12 +21,40 @@ class _ToDoState extends State<ToDo> {
             color: primaryColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-            child: Container(width: SizeConfig.screenWidth, child: Column())));
+            child: Container(
+                width: SizeConfig.screenWidth,
+                padding: EdgeInsets.fromLTRB(
+                    defaultSize * 1.5, defaultSize * 0.5, defaultSize * 1.5, 0),
+                child: Column(
+                  children: <Widget>[
+                    todoTitle(),
+                    Divider(
+                      color: Colors.white,
+                    )
+                  ],
+                ))));
   }
 
-  Widget TodoTitle() {
+  Widget todoTitle() {
     return Row(
-      children: [],
+      children: <Widget>[
+        Text(
+          'Todo List',
+          style: TextStyle(
+            color: themeSecondaryColor,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        IconButton(
+            onPressed: () {},
+            padding: EdgeInsets.zero,
+            icon: Icon(
+              Icons.add_rounded,
+              color: themeSecondaryColor,
+              semanticLabel: "add task",
+            ))
+      ],
     );
   }
 }
