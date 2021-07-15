@@ -4,7 +4,8 @@ class ToDoModel {
   int durationHour;
   int durationMinute;
   String austronautId;
+  bool isDone;
 
   ToDoModel(this.startDatetime, this.category, this.durationHour,
-      this.durationMinute, this.austronautId);
+      this.durationMinute, this.austronautId, this.isDone);
 }

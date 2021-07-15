@@ -342,6 +342,7 @@ class DatabaseService {
       "durationHour": todoTask.durationHour,
       "durationMinute": todoTask.durationMinute,
       "astronautID": todoTask.austronautId,
+      "isDone": todoTask.austronautId
     });
   }
 }

@@ -47,8 +47,8 @@ class _FocusButtonState extends State<FocusButton> {
                         builder: (_) => CountDown(
                             hour: hour, minute: minute, tag: selectedTag!)));
               } else {
-                ToDoModel todo = new ToDoModel(
-                    todoStartDate, selectedTag!, hour, minute, selectedAnimal);
+                ToDoModel todo = new ToDoModel(todoStartDate, selectedTag!,
+                    hour, minute, selectedAnimal, false);
                 DatabaseService().addTodo(todo).then((value) =>
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Todo task added successfully!"),
