@@ -1,4 +1,7 @@
 import 'package:cosmocat/count_down/count_down_page.dart';
+import 'package:cosmocat/database.dart';
+import 'package:cosmocat/home/home_page.dart';
+import 'package:cosmocat/models/todo_model.dart';
 import 'package:cosmocat/time_setter/page_variable.dart';
 import 'package:flutter/material.dart';
 import '../constant.dart';
@@ -44,7 +47,11 @@ class _FocusButtonState extends State<FocusButton> {
                         builder: (_) => CountDown(
                             hour: hour, minute: minute, tag: selectedTag!)));
               } else {
-                //update content to todo data base
+                ToDoModel todo = new ToDoModel(
+                    todoStartDate, selectedTag!, hour, minute, selectedAnimal);
+                DatabaseService().addTodo(todo);
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => HomePage()));
               }
             }
           },

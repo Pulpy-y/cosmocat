@@ -1,5 +1,4 @@
 import 'package:cosmocat/components/background.dart';
-import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +30,13 @@ class _BodyState extends State<Body> {
       _timepicker(),
       IconButton(
           onPressed: () {
+            todoStartDate = DateTime(
+              selectedDate.year,
+              selectedDate.month,
+              selectedDate.day,
+              selectedTime.hour,
+              selectedTime.minute,
+            );
             Navigator.push(context,
                 MaterialPageRoute(builder: (_) => TimeSetter("Done!")));
           },
