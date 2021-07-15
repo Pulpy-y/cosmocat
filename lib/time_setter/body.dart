@@ -34,7 +34,7 @@ class _BodyState extends State<Body> {
             TaskCategory(),
             AstronautSelectionBar(),
             TimePicker(),
-            FocusButton()
+            FocusButton("Focus Now")
           ],
         ),
       ),

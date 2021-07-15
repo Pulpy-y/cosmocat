@@ -4,14 +4,25 @@ import 'package:flutter/material.dart';
 import '../constant.dart';
 import '../size_config.dart';
 
-class FocusButton extends StatelessWidget {
+class FocusButton extends StatefulWidget {
+  String _buttonText = "Focus Now";
+  FocusButton(this._buttonText);
+
+  @override
+  _FocusButtonState createState() => _FocusButtonState(_buttonText);
+}
+
+class _FocusButtonState extends State<FocusButton> {
+  String _buttonText;
+  _FocusButtonState(this._buttonText);
+
   @override
   Widget build(BuildContext context) {
     double defaultSize = SizeConfig.defaultSize!;
     return Container(
         alignment: Alignment.center,
         child: TextButton(
-          child: Text("Focus Now",
+          child: Text(_buttonText,
               style: TextStyle(
                   fontSize: defaultSize * 2,
                   fontWeight: FontWeight.bold,
