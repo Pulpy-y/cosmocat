@@ -1,5 +1,7 @@
 import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/database.dart';
+import 'package:cosmocat/models/todo_model.dart';
 import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,14 @@ class _BodyState extends State<Body> {
       fontWeight: FontWeight.bold,
       fontSize: 22, //22
       color: Colors.white);
+
+  List<ToDoModel> todoList = [];
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,5 +117,10 @@ class _BodyState extends State<Body> {
         )
       ],
     );
+  }
+
+  Future<void> getData() async {
+    todoList = await DatabaseService().getTodo();
+    setState(() {});
   }
 }

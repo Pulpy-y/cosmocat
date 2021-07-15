@@ -342,7 +342,27 @@ class DatabaseService {
       "durationHour": todoTask.durationHour,
       "durationMinute": todoTask.durationMinute,
       "astronautID": todoTask.austronautId,
-      "isDone": todoTask.austronautId
+      "isDone": todoTask.isDone
     });
+  }
+
+  Future<List<ToDoModel>> getTodo() async {
+    List<ToDoModel> lst = [];
+    await todoCollection.get().then((snapshot) => {
+          snapshot.docs.forEach((doc) {
+            Timestamp timestamp = doc.get("startTime");
+            DateTime startDatetime = timestamp.toDate();
+            String category = doc.get("category");
+            int durationHour = doc.get("durationHour");
+            int durationMinute = doc.get("durationMinute");
+            String austronautId = doc.get("astronautID");
+            bool isDone = doc.get("isDone");
+
+            lst.add(ToDoModel(startDatetime, category, durationHour,
+                durationMinute, austronautId, isDone));
+          })
+        });
+
+    return lst;
   }
 }
