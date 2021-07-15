@@ -58,8 +58,10 @@ class _BodyState extends State<Body> {
                     RoundedButton(
                       text: "Start Timer",
                       press: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => TimeSetter()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => TimeSetter("Focus Now")));
                       },
                     )
                   ],

@@ -8,11 +8,17 @@ import 'package:flutter/material.dart';
 import 'astronaut_selection_bar.dart';
 
 class Body extends StatefulWidget {
+  late String text;
+  Body(this.text);
+
   @override
-  _BodyState createState() => _BodyState();
+  _BodyState createState() => _BodyState(this.text);
 }
 
 class _BodyState extends State<Body> {
+  late String text;
+  _BodyState(this.text);
+
   @override
   void initState() {
     selected = false;
@@ -34,7 +40,7 @@ class _BodyState extends State<Body> {
             TaskCategory(),
             AstronautSelectionBar(),
             TimePicker(),
-            FocusButton("Focus Now")
+            FocusButton(text)
           ],
         ),
       ),
