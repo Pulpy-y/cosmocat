@@ -1,4 +1,5 @@
 import 'package:cosmocat/constant.dart';
+import 'package:cosmocat/home/todo/todo_setter_page.dart';
 import 'package:flutter/material.dart';
 
 import '../size_config.dart';
@@ -47,7 +48,10 @@ class _ToDoState extends State<ToDo> {
           ),
         ),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => TodoSetter()));
+            },
             padding: EdgeInsets.zero,
             icon: Icon(
               Icons.add_rounded,
