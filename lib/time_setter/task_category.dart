@@ -94,5 +94,6 @@ class _TaskCategoryState extends State<TaskCategory> {
 
   Future<void> getData() async {
     tags = await DatabaseService().getTags(user!.uid);
+    setState(() {});
   }
 }
