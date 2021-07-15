@@ -37,11 +37,15 @@ class _FocusButtonState extends State<FocusButton> {
                 content: Text("Please select a duration!"),
               ));
             } else {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => CountDown(
-                          hour: hour, minute: minute, tag: selectedTag!)));
+              if (_buttonText == "Focus Now") {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => CountDown(
+                            hour: hour, minute: minute, tag: selectedTag!)));
+              } else {
+                //update content to todo data base
+              }
             }
           },
           style: TextButton.styleFrom(
