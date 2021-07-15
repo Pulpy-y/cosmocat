@@ -37,8 +37,16 @@ class _BodyState extends State<Body> {
               selectedTime.hour,
               selectedTime.minute,
             );
-            Navigator.push(context,
-                MaterialPageRoute(builder: (_) => TimeSetter("Done!")));
+
+            if (todoStartDate.isBefore(DateTime.now())) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text(
+                    "Selected date and time is before current date and time, we can not go back to the past nya! "),
+              ));
+            } else {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => TimeSetter("Done!")));
+            }
           },
           icon: Icon(
             Icons.arrow_right_alt_rounded,

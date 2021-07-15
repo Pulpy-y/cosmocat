@@ -49,7 +49,10 @@ class _FocusButtonState extends State<FocusButton> {
               } else {
                 ToDoModel todo = new ToDoModel(
                     todoStartDate, selectedTag!, hour, minute, selectedAnimal);
-                DatabaseService().addTodo(todo);
+                DatabaseService().addTodo(todo).then((value) =>
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Todo task added successfully!"),
+                    )));
                 Navigator.push(
                     context, MaterialPageRoute(builder: (_) => HomePage()));
               }
