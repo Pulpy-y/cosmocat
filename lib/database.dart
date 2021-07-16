@@ -346,8 +346,8 @@ class DatabaseService {
     });
   }
 
-  Future<void> updateTodoAsDone(ToDoModel todoTask) async {
-    todoCollection.doc(todoTask.docRef).update({"isDone": true});
+  Future<void> updateTodoIsDone(ToDoModel todoTask, bool status) async {
+    todoCollection.doc(todoTask.docRef).update({"isDone": status});
   }
 
   Future<List<ToDoModel>> getTodo() async {

@@ -2,6 +2,7 @@ import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/count_down/count_down_page.dart';
 import 'package:cosmocat/home/todo/todo_setter_page.dart';
 import 'package:cosmocat/models/todo_model.dart';
+import 'package:cosmocat/todo_detail/todo_detail_page.dart';
 import 'package:flutter/material.dart';
 import '../database.dart';
 import '../size_config.dart';
@@ -94,29 +95,48 @@ class _ToDoState extends State<ToDo> {
   }
 
   Widget todoTitle() {
-    return Row(
-      children: <Widget>[
-        Text(
-          'Todo List',
-          style: TextStyle(
-            color: themeSecondaryColor,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => TodoSetter()));
-            },
-            padding: EdgeInsets.zero,
-            icon: Icon(
-              Icons.add_rounded,
+    return Row(children: [
+      Row(
+        children: <Widget>[
+          Text(
+            'Todo List',
+            style: TextStyle(
               color: themeSecondaryColor,
-              semanticLabel: "add task",
-            ))
-      ],
-    );
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => TodoSetter()));
+              },
+              padding: EdgeInsets.zero,
+              icon: Icon(
+                Icons.add_rounded,
+                color: themeSecondaryColor,
+                semanticLabel: "add task",
+              ))
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SizedBox(
+            width: SizeConfig.screenWidth! * 2 / 5,
+          ),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => TodoDetail()));
+              },
+              icon: Icon(
+                Icons.read_more,
+                color: themeSecondaryColor,
+              ))
+        ],
+      )
+    ]);
   }
 
   ListTile _buildTile(int index) {
@@ -125,15 +145,18 @@ class _ToDoState extends State<ToDo> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
       title: Text(todo.category),
       subtitle: Text(todo.startDatetime.toString().substring(0, 16)),
-      trailing: IconButton(
-        icon: Icon(Icons.arrow_right_alt_rounded),
+      trailing: TextButton(
+        child: Text(
+          "start",
+          style: TextStyle(color: Colors.white),
+        ), //Icon(Icons.arrow_right_alt_rounded)
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (_) => CountDown.fromTodo(todo.durationHour,
                       todo.durationMinute, todo.category, todo.austronautId)));
-          DatabaseService().updateTodoAsDone(todo);
+          DatabaseService().updateTodoIsDone(todo, true);
         },
       ),
       dense: true,
