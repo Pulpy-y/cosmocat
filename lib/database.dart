@@ -346,6 +346,10 @@ class DatabaseService {
     });
   }
 
+  Future<void> updateTodoAsDone(ToDoModel todoTask) async {
+    todoCollection.doc(todoTask.docRef).update({"isDone": true});
+  }
+
   Future<List<ToDoModel>> getTodo() async {
     List<ToDoModel> lst = [];
     await todoCollection.get().then((snapshot) => {
@@ -357,9 +361,10 @@ class DatabaseService {
             int durationMinute = doc.get("durationMinute");
             String austronautId = doc.get("astronautID");
             bool isDone = doc.get("isDone");
+            String ref = doc.id;
 
-            lst.add(ToDoModel(startDatetime, category, durationHour,
-                durationMinute, austronautId, isDone));
+            lst.add(ToDoModel.fromDatabase(startDatetime, category,
+                durationHour, durationMinute, austronautId, isDone, ref));
           })
         });
 

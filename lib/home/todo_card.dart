@@ -27,6 +27,8 @@ class _ToDoState extends State<ToDo> {
   Widget build(BuildContext context) {
     TextStyle dividerTextStyle =
         TextStyle(color: themeSecondaryColor, fontWeight: FontWeight.bold);
+    DateTime prevDate = DateTime(0);
+    bool tileShown = false;
     return Container(
         height: defualtHeight * 4.5,
         padding: EdgeInsets.all(defaultSize * 1.5),
@@ -50,7 +52,6 @@ class _ToDoState extends State<ToDo> {
                             //itemExtent: defaultSize * 7,
                             itemCount: todoList.length,
                             itemBuilder: (context, index) {
-                              DateTime prevDate = DateTime(0);
                               Widget divider = Container();
                               if (todoList[index].isDone) {
                                 return Container();
@@ -60,11 +61,12 @@ class _ToDoState extends State<ToDo> {
                                 if (todoList[index]
                                         .startDatetime
                                         .isBefore(DateTime.now()) &
-                                    (index == 0)) {
+                                    (!tileShown)) {
                                   divider = Text(
                                     "Overdue",
                                     style: dividerTextStyle,
                                   );
+                                  tileShown = true;
                                 } else if (todoList[index]
                                     .startDatetime
                                     .isAfter(DateTime.now())) {
@@ -131,6 +133,7 @@ class _ToDoState extends State<ToDo> {
               MaterialPageRoute(
                   builder: (_) => CountDown.fromTodo(todo.durationHour,
                       todo.durationMinute, todo.category, todo.austronautId)));
+          DatabaseService().updateTodoAsDone(todo);
         },
       ),
       dense: true,
