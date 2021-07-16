@@ -12,9 +12,10 @@ class Info extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double defaultSize = SizeConfig.defaultSize!;
+    double defualtHeight = SizeConfig.screenHeight! / 10;
 
     return SizedBox(
-      height: defaultSize * 22, // 240
+      height: defualtHeight * 3.5, // 240
       child: Stack(
         children: <Widget>[
           Center(

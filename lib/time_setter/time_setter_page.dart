@@ -1,13 +1,12 @@
 import 'package:cosmocat/time_setter/body.dart';
 import 'package:flutter/material.dart';
 
-import '../size_config.dart';
-
 class TimeSetter extends StatelessWidget {
+  late final text;
+  TimeSetter(this.text);
+
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
@@ -17,7 +16,7 @@ class TimeSetter extends StatelessWidget {
         title: Text("Time Setter"),
         centerTitle: true,
       ),
-      body: Body(),
+      body: Body(text),
     );
   }
 }
