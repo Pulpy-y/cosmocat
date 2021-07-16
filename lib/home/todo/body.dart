@@ -21,14 +21,6 @@ class _BodyState extends State<Body> {
       fontSize: 22, //22
       color: Colors.white);
 
-  List<ToDoModel> todoList = [];
-
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -117,10 +109,5 @@ class _BodyState extends State<Body> {
         )
       ],
     );
-  }
-
-  Future<void> getData() async {
-    todoList = await DatabaseService().getTodo();
-    setState(() {});
   }
 }
