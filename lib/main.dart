@@ -1,3 +1,4 @@
+import 'package:cosmocat/story/first.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Login/log_in.dart';
@@ -10,10 +11,11 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: LoginScreen(), theme: ThemeData(primaryColor: primaryColor));
+        //home: LoginScreen(),
+        home: First(),
+        theme: ThemeData(primaryColor: primaryColor));
   }
 }
