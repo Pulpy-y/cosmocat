@@ -51,7 +51,7 @@ class _SelectionState extends State<Selection> {
         });
       },
       title: Text(
-          collection[index].first.startDatetime.toString().substring(0, 16)),
+          collection[index].first.startDatetime.toString().substring(0, 11)),
       trailing: Icon(
         Icons.circle,
         color: signColor,
