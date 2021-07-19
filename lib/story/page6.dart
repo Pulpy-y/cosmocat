@@ -1,10 +1,18 @@
-import 'package:cosmocat/story/page6.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 
 import '../size_config.dart';
 
-class Page5 extends StatelessWidget {
+class Page6 extends StatefulWidget {
+  Page6({Key? key}) : super(key: key);
+
+  @override
+  _Page6State createState() => _Page6State();
+}
+
+class _Page6State extends State<Page6> {
+  bool _visible = false;
+
   @override
   Widget build(BuildContext context) {
     //SizeConfig().init(context);
@@ -13,6 +21,11 @@ class Page5 extends StatelessWidget {
       fontSize: 22, //22
       color: Colors.white,
     );
+
+    Future.delayed(Duration(seconds: 7), () {
+      _visible = true;
+      setState(() {});
+    });
 
     SizedBox _divider = SizedBox(
       height: 10,
@@ -28,18 +41,31 @@ class Page5 extends StatelessWidget {
                 image: new AssetImage("assets/image/story5.png"),
                 fit: BoxFit.cover),
           )),
+          AnimatedOpacity(
+            opacity: _visible ? 1 : 0,
+            duration: Duration(seconds: 1),
+            child: Container(
+                decoration: new BoxDecoration(
+              image: new DecorationImage(
+                  image: new AssetImage("assets/image/story6.png"),
+                  fit: BoxFit.cover),
+            )),
+          ),
           Container(
               padding: EdgeInsets.all(20),
               height: SizeConfig.screenHeight,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(
+                    height: h * 0.45,
+                  ),
                   DelayedDisplay(
                       delay: Duration(seconds: 1),
                       child: Container(
                           width: SizeConfig.screenWidth! * 0.9,
                           child: Text(
-                            "“What is that…”",
+                            "He sees shining stars align into shape.",
                             style: _textstyle,
                             //textAlign: TextAlign.center,
                           ))),
@@ -49,7 +75,7 @@ class Page5 extends StatelessWidget {
                       child: Container(
                           width: SizeConfig.screenWidth! * 0.9,
                           child: Text(
-                            "Coma holds his breath. ",
+                            "He sees spiky stars blinking in the Milky Way. ",
                             style: _textstyle,
                             //textAlign: TextAlign.center,
                           ))),
@@ -59,7 +85,7 @@ class Page5 extends StatelessWidget {
                       child: Container(
                           width: SizeConfig.screenWidth! * 0.9,
                           child: Text(
-                            " He sits up and looks into the sky.",
+                            "He sees…",
                             style: _textstyle,
                             //textAlign: TextAlign.center,
                           ))),
@@ -69,7 +95,7 @@ class Page5 extends StatelessWidget {
                       child: Container(
                           width: SizeConfig.screenWidth! * 0.9,
                           child: Text(
-                            "The sky suddenly turns differently in his eyes...",
+                            "he sees ANIMALS FLOATING ON THE SKY???",
                             style: _textstyle,
                             //textAlign: TextAlign.center,
                           ))),
