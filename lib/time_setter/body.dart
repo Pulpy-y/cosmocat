@@ -24,6 +24,7 @@ class _BodyState extends State<Body> {
     selected = false;
     minute = 0;
     hour = 0;
+    selectedTag = 'noTagNow';
     super.initState();
   }
 

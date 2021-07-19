@@ -1,3 +1,4 @@
+import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/count_down/count_down_page.dart';
 import 'package:cosmocat/home/todo/todo_setter_page.dart';
@@ -15,6 +16,7 @@ class ToDo extends StatefulWidget {
 class _ToDoState extends State<ToDo> {
   double defaultSize = SizeConfig.defaultSize!;
   double defualtHeight = SizeConfig.screenHeight! / 10;
+  bool _loading = true;
 
   List<ToDoModel> todoList = [];
 
@@ -30,68 +32,70 @@ class _ToDoState extends State<ToDo> {
         TextStyle(color: themeSecondaryColor, fontWeight: FontWeight.bold);
     DateTime prevDate = DateTime(0);
     bool tileShown = false;
-    return Container(
-        height: defualtHeight * 4.5,
-        padding: EdgeInsets.all(defaultSize * 1.5),
-        child: Card(
-            color: primaryColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-            child: Container(
-                width: SizeConfig.screenWidth,
-                padding: EdgeInsets.fromLTRB(
-                    defaultSize * 1.5, defaultSize * 0.5, defaultSize * 1.5, 0),
-                child: Column(
-                  children: <Widget>[
-                    todoTitle(),
-                    Divider(
-                      color: Colors.white,
-                    ),
-                    Container(
-                        height: defualtHeight * 2.8,
-                        child: ListView.builder(
-                            //itemExtent: defaultSize * 7,
-                            itemCount: todoList.length,
-                            itemBuilder: (context, index) {
-                              Widget divider = Container();
-                              if (todoList[index].isDone) {
-                                return Container();
-                              }
-                              if (!isSameDay(
-                                  todoList[index].startDatetime, prevDate)) {
-                                if (todoList[index]
+    return _loading
+        ? Loading()
+        : Container(
+            height: defualtHeight * 4.5,
+            padding: EdgeInsets.all(defaultSize * 1.5),
+            child: Card(
+                color: primaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18)),
+                child: Container(
+                    width: SizeConfig.screenWidth,
+                    padding: EdgeInsets.fromLTRB(defaultSize * 1.5,
+                        defaultSize * 0.5, defaultSize * 1.5, 0),
+                    child: Column(
+                      children: <Widget>[
+                        todoTitle(),
+                        Divider(
+                          color: Colors.white,
+                        ),
+                        Container(
+                            height: defualtHeight * 2.8,
+                            child: ListView.builder(
+                                //itemExtent: defaultSize * 7,
+                                itemCount: todoList.length,
+                                itemBuilder: (context, index) {
+                                  Widget divider = Container();
+                                  if (todoList[index].isDone) {
+                                    return Container();
+                                  }
+                                  if (!isSameDay(todoList[index].startDatetime,
+                                      prevDate)) {
+                                    if (todoList[index]
+                                            .startDatetime
+                                            .isBefore(DateTime.now()) &
+                                        (!tileShown)) {
+                                      divider = Text(
+                                        "Overdue",
+                                        style: dividerTextStyle,
+                                      );
+                                      tileShown = true;
+                                    } else if (todoList[index]
                                         .startDatetime
-                                        .isBefore(DateTime.now()) &
-                                    (!tileShown)) {
-                                  divider = Text(
-                                    "Overdue",
-                                    style: dividerTextStyle,
-                                  );
-                                  tileShown = true;
-                                } else if (todoList[index]
-                                    .startDatetime
-                                    .isAfter(DateTime.now())) {
-                                  divider = Text(
-                                      todoList[index]
-                                          .startDatetime
-                                          .toString()
-                                          .split(" ")
-                                          .first,
-                                      style: dividerTextStyle);
+                                        .isAfter(DateTime.now())) {
+                                      divider = Text(
+                                          todoList[index]
+                                              .startDatetime
+                                              .toString()
+                                              .split(" ")
+                                              .first,
+                                          style: dividerTextStyle);
 
-                                  prevDate = todoList[index].startDatetime;
-                                }
-                              }
+                                      prevDate = todoList[index].startDatetime;
+                                    }
+                                  }
 
-                              return Column(children: <Widget>[
-                                divider,
-                                Card(
-                                    color: Colors.transparent,
-                                    child: _buildTile(index))
-                              ]);
-                            })),
-                  ],
-                ))));
+                                  return Column(children: <Widget>[
+                                    divider,
+                                    Card(
+                                        color: Colors.transparent,
+                                        child: _buildTile(index))
+                                  ]);
+                                })),
+                      ],
+                    ))));
   }
 
   Widget todoTitle() {
@@ -167,7 +171,11 @@ class _ToDoState extends State<ToDo> {
   Future<void> getData() async {
     todoList = await DatabaseService().getTodo();
     todoList.sort((o1, o2) => o1.startDatetime.compareTo(o2.startDatetime));
-    setState(() {});
+    if (this.mounted) {
+      setState(() {
+        _loading = false;
+      });
+    }
   }
 
   bool isSameDay(DateTime o1, DateTime o2) {
