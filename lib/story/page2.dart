@@ -52,7 +52,7 @@ class _Page2State extends State<Page2> {
                           width: SizeConfig.screenWidth! * 0.9,
                           child: Text(
                             "He never finds anything interesting.",
-                            style: _textstyle,
+                            style: _textstyle.copyWith(color: Colors.indigo),
                             //textAlign: TextAlign.center,
                           ))),
                   _divider,
