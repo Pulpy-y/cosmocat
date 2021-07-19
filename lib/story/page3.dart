@@ -1,3 +1,4 @@
+import 'package:cosmocat/story/page4.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 
@@ -72,7 +73,7 @@ class Page3 extends StatelessWidget {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Page3(),
+      pageBuilder: (context, animation, secondaryAnimation) => Page4(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
