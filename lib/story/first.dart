@@ -14,6 +14,7 @@ class _FirstState extends State<First> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     TextStyle _textstyle = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 22, //22
@@ -41,6 +42,9 @@ class _FirstState extends State<First> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(
+                    height: SizeConfig.screenHeight! * 0.2,
+                  ),
                   DelayedDisplay(
                       delay: Duration(seconds: 1),
                       child: Text(
@@ -60,16 +64,27 @@ class _FirstState extends State<First> {
                         textAlign: TextAlign.center,
                       )),
                   DelayedDisplay(
-                      delay: Duration(seconds: 5),
+                      delay: Duration(seconds: 6),
                       child: IconButton(
                           onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => Second()));
+                            Navigator.push(context, _createRoute());
                           },
                           icon: Icon(Icons.arrow_right_alt_rounded,
                               color: Colors.white, size: 30)))
                 ],
               ))
         ]));
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Second(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
   }
 }
