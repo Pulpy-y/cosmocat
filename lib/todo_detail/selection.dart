@@ -46,9 +46,11 @@ class _SelectionState extends State<Selection> {
     Color signColor = dailyCompletion[index] ? Colors.green : Colors.red;
     return ListTile(
       onTap: () {
-        setState(() {
-          selectedIndex = index;
-        });
+        if (this.mounted) {
+          setState(() {
+            selectedIndex = index;
+          });
+        }
       },
       title: Text(
           collection[index].first.startDatetime.toString().substring(0, 11)),
@@ -90,10 +92,12 @@ class _SelectionState extends State<Selection> {
                     )),
                 IconButton(
                     onPressed: () {
-                      setState(() {
-                        makeTodoCollection(todoList);
-                        selectedIndex = -1; //go back to selction view
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          makeTodoCollection(todoList);
+                          selectedIndex = -1; //go back to selction view
+                        });
+                      }
                     },
                     icon: Icon(Icons.keyboard_return_rounded,
                         color: Colors.white, size: defaultSize * 3)),
@@ -114,7 +118,7 @@ class _SelectionState extends State<Selection> {
         onChanged: (value) {
           todo.isDone = value!;
           DatabaseService().updateTodoIsDone(todo, value);
-          setState(() {});
+          if (this.mounted) setState(() {});
         },
       ),
       title: Text(todo.category),
@@ -142,7 +146,7 @@ class _SelectionState extends State<Selection> {
     todoList = await DatabaseService().getTodo();
     todoList.sort((o1, o2) => o1.startDatetime.compareTo(o2.startDatetime));
     makeTodoCollection(todoList);
-    setState(() {});
+    if (this.mounted) setState(() {});
   }
 
   void makeTodoCollection(List<ToDoModel> todoList) {
