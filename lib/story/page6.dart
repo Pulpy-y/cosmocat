@@ -1,4 +1,4 @@
-import 'package:cosmocat/home/home_page.dart';
+import 'package:cosmocat/story/guide.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 
@@ -119,7 +119,7 @@ class _Page6State extends State<Page6> {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+      pageBuilder: (context, animation, secondaryAnimation) => Guide(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
