@@ -1,15 +1,15 @@
 import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/size_config.dart';
-import 'package:cosmocat/story/second.dart';
+import 'package:cosmocat/story/page2.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 
-class First extends StatefulWidget {
+class Page1 extends StatefulWidget {
   @override
-  _FirstState createState() => _FirstState();
+  _Page1State createState() => _Page1State();
 }
 
-class _FirstState extends State<First> {
+class _Page1State extends State<Page1> {
   bool _visible = false;
 
   @override
@@ -78,7 +78,7 @@ class _FirstState extends State<First> {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Second(),
+      pageBuilder: (context, animation, secondaryAnimation) => Page2(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,

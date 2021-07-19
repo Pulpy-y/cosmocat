@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 import '../size_config.dart';
 
-class Second extends StatefulWidget {
+class Page2 extends StatefulWidget {
   @override
-  _SecondState createState() => _SecondState();
+  _Page2State createState() => _Page2State();
 }
 
-class _SecondState extends State<Second> {
+class _Page2State extends State<Page2> {
   @override
   Widget build(BuildContext context) {
     //SizeConfig().init(context);
@@ -81,7 +81,7 @@ class _SecondState extends State<Second> {
                       child: IconButton(
                           onPressed: () {
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => Second()));
+                                MaterialPageRoute(builder: (_) => Page2()));
                           },
                           icon: Container(
                               alignment: Alignment.bottomLeft,

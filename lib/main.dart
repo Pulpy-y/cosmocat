@@ -1,4 +1,4 @@
-import 'package:cosmocat/story/first.dart';
+import 'package:cosmocat/story/page1.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Login/log_in.dart';
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         //home: LoginScreen(),
-        home: First(),
+        home: Page1(),
         theme: ThemeData(primaryColor: primaryColor));
   }
 }
