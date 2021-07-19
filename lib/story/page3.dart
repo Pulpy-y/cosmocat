@@ -1,16 +1,9 @@
-import 'package:cosmocat/story/page3.dart';
 import 'package:delayed_display/delayed_display.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../size_config.dart';
 
-class Page2 extends StatefulWidget {
-  @override
-  _Page2State createState() => _Page2State();
-}
-
-class _Page2State extends State<Page2> {
+class Page3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //SizeConfig().init(context);
@@ -31,7 +24,7 @@ class _Page2State extends State<Page2> {
           Container(
               decoration: new BoxDecoration(
             image: new DecorationImage(
-                image: new AssetImage("assets/image/story1.png"),
+                image: new AssetImage("assets/image/story3.png"),
                 fit: BoxFit.cover),
           )),
           Container(
@@ -40,18 +33,12 @@ class _Page2State extends State<Page2> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: h * 0.15,
-                  ),
-                  Container(
-                      child: Image(
-                          image: AssetImage("assets/image/coma_lie.png"))),
                   DelayedDisplay(
                       delay: Duration(seconds: 1),
                       child: Container(
                           width: SizeConfig.screenWidth! * 0.9,
                           child: Text(
-                            "He never finds anything interesting.",
+                            "Hmm... An elegant lazy cat!",
                             style: _textstyle,
                             //textAlign: TextAlign.center,
                           ))),
@@ -61,33 +48,23 @@ class _Page2State extends State<Page2> {
                       child: Container(
                           width: SizeConfig.screenWidth! * 0.9,
                           child: Text(
-                            "Maybe his favorite fish snack could move him a little",
+                            "Coma thought.",
                             style: _textstyle,
 
                             //textAlign: TextAlign.center,
                           ))),
                   _divider,
                   DelayedDisplay(
-                      delay: Duration(seconds: 4),
-                      child: Container(
-                          width: SizeConfig.screenWidth! * 0.9,
-                          child: Text(
-                            "but he is still a lazy cat",
-                            style: _textstyle,
-
-                            //textAlign: TextAlign.center,
-                          ))),
-                  DelayedDisplay(
                       delay: Duration(seconds: 5),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.push(context, _createRoute());
-                          },
-                          icon: Container(
-                              alignment: Alignment.bottomLeft,
-                              width: SizeConfig.screenWidth! * 0.9,
-                              child: Icon(Icons.arrow_right_alt_rounded,
-                                  color: Colors.white, size: 30))))
+                      child: Container(
+                          alignment: Alignment.bottomLeft,
+                          width: SizeConfig.screenWidth! * 0.9,
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.push(context, _createRoute());
+                              },
+                              icon: Icon(Icons.arrow_right_alt_rounded,
+                                  color: Colors.grey, size: 30))))
                 ],
               ))
         ]));
