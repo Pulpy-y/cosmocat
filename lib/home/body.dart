@@ -55,15 +55,17 @@ class _BodyState extends State<Body> {
                           child: SideBar(), right: 0, top: defaultSize * 2)
                     ]),
                     ToDo(),
-                    RoundedButton(
-                      text: "Start Timer",
-                      press: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => TimeSetter("Focus Now")));
-                      },
-                    )
+                    Container(
+                        height: SizeConfig.screenHeight! * 0.1,
+                        child: RoundedButton(
+                          text: "Start Timer",
+                          press: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => TimeSetter("Focus Now")));
+                          },
+                        ))
                   ],
                 )));
   }
