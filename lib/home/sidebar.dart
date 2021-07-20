@@ -1,4 +1,5 @@
 import 'package:cosmocat/Login/log_in.dart';
+import 'package:cosmocat/Town/town.dart';
 import 'package:cosmocat/collection/collection.dart';
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/friendboard/friendboard_page.dart';
@@ -57,44 +58,57 @@ class _SideBarState extends State<SideBar> {
                 color: Colors.white)
           ],
         ),
-        Column(children: <Widget>[
-          IconButton(
-            //collection button
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => Collection()));
-            },
-            icon: Icon(Icons.import_contacts_rounded),
-            color: Colors.white,
-          ),
-          IconButton(
-            //collection button
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => Shop()));
-            },
-            icon: Icon(Icons.storefront),
-            color: Colors.white,
-          ),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => Friendboard()));
-              },
-              icon: Icon(Icons.group),
-              color: Colors.white),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => StatisticsPage()));
-              },
-              icon: Icon(Icons.bar_chart_rounded),
-              color: Colors.white)
-          //IconButton(
-          //   onPressed: () {},
-          //   icon: Icon(Icons.insert_chart),
-          //  color: Colors.white)
-        ])
+        Row(
+          children:[
+            Column(
+                children: <Widget>[
+                  IconButton(
+                    //collection button
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => Collection()));
+                    },
+                    icon: Icon(Icons.import_contacts_rounded),
+                    color: Colors.white,
+                  ),
+                  IconButton(
+                    //collection button
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => Shop()));
+                    },
+                    icon: Icon(Icons.storefront),
+                    color: Colors.white,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_) => Friendboard()));
+                      },
+                      icon: Icon(Icons.group),
+                      color: Colors.white),
+                ]),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => StatisticsPage()));
+                    },
+                    icon: Icon(Icons.bar_chart_rounded),
+                    color: Colors.white),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => Town()));
+                    },
+                    icon: Icon(Icons.home_rounded),
+                    color: Colors.white)
+              ],
+            )
+          ]
+        )
       ],
     );
   }

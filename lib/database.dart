@@ -10,6 +10,7 @@ class DatabaseService {
   late DocumentReference userDoc;
   late CollectionReference focusTimeCollection;
   late CollectionReference tagsCollection;
+  late CollectionReference townCollection;
 
   DatabaseService({FirebaseFirestore? instanceInjection}) {
     FirebaseFirestore instance;
@@ -29,6 +30,7 @@ class DatabaseService {
          instance.collection('users').doc(uid).collection('FocusTime');
 
     tagsCollection = instance.collection('users').doc(uid).collection('Tags');
+    townCollection = instance.collection('towns');
   }
 
 
@@ -41,7 +43,9 @@ class DatabaseService {
       'friends': user.friends,
       'animals': user.animals,
       'stars': user.stars,
-      'tags' : user.tags
+      'tags' : user.tags,
+      'town': '',
+      'townAchievements': user.townAchievements
     }).then((value) {
       print("User added");
     }).catchError((error) => print("Failed to add user: $error"));
@@ -213,6 +217,7 @@ class DatabaseService {
       "tags": FieldValue.arrayUnion([tagName]),
       });
   }
+
   Future<void> removeTag(String tagName) async {
     userDoc.update({
       "tags": FieldValue.arrayRemove([tagName]
@@ -316,8 +321,6 @@ class DatabaseService {
 
   }
 
-
-
   Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;
 
@@ -347,8 +350,141 @@ class DatabaseService {
         time += value;
       });
     }
-
     return time;
   }
-  
+
+  //town
+  Future<String> getTown() async {
+    String town = '';
+    await userDoc
+        .get()
+        .then((DocumentSnapshot doc) {
+          town = doc.get("town");
+      });
+    return town;
+  }
+
+  Future<bool> isTownExist(String townName) async {
+    bool exist = false;
+    await townCollection
+        .where("name", isEqualTo: townName)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      if (querySnapshot.size != 0) {
+        exist = true;
+      }
+    });
+
+    return exist;
+  }
+
+  Future<void> addTown(String town) async {
+    List<String> members = List.of(Iterable.empty());
+
+    await townCollection.doc(town).set({
+      'name': town,
+      'members': members,
+    }).then((value) {
+      print("town added");
+    });
+
+    await addUserToTown(town);
+  }
+
+  Future<void> addUserToTown(String town) async {
+    //String userName = await getUserName(user!.uid);
+
+    //update town member
+    townCollection.doc(town).update({
+          "members": FieldValue.arrayUnion([user!.uid]),
+        });
+
+    //update user info
+    userDoc.update({
+      "town": town,
+    });
+  }
+
+  Future<void> deleteUserFromTown(String town) async {
+    //String userName = await getUserName(user!.uid);
+
+    //print('town: $town');
+    //update town member
+    townCollection.doc(town).update({
+      "members": FieldValue.arrayRemove([user!.uid]),
+    });
+
+    //update user info
+    userDoc.update({
+      "town": '',
+    });
+  }
+
+  Future<Map<String, num>> getTownMemberAndStars (String town)async {
+    Map<String, num> result = new HashMap<String,num>();
+
+    await townCollection
+        .doc(town)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) async {
+      List memberList = documentSnapshot.get("members");
+      for(String memberId in memberList) {
+        num stars = 0;
+        String memberName = await getUserName(memberId);
+        await userCollection.doc(memberId).get()
+            .then((DocumentSnapshot doc) {
+          stars = doc.get("stars");
+          result.putIfAbsent(memberName, () => stars);
+        });
+      }
+    });
+
+    Map<String, num> sortedMap = Map.fromEntries(
+        result.entries.toList()
+          ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+
+    return sortedMap;
+  }
+
+  Future<List<num>> getDayMemberList(String town, String date) async {
+    List<num> result = [];
+
+    await townCollection
+        .doc(town)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) async {
+      List memberList = documentSnapshot.get("members");
+      for (String memberId in memberList) {
+        num time = 0;
+        await userCollection.doc(memberId).collection("FocusTime").doc(date).get()
+            .then((DocumentSnapshot doc) {
+              if (doc.exists){
+                time = doc.get("totalTime");
+              }
+              result.add(time);
+        });
+      }
+    });
+
+    return result;
+  }
+
+  Future<bool> isRewardClaimed(int index, String date) async {
+    bool exist = false;
+    String curr = '$index-$date';
+    await userDoc.get()
+        .then((DocumentSnapshot doc) {
+      List achieve =  doc.get("townAchievements");
+      if(achieve.contains(curr)) {
+        exist = true;
+      }
+    });
+    return exist;
+  }
+
+  Future<void> claimReward(int index, String date) async {
+    String curr = '$index-$date';
+    await userDoc.update({"townAchievements":FieldValue.arrayUnion([curr])});
+    updateStars(10);
+  }
 }
