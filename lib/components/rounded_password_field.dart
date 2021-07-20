@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class RoundedPasswordField extends StatefulWidget {
   final String text;
   final onChanged;
-  IconData? icon;
+  final IconData? icon;
 
   RoundedPasswordField(
       { required this.text,

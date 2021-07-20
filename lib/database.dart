@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/models/app_user.dart';
+import 'package:cosmocat/models/todo_model.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:heatmap_calendar/time_utils.dart';
 
@@ -11,6 +12,7 @@ class DatabaseService {
   late CollectionReference focusTimeCollection;
   late CollectionReference tagsCollection;
   late CollectionReference townCollection;
+  late CollectionReference todoCollection;
 
   DatabaseService({FirebaseFirestore? instanceInjection}) {
     FirebaseFirestore instance;
@@ -27,13 +29,12 @@ class DatabaseService {
     userCollection = instance.collection('users');
     userDoc = instance.collection('users').doc(uid);
     focusTimeCollection =
-         instance.collection('users').doc(uid).collection('FocusTime');
+        instance.collection('users').doc(uid).collection('FocusTime');
 
     tagsCollection = instance.collection('users').doc(uid).collection('Tags');
     townCollection = instance.collection('towns');
+    todoCollection = instance.collection('users').doc(uid).collection('Todos');
   }
-
-
 
   Future<void> addUser(AppUser user, String uid) async {
     await userCollection.doc(uid).set({
@@ -46,6 +47,7 @@ class DatabaseService {
       'tags' : user.tags,
       'town': '',
       'townAchievements': user.townAchievements
+
     }).then((value) {
       print("User added");
     }).catchError((error) => print("Failed to add user: $error"));
@@ -112,8 +114,6 @@ class DatabaseService {
       requestDoc.update({
         "friendRequest": FieldValue.arrayUnion([senderId])
       });
-
-
 
       succ = true;
     });
@@ -202,26 +202,26 @@ class DatabaseService {
   Future<List<Item>> getTags(String uid) async {
     List<Item> tagList = [];
     List<String> tagStrings = await getList("tags", user!.uid);
-    tagStrings.forEach((tagString) {tagList.add(Item(title: tagString));});
+    tagStrings.forEach((tagString) {
+      tagList.add(Item(title: tagString));
+    });
     return tagList;
   }
 
   Future<void> addTag(String tagName) async {
     Map newPair = new HashMap<String, int>();
-    tagsCollection.doc("$tagName").set({
-      "tagName": tagName,
-      "dates": [],
-      "date_duration": newPair
-    });
+    tagsCollection
+        .doc("$tagName")
+        .set({"tagName": tagName, "dates": [], "date_duration": newPair});
     userDoc.update({
       "tags": FieldValue.arrayUnion([tagName]),
-      });
+    });
   }
 
   Future<void> removeTag(String tagName) async {
     userDoc.update({
-      "tags": FieldValue.arrayRemove([tagName]
-      )});
+      "tags": FieldValue.arrayRemove([tagName])
+    });
   }
 
   //focusTime
@@ -239,27 +239,21 @@ class DatabaseService {
     } else {
       focusTimeCollection.doc("$date").set({
         "tags": [tagName],
-        "totalTime":duration,
+        "totalTime": duration,
         "DateTime": DateTime.now().toString()
       });
     }
 
     //update Tags->tagName->dates,date_duration pair
-    final tagDoc = await tagsCollection
-        .doc("$tagName")
-        .get();
+    final tagDoc = await tagsCollection.doc("$tagName").get();
     if (tagDoc.exists) {
       //int originalDur = tagDate.get("duration");
       Map originPair = tagDoc.get("date_duration");
       //Map newPair = new HashMap<String, int>();
-      originPair.update(
-          date,
-              (value) => value + duration,
-          ifAbsent:() => duration);
+      originPair.update(date, (value) => value + duration,
+          ifAbsent: () => duration);
 
-      tagsCollection
-          .doc("$tagName")
-          .update({
+      tagsCollection.doc("$tagName").update({
         "dates": FieldValue.arrayUnion([date]),
         "date_duration": originPair
       });
@@ -268,20 +262,19 @@ class DatabaseService {
 
   Future<Map<DateTime, int>> heatMapData() async {
     Map<DateTime, int> mapInput = new HashMap<DateTime, int>();
-    await focusTimeCollection
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((QueryDocumentSnapshot doc) {
-          DateTime dt = TimeUtils.removeTime(DateTime.parse('${doc.get("DateTime")}z'));
-          int duration = doc.get("totalTime");
-          mapInput.putIfAbsent(dt, () => duration);
+    await focusTimeCollection.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((QueryDocumentSnapshot doc) {
+        DateTime dt =
+            TimeUtils.removeTime(DateTime.parse('${doc.get("DateTime")}z'));
+        int duration = doc.get("totalTime");
+        mapInput.putIfAbsent(dt, () => duration);
       });
     });
 
     return mapInput;
   }
 
-  Future<Map<String, double>> pieChartData(DateTime start, DateTime end) async{
+  Future<Map<String, double>> pieChartData(DateTime start, DateTime end) async {
     String startStr = start.subtract(Duration(days: 1)).toString();
     String endStr = end.toString();
     //one more day after end day
@@ -290,45 +283,36 @@ class DatabaseService {
     await focusTimeCollection
         .where("DateTime", isGreaterThanOrEqualTo: startStr)
         .where("DateTime", isLessThanOrEqualTo: endStr)
-        .get().then((query){
-          query.docs.forEach((doc) async {
-            tagList+= doc.get("tags") ;
-          });
-          tagList = tagList.toSet().toList(); // remove duplicate tags
+        .get()
+        .then((query) {
+      query.docs.forEach((doc) async {
+        tagList += doc.get("tags");
+      });
+      tagList = tagList.toSet().toList(); // remove duplicate tags
     });
-
 
     tagList.forEach((tag) async {
       double total = 0;
-      await tagsCollection
-          .doc(tag)
-          .get()
-          .then((doc) async {
-            Map<String, dynamic> dateDurationPair = await doc.get("date_duration");
-            dateDurationPair.removeWhere((date, dur) =>
-                date.compareTo(startStr) < 0
-                || date.compareTo(endStr) > 0 );
+      await tagsCollection.doc(tag).get().then((doc) async {
+        Map<String, dynamic> dateDurationPair = await doc.get("date_duration");
+        dateDurationPair.removeWhere((date, dur) =>
+            date.compareTo(startStr) < 0 || date.compareTo(endStr) > 0);
 
-            dateDurationPair.values.forEach((v) { total += v;});
-
+        dateDurationPair.values.forEach((v) {
+          total += v;
+        });
       });
       tagDataMap.putIfAbsent(tag.toString(), () => total);
     });
 
     return tagDataMap;
-
-
-
   }
 
   Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;
 
-    await focusTimeCollection
-        .doc(day)
-        .get()
-        .then((DocumentSnapshot doc) {
-      if (doc.exists){
+    await focusTimeCollection.doc(day).get().then((DocumentSnapshot doc) {
+      if (doc.exists) {
         totalMinutes = doc.get("totalTime");
       }
     });
@@ -344,7 +328,8 @@ class DatabaseService {
 
     for (int i = 0; i < 7; i++) {
       DateTime thisDay = monday.add(Duration(days: i));
-      String date = "${thisDay.year}-${thisDay.month.toString().padLeft(2,'0')}-${thisDay.day.toString().padLeft(2,'0')}";
+      String date =
+          "${thisDay.year}-${thisDay.month.toString().padLeft(2, '0')}-${thisDay.day.toString().padLeft(2, '0')}";
 
       await DatabaseService().getTimeOfTheDay(user!.uid, date).then((value) {
         time += value;
@@ -486,5 +471,42 @@ class DatabaseService {
     String curr = '$index-$date';
     await userDoc.update({"townAchievements":FieldValue.arrayUnion([curr])});
     updateStars(10);
+  }
+  
+  //todoList
+  Future<void> addTodo(ToDoModel todoTask) async {
+    todoCollection.doc().set({
+      "startTime": todoTask.startDatetime,
+      "category": todoTask.category,
+      "durationHour": todoTask.durationHour,
+      "durationMinute": todoTask.durationMinute,
+      "astronautID": todoTask.austronautId,
+      "isDone": todoTask.isDone
+    });
+  }
+
+  Future<void> updateTodoIsDone(ToDoModel todoTask, bool status) async {
+    todoCollection.doc(todoTask.docRef).update({"isDone": status});
+  }
+
+  Future<List<ToDoModel>> getTodo() async {
+    List<ToDoModel> lst = [];
+    await todoCollection.get().then((snapshot) => {
+          snapshot.docs.forEach((doc) {
+            Timestamp timestamp = doc.get("startTime");
+            DateTime startDatetime = timestamp.toDate();
+            String category = doc.get("category");
+            int durationHour = doc.get("durationHour");
+            int durationMinute = doc.get("durationMinute");
+            String austronautId = doc.get("astronautID");
+            bool isDone = doc.get("isDone");
+            String ref = doc.id;
+
+            lst.add(ToDoModel.fromDatabase(startDatetime, category,
+                durationHour, durationMinute, austronautId, isDone, ref));
+          })
+        });
+
+    return lst;
   }
 }

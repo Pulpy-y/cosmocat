@@ -1,9 +1,7 @@
 import 'package:cosmocat/components/background.dart';
-import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/shop/match.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 class Body extends StatelessWidget {
   final double defaultSize = SizeConfig.defaultSize!;

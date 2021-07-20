@@ -3,6 +3,7 @@ import 'package:cosmocat/components/rounded_button.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/info.dart';
 import 'package:cosmocat/home/sidebar.dart';
+import 'package:cosmocat/home/todo_card.dart';
 import 'package:cosmocat/time_setter/time_setter_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,13 +55,18 @@ class _BodyState extends State<Body> {
                           child: SideBar(), right: 0, top: 0)
                     ]),
 
-                    Chart(),
-                    RoundedButton(
-                        text: "Start Timer",
-                        press: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => TimeSetter()));
-                        },)
+                    ToDo(),
+                    Container(
+                        height: SizeConfig.screenHeight! * 0.1,
+                        child: RoundedButton(
+                          text: "Start Timer",
+                          press: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => TimeSetter("Focus Now")));
+                          },
+                        ))
                   ],
                 )));
   }

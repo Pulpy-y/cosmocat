@@ -8,20 +8,24 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'countdown_helper.dart';
 import '../constant.dart';
 import '../size_config.dart';
-import '../time_setter/astronaut_selection_bar.dart';
 
 class CountDown extends StatefulWidget {
   final int hour, minute;
   final String tag;
+  String animalID = selectedAnimal;
 
-  const CountDown({
+  CountDown({
     required this.hour,
     required this.minute,
     required this.tag,
   });
 
+  CountDown.fromTodo(this.hour, this.minute, this.tag, String animal) {
+    this.animalID = animal;
+  }
+
   @override
-  _CountDownState createState() => _CountDownState(hour, minute, tag);
+  _CountDownState createState() => _CountDownState(hour, minute, tag, animalID);
 }
 
 class _CountDownState extends State<CountDown> {
@@ -34,15 +38,16 @@ class _CountDownState extends State<CountDown> {
   bool _begin = false;
   String _timeFormatted = '';
   String? _tag = '';
+  late String _animalID;
   var helper = CountdownHelper();
 
-
   //DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  _CountDownState(int hour, int minute, String tag) {
+  _CountDownState(int hour, int minute, String tag, String animalID) {
     _counter = hour * 3600 + minute * 60;
     _set = _counter;
     _timeFormatted = helper.timeString(_counter);
     _tag = tag;
+    _animalID = animalID;
   }
 
   void _startTimer() {
@@ -82,13 +87,13 @@ class _CountDownState extends State<CountDown> {
               child: _timerWidget(),
             ),
             Bounce(
-              infinite: true,
-              child: Container(
+                infinite: true,
+                child: Container(
                   height: SizeConfig.screenHeight! * 0.3,
                   width: SizeConfig.screenWidth! * 0.6,
                   child: Image.asset(
-                      'assets/image/animal_floating/$selectedAnimal.png'),
-            )),
+                      'assets/image/animal_floating/$_animalID.png'),
+                )),
             Container(
               height: SizeConfig.screenHeight! * 0.1,
               child: _progressBar(),

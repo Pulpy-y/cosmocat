@@ -43,6 +43,7 @@ dependencies:
   heatmap_calendar: ^1.2.8
   pie_chart: ^5.0.0
   syncfusion_flutter_datepicker: ^19.2.46
+  delayed_display: ^2.0.0
 
 
 

@@ -76,7 +76,7 @@ class _MatchState extends State<Match> {
                       : EdgeInsets.all(defaultSize * 10),
                   child: Image(
                     image: AssetImage(
-                        "${animal_profile_path}${selectedAnimal.id}.png"),
+                        "$animal_profile_path${selectedAnimal.id}.png"),
                   ),
                 ),
                 actions: [
