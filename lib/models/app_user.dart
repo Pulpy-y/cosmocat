@@ -6,6 +6,7 @@ class AppUser {
   List<String> animals = ["0"];
   int stars = 0;
   List<String> tags = List.of(Iterable.empty());
+  List<String> townAchievements = [];
 
   AppUser({
     //required this.uid,

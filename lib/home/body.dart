@@ -52,8 +52,9 @@ class _BodyState extends State<Body> {
                     Stack(children: <Widget>[
                       Info(name: name, image: "assets/image/coma_as.png"),
                       Positioned(
-                          child: SideBar(), right: 0, top: defaultSize * 2)
+                          child: SideBar(), right: 0, top: 0)
                     ]),
+
                     ToDo(),
                     Container(
                         height: SizeConfig.screenHeight! * 0.1,

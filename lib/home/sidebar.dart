@@ -1,4 +1,5 @@
 import 'package:cosmocat/Login/log_in.dart';
+import 'package:cosmocat/Town/town.dart';
 import 'package:cosmocat/collection/collection.dart';
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/constant.dart';
@@ -44,12 +45,6 @@ class _SideBarState extends State<SideBar> {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  /*
-        SizedBox(
-          height: SizeConfig.screenHeight! * 0.01,
-        ),
-
-         */
                   Row(
                     children: <Widget>[
                       Icon(
@@ -103,11 +98,14 @@ class _SideBarState extends State<SideBar> {
                                   builder: (_) => StatisticsPage()));
                         },
                         icon: Icon(Icons.bar_chart_rounded),
-                        color: Colors.white)
-                    //IconButton(
-                    //   onPressed: () {},
-                    //   icon: Icon(Icons.insert_chart),
-                    //  color: Colors.white)
+                        color: Colors.white),
+                    IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => Town()));
+                    },
+                    icon: Icon(Icons.home_rounded),
+                    color: Colors.white)        
                   ])
                 ],
               );
