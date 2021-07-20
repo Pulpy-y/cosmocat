@@ -47,27 +47,27 @@ class _BodyState extends State<Body> {
         : Background(
             child: Padding(
                 padding: EdgeInsets.only(top: defaultSize * 5),
-                child: Column(
-                  children: <Widget>[
-                    Stack(children: <Widget>[
+                child: Stack(
+                  children: [
+                    Positioned(
+                        child: SideBar(), right: 0, top: 0),
+                    Column(
+                    children: <Widget>[
                       Info(name: name, image: "assets/image/coma_as.png"),
-                      Positioned(
-                          child: SideBar(), right: 0, top: 0)
-                    ]),
-
-                    ToDo(),
-                    Container(
-                        height: SizeConfig.screenHeight! * 0.1,
-                        child: RoundedButton(
-                          text: "Start Timer",
-                          press: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => TimeSetter("Focus Now")));
-                          },
-                        ))
-                  ],
+                      ToDo(),
+                      Container(
+                          height: SizeConfig.screenHeight! * 0.1,
+                          child: RoundedButton(
+                            text: "Start Timer",
+                            press: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => TimeSetter("Focus Now")));
+                            },
+                          ))
+                    ],
+                  ),]
                 )));
   }
 }

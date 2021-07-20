@@ -53,7 +53,7 @@ class _SideBarState extends State<SideBar> {
                       ),
                       Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.all(5),
+                        margin: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
                         width: 40,
                         height: 25,
                         decoration: BoxDecoration(
@@ -67,6 +67,8 @@ class _SideBarState extends State<SideBar> {
                   Column(children: <Widget>[
                     IconButton(
                       //collection button
+                      padding: EdgeInsets.all(4.0),
+
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (_) => Collection()));
@@ -75,7 +77,8 @@ class _SideBarState extends State<SideBar> {
                       color: Colors.white,
                     ),
                     IconButton(
-                      //collection button
+                      //shop button
+                      padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
                       onPressed: () {
                         Navigator.push(
                             context, MaterialPageRoute(builder: (_) => Shop()));
@@ -84,6 +87,7 @@ class _SideBarState extends State<SideBar> {
                       color: Colors.white,
                     ),
                     IconButton(
+                        padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 00),
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (_) => Friendboard()));
@@ -91,6 +95,7 @@ class _SideBarState extends State<SideBar> {
                         icon: Icon(Icons.group),
                         color: Colors.white),
                     IconButton(
+                        padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -100,7 +105,8 @@ class _SideBarState extends State<SideBar> {
                         icon: Icon(Icons.bar_chart_rounded),
                         color: Colors.white),
                     IconButton(
-                    onPressed: () {
+                        padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+                        onPressed: () {
                       Navigator.push(
                           context, MaterialPageRoute(builder: (_) => Town()));
                     },
