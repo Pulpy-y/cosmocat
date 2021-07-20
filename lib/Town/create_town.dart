@@ -1,5 +1,5 @@
-import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/components/rounded_input_field.dart';
+import 'package:cosmocat/components/town_background.dart';
 import 'package:cosmocat/home/home_page.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,7 +30,7 @@ class _CreateTownState extends State<CreateTown> {
           title: Text("Create Town"),
           centerTitle: true,
         ),
-        body: Background(
+        body: TownBackground(
           child: Column(
             children: <Widget>[
               Container(

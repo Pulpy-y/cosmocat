@@ -1,5 +1,5 @@
-import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/components/loading.dart';
+import 'package:cosmocat/components/town_background.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class _AchievementsState extends State<Achievements> {
 
   @override
   Widget build(BuildContext context) {
-    return Background(child: SingleChildScrollView(
+    return TownBackground(child: SingleChildScrollView(
       child: Column(
         children: [
           loading? Loading():

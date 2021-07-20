@@ -1,6 +1,6 @@
 import 'package:cosmocat/Town/create_town.dart';
-import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/components/rounded_button.dart';
+import 'package:cosmocat/components/town_background.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ class Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
+    return TownBackground(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

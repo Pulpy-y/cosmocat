@@ -1,7 +1,7 @@
 import 'dart:collection';
-import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/components/rounded_button.dart';
+import 'package:cosmocat/components/town_background.dart';
 import 'package:cosmocat/database.dart';
 import 'package:cosmocat/home/home_page.dart';
 import 'package:cosmocat/size_config.dart';
@@ -34,7 +34,7 @@ class _MembersState extends State<Members> {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
+    return TownBackground(
         child: SingleChildScrollView(
           child: Column(
             children: [

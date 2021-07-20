@@ -10,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:cosmocat/components/background.dart';
-import 'chart.dart';
 
 class Body extends StatefulWidget {
   final User? user;
