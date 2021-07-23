@@ -5,6 +5,7 @@ import 'package:pie_chart/pie_chart.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 
+import '../constant.dart';
 import '../database.dart';
 import '../size_config.dart';
 
@@ -51,11 +52,18 @@ class _PieChartSectionState extends State<PieChartSection> {
                 margin: EdgeInsets.all(SizeConfig.defaultSize! * 1.8),
                 child: Text("Pie Chart",
                   style: TextStyle(
-                      fontSize: 22, //22
-                      color: Colors.white),
+                    color: themeSecondaryColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,),
                   textAlign: TextAlign.left,),
               ),
+              Container(width: SizeConfig.screenWidth!*0.2),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(
+                      255, 88, 141, 156), // background
+                  onPrimary: Colors.white, // foreground
+                ),
                   onPressed: () => _selectDateDialog(),
                   child: Text("Select date range")),
             ],
@@ -63,10 +71,23 @@ class _PieChartSectionState extends State<PieChartSection> {
           loading
               ? Loading()
               : data.isEmpty
-                ? Text("Select a range to see tag distribution")
+                ? Text("Select a range to see tag distribution",
+                        style: TextStyle(color:Color.fromARGB(
+                            255, 146, 201, 216) ),)
                 : Container(
                     height: SizeConfig.screenHeight! *0.3,
                     child: PieChart(
+                      legendOptions: LegendOptions(legendTextStyle: TextStyle(color: Colors.white)),
+                      colorList: [
+                        Color.fromARGB(255, 243, 179, 175),
+                        Color.fromARGB(255, 146, 201, 215),
+                        Color.fromARGB(255, 188, 220, 163),
+                        Color.fromARGB(255, 139, 206, 206),
+                        Color.fromARGB(255, 79, 180, 167),
+                        Color.fromARGB(255, 238, 177, 116),
+                        Color.fromARGB(255, 201, 175, 224),
+                      ],
+
                       dataMap: data ,
               ),
             ),

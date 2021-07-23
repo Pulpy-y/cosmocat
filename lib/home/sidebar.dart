@@ -8,6 +8,7 @@ import 'package:cosmocat/shop/shop_page.dart';
 import 'package:cosmocat/statistics/statistics_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cosmocat/database.dart';
+
 import '../size_config.dart';
 
 class SideBar extends StatefulWidget {
@@ -22,21 +23,6 @@ class _SideBarState extends State<SideBar> {
   double defaultWidth = SizeConfig.screenWidth! * 0.1;
   double defaultHeight = SizeConfig.screenHeight! * 0.1;
 
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
-
-  Future<void> getData() async {
-    stars = await DatabaseService().getStars();
-    print("get data: stars:$stars");
-    if (this.mounted) {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +38,7 @@ class _SideBarState extends State<SideBar> {
                       top: defaultHeight * 0.7,
                       child: _iconDrawer(),
                       duration: Duration(milliseconds: 500))
+
                 ],
               );
   }

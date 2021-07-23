@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:cosmocat/components/background.dart';
 
+import '../constant.dart';
+
 class Body extends StatefulWidget {
   final User? user;
   Body(this.user);
@@ -22,10 +24,12 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String name;
+  int stars = 0;
   bool loading = true;
 
-  Future<void> getName() async {
+  Future<void> getNameAndStars() async {
     name = await DatabaseService().getUserName(widget.user!.uid);
+    stars = await DatabaseService().getStars();
     setState(() {
       loading = false;
     });
@@ -33,9 +37,10 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    getName();
+    getNameAndStars();
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
