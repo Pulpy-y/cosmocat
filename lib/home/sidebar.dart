@@ -99,54 +99,6 @@ class _SideBarState extends State<SideBar> {
     );
   }
 
-  Widget _iconColumn() {
-    return Column(children: <Widget>[
-      IconButton(
-        //collection button
-        padding: EdgeInsets.all(4.0),
-
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => Collection()));
-        },
-        icon: Icon(Icons.import_contacts_rounded),
-        color: Colors.white,
-      ),
-      IconButton(
-        //shop button
-        padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => Shop()));
-        },
-        icon: Icon(Icons.storefront),
-        color: Colors.white,
-      ),
-      IconButton(
-          padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 00),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => Friendboard()));
-          },
-          icon: Icon(Icons.group),
-          color: Colors.white),
-      IconButton(
-          padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => StatisticsPage()));
-          },
-          icon: Icon(Icons.bar_chart_rounded),
-          color: Colors.white),
-      IconButton(
-          padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => Town()));
-          },
-          icon: Icon(Icons.home_rounded),
-          color: Colors.white)
-    ]);
-  }
-
   Widget _iconDrawer() {
     return Row(
       children: [
