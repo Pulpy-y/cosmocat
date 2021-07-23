@@ -23,6 +23,7 @@ class _BodyState extends State<Body> {
   double screenHeight = SizeConfig.screenHeight!;
   double screenWidth = SizeConfig.screenWidth!;
   String _category;
+  String userProfileAnimal = "0";
 
   _BodyState(this._category);
 
@@ -63,6 +64,7 @@ class _BodyState extends State<Body> {
   Widget selfInfo(UserModel user) {
     double defaultWidth = screenWidth * 0.1;
     double defaultHeight = screenHeight * 2 / 11 * 0.1;
+    double defaultSize = SizeConfig.defaultSize!;
 
     String time;
     if (_category == "day") {
@@ -79,8 +81,19 @@ class _BodyState extends State<Body> {
         Container(
             //mimic display pic
             width: defaultWidth * 2.5,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.brown)),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white,
+                width: defaultSize * 0.8, //8
+              ),
+              color: Colors.white,
+              image: DecorationImage(
+                fit: BoxFit.contain,
+                image: AssetImage(
+                    "assets/image/animal_floating/$userProfileAnimal.png"),
+              ),
+            )),
         Container(
           width: defaultWidth * 0.5,
         ),
@@ -113,6 +126,8 @@ class _BodyState extends State<Body> {
   }
 
   Future<void> getData() async {
+    userProfileAnimal = await DatabaseService().getProfileAnimal();
+
     String currUserId = user!.uid;
     List<String> friendIdList =
         await DatabaseService().getFriendList(currUserId);
