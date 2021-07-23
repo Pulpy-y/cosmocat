@@ -7,19 +7,32 @@ import 'package:flutter/material.dart';
 class Guide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    TextStyle _textstyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 22, //22
+      color: Colors.white,
+    );
+
     return Material(
         color: primaryColor,
         child: Column(
           children: [
             Container(
-              height: SizeConfig.screenHeight! * 0.9,
+                height: SizeConfig.screenHeight! * 0.1,
+                alignment: Alignment.center,
+                child: Text(
+                  "User Guide",
+                  style: _textstyle,
+                )),
+            Container(
+              height: SizeConfig.screenHeight! * 0.8,
               width: SizeConfig.screenWidth,
               child: Scrollbar(
                 isAlwaysShown: true,
                 thickness: 10,
                 radius: Radius.circular(5),
                 child: ListView(
-                  padding: EdgeInsets.fromLTRB(50, 30, 50, 30),
+                  padding: EdgeInsets.fromLTRB(50, 0, 50, 30),
                   scrollDirection: Axis.horizontal,
                   children: [
                     Card(

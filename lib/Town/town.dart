@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import '../size_config.dart';
 
 class Town extends StatefulWidget {
-
   @override
   _TownState createState() => _TownState();
 }
@@ -33,6 +32,7 @@ class _TownState extends State<Town> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    TextStyle _textstyle = TextStyle(color: Colors.black);
 
     return DefaultTabController(
       initialIndex: 1,
@@ -40,17 +40,22 @@ class _TownState extends State<Town> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          title: const Text('Town'),
+          title: Text(
+            'Town',
+            style: _textstyle,
+          ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
           bottom: const TabBar(
+            indicatorColor: Colors.white,
             tabs: <Widget>[
               Tab(
-                text: "Members",
+                child: Text("Member", style: TextStyle(color: Colors.black)),
               ),
               Tab(
-                text: "Achievements",
+                child:
+                    Text("Achievements", style: TextStyle(color: Colors.black)),
               ),
             ],
           ),
@@ -60,13 +65,13 @@ class _TownState extends State<Town> {
             loading
                 ? Loading()
                 : town == ''
-                ? Empty()
-                : Members(town),
+                    ? Empty()
+                    : Members(town),
             loading
                 ? Loading()
                 : town == ''
-                ? Empty()
-                : Achievements(town),
+                    ? Empty()
+                    : Achievements(town),
           ], //day and week, need to pass vars
         ),
       ),

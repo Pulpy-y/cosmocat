@@ -37,7 +37,9 @@ class _ReceiveState extends State<Receive> {
     double defaultWidth = screenWidth * 0.1;
 
     if (friendRequestList.length == 0) {
-      return Center(
+      return Container(
+        height: screenHeight * 0.6,
+        alignment: Alignment.center,
         child: Text(
           "No friend request",
           style: TextStyle(color: Colors.white, fontSize: 20),
