@@ -44,10 +44,9 @@ class DatabaseService {
       'friends': user.friends,
       'animals': user.animals,
       'stars': user.stars,
-      'tags' : user.tags,
+      'tags': user.tags,
       'town': '',
       'townAchievements': user.townAchievements
-
     }).then((value) {
       print("User added");
     }).catchError((error) => print("Failed to add user: $error"));
@@ -198,6 +197,17 @@ class DatabaseService {
     userDoc.update({"stars": starsCount + amt});
   }
 
+  //user_profile_pic
+  Future<String> getProfileAnimal() async {
+    String id = "0";
+    await userDoc.get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        id = documentSnapshot.get("stars");
+      }
+    });
+    return id == "" ? "0" : id;
+  }
+
   //tags
   Future<List<Item>> getTags(String uid) async {
     List<Item> tagList = [];
@@ -341,11 +351,9 @@ class DatabaseService {
   //town
   Future<String> getTown() async {
     String town = '';
-    await userDoc
-        .get()
-        .then((DocumentSnapshot doc) {
-          town = doc.get("town");
-      });
+    await userDoc.get().then((DocumentSnapshot doc) {
+      town = doc.get("town");
+    });
     return town;
   }
 
@@ -381,8 +389,8 @@ class DatabaseService {
 
     //update town member
     townCollection.doc(town).update({
-          "members": FieldValue.arrayUnion([user!.uid]),
-        });
+      "members": FieldValue.arrayUnion([user!.uid]),
+    });
 
     //update user info
     userDoc.update({
@@ -405,28 +413,26 @@ class DatabaseService {
     });
   }
 
-  Future<Map<String, num>> getTownMemberAndStars (String town)async {
-    Map<String, num> result = new HashMap<String,num>();
+  Future<Map<String, num>> getTownMemberAndStars(String town) async {
+    Map<String, num> result = new HashMap<String, num>();
 
     await townCollection
         .doc(town)
         .get()
         .then((DocumentSnapshot documentSnapshot) async {
       List memberList = documentSnapshot.get("members");
-      for(String memberId in memberList) {
+      for (String memberId in memberList) {
         num stars = 0;
         String memberName = await getUserName(memberId);
-        await userCollection.doc(memberId).get()
-            .then((DocumentSnapshot doc) {
+        await userCollection.doc(memberId).get().then((DocumentSnapshot doc) {
           stars = doc.get("stars");
           result.putIfAbsent(memberName, () => stars);
         });
       }
     });
 
-    Map<String, num> sortedMap = Map.fromEntries(
-        result.entries.toList()
-          ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+    Map<String, num> sortedMap = Map.fromEntries(result.entries.toList()
+      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
 
     return sortedMap;
   }
@@ -441,12 +447,16 @@ class DatabaseService {
       List memberList = documentSnapshot.get("members");
       for (String memberId in memberList) {
         num time = 0;
-        await userCollection.doc(memberId).collection("FocusTime").doc(date).get()
+        await userCollection
+            .doc(memberId)
+            .collection("FocusTime")
+            .doc(date)
+            .get()
             .then((DocumentSnapshot doc) {
-              if (doc.exists){
-                time = doc.get("totalTime");
-              }
-              result.add(time);
+          if (doc.exists) {
+            time = doc.get("totalTime");
+          }
+          result.add(time);
         });
       }
     });
@@ -457,10 +467,9 @@ class DatabaseService {
   Future<bool> isRewardClaimed(int index, String date) async {
     bool exist = false;
     String curr = '$index-$date';
-    await userDoc.get()
-        .then((DocumentSnapshot doc) {
-      List achieve =  doc.get("townAchievements");
-      if(achieve.contains(curr)) {
+    await userDoc.get().then((DocumentSnapshot doc) {
+      List achieve = doc.get("townAchievements");
+      if (achieve.contains(curr)) {
         exist = true;
       }
     });
@@ -469,10 +478,12 @@ class DatabaseService {
 
   Future<void> claimReward(int index, String date) async {
     String curr = '$index-$date';
-    await userDoc.update({"townAchievements":FieldValue.arrayUnion([curr])});
+    await userDoc.update({
+      "townAchievements": FieldValue.arrayUnion([curr])
+    });
     updateStars(10);
   }
-  
+
   //todoList
   Future<void> addTodo(ToDoModel todoTask) async {
     todoCollection.doc().set({

@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import '../size_config.dart';
 
-class Info extends StatelessWidget {
+class Info extends StatefulWidget {
   const Info({
     required this.name,
+    required this.userAnimal,
   });
   final String name;
+  final String userAnimal;
+
+  @override
+  _InfoState createState() => _InfoState(name, userAnimal);
+}
+
+class _InfoState extends State<Info> {
+  String name;
+  String userAnimal;
+
+  _InfoState(this.name, this.userAnimal);
 
   @override
   Widget build(BuildContext context) {
