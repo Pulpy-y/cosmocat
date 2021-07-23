@@ -202,10 +202,14 @@ class DatabaseService {
     String id = "0";
     await userDoc.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        id = documentSnapshot.get("stars");
+        id = documentSnapshot.get("uid");
       }
     });
     return id == "" ? "0" : id;
+  }
+
+  Future<void> updateProfileAnimal(String id) async {
+    userDoc.update({"uid": id});
   }
 
   //tags

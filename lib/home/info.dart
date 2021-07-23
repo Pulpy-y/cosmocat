@@ -44,7 +44,8 @@ class _InfoState extends State<Info> {
                     ),
                     image: DecorationImage(
                       fit: BoxFit.contain,
-                      image: AssetImage("assets/image/animal_floating/0.png"),
+                      image: AssetImage(
+                          "assets/image/animal_floating/$userAnimal.png"),
                     ),
                   ),
                 ),
