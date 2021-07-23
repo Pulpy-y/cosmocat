@@ -196,9 +196,11 @@ class DatabaseService {
   }
 
   //user_profile_pic
-  Future<String> getProfileAnimal() async {
+  Future<String> getProfileAnimal(String uid) async {
     String id = "0";
-    await userDoc.get().then((DocumentSnapshot documentSnapshot) {
+    DocumentReference currUserDoc = userCollection.doc(uid);
+
+    await currUserDoc.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         id = documentSnapshot.get("uid");
       }

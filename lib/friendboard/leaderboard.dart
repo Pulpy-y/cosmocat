@@ -63,10 +63,24 @@ class _LeaderBoardState extends State<LeaderBoard> {
     }
 
     return ListTile(
-      leading: Text((index + 1).toString()),
+      leading: Container(
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.contain,
+              image: AssetImage(
+                  "assets/image/animal_floating/${user.profileId}.png"),
+            ),
+          )),
       tileColor: Colors.transparent,
       title: Text(user.name),
       subtitle: Text(time + " seconds"),
+      trailing: Text(
+        (index + 1).toString(),
+        style: TextStyle(fontSize: 25),
+      ),
     );
   }
 }

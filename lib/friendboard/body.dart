@@ -134,14 +134,16 @@ class _BodyState extends State<Body> {
     num daytime = await DatabaseService().getTimeOfTheDay(currUserId, date);
     num weekTime = await DatabaseService().getTimeOfTheWeek(currUserId);
 
-    currUser = new UserModel(name, "", daytime, weekTime);
+    currUser = new UserModel(name, "", userProfileAnimal, daytime, weekTime);
 
     for (var id in friendIdList) {
       String name = await DatabaseService().getUserName(id);
       num daytime = await DatabaseService().getTimeOfTheDay(id, date);
       num weekTime = await DatabaseService().getTimeOfTheWeek(id);
+      String userProfileAnimal = await DatabaseService().getProfileAnimal(id);
 
-      friendList.add(new UserModel(name, id, daytime, weekTime));
+      friendList
+          .add(new UserModel(name, id, userProfileAnimal, daytime, weekTime));
     }
 
     setState(() {
