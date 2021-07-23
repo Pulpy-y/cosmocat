@@ -16,7 +16,7 @@ class _Page2State extends State<Page2> {
     //SizeConfig().init(context);
     TextStyle _textstyle = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 22, //22
+      fontSize: 20, //22
       color: Colors.white,
     );
 
@@ -69,25 +69,23 @@ class _Page2State extends State<Page2> {
                   _divider,
                   DelayedDisplay(
                       delay: Duration(seconds: 5),
-                      child: Container(
-                          width: SizeConfig.screenWidth! * 0.9,
-                          child: Text(
+                      child: Row(
+                        children: [
+                          Text(
                             "but he is still a lazy cat",
                             style: _textstyle,
-
-                            //textAlign: TextAlign.center,
-                          ))),
-                  DelayedDisplay(
-                      delay: Duration(seconds: 6),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.push(context, _createRoute());
-                          },
-                          icon: Container(
-                              alignment: Alignment.bottomLeft,
-                              width: SizeConfig.screenWidth! * 0.9,
-                              child: Icon(Icons.arrow_right_alt_rounded,
-                                  color: Colors.white, size: 30))))
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(context, _createRoute());
+                              },
+                              icon: Container(
+                                  alignment: Alignment.bottomLeft,
+                                  width: SizeConfig.screenWidth! * 0.9,
+                                  child: Icon(Icons.arrow_right_alt_rounded,
+                                      color: Colors.white, size: 30)))
+                        ],
+                      )),
                 ],
               ))
         ]));
