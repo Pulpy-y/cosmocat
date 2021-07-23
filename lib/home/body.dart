@@ -50,7 +50,7 @@ class _BodyState extends State<Body> {
                   SideBar(),
                   Column(
                     children: <Widget>[
-                      Info(name: name, image: "assets/image/coma_as.png"),
+                      Info(name: name),
                       ToDo(),
                       Container(
                           height: SizeConfig.screenHeight! * 0.1,
