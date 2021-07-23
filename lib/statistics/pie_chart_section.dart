@@ -52,8 +52,9 @@ class _PieChartSectionState extends State<PieChartSection> {
                 margin: EdgeInsets.all(SizeConfig.defaultSize! * 1.8),
                 child: Text("Pie Chart",
                   style: TextStyle(
-                      fontSize: 22, //22
-                      color: Colors.white),
+                    color: themeSecondaryColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,),
                   textAlign: TextAlign.left,),
               ),
               Container(width: SizeConfig.screenWidth!*0.2),

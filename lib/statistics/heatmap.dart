@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:heatmap_calendar/heatmap_calendar.dart';
 
+import '../constant.dart';
 import '../size_config.dart';
 
 class HeatMap extends StatefulWidget {
@@ -50,8 +51,9 @@ class _HeatMapState extends State<HeatMap> {
             margin: EdgeInsets.all(SizeConfig.defaultSize! * 1.8),
             child: Text("Heatmap Calendar",
               style: TextStyle(
-                  fontSize: 22, //22
-                  color: Colors.white),
+                color: themeSecondaryColor,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,),
               textAlign: TextAlign.left,),
           ),
           loading? Loading():HeatMapCalendar(

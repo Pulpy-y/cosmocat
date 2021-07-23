@@ -1,5 +1,5 @@
 import 'package:cosmocat/components/background.dart';
-import 'package:cosmocat/home/chart.dart';
+import 'package:cosmocat/statistics/chart.dart';
 import 'package:cosmocat/statistics/pie_chart_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class Body extends StatelessWidget {
           children: <Widget>[
             Container(
               //color: Colors.lightBlue,
-              height: AppBar().preferredSize.height * 1.05,
+              height: AppBar().preferredSize.height * 1.5,
             ),
             Chart(),
             HeatMap(),//heatmap
