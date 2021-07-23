@@ -28,6 +28,12 @@ class _SelectionState extends State<Selection> {
 
   @override
   Widget build(BuildContext context) {
+    if (todoList.isEmpty)
+      return Container(
+        alignment: Alignment.center,
+        child: Text("You do not have any todo yet!"),
+      );
+
     if (selectedIndex != -1) {
       return Container(child: dailyTodoInfo());
     }
@@ -144,6 +150,8 @@ class _SelectionState extends State<Selection> {
 
   void getData() async {
     todoList = await DatabaseService().getTodo();
+    if (todoList.isEmpty) return;
+
     todoList.sort((o1, o2) => o1.startDatetime.compareTo(o2.startDatetime));
     makeTodoCollection(todoList);
     if (this.mounted) setState(() {});
