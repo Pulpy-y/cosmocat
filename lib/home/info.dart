@@ -5,9 +5,8 @@ import '../size_config.dart';
 class Info extends StatelessWidget {
   const Info({
     required this.name,
-    required this.image,
   });
-  final String name, image;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +26,15 @@ class Info extends StatelessWidget {
                   height: defaultSize * 14, //140
                   width: defaultSize * 14,
                   decoration: BoxDecoration(
+                    color: Colors.transparent,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: Colors.white,
                       width: defaultSize * 0.8, //8
                     ),
                     image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(image),
+                      fit: BoxFit.contain,
+                      image: AssetImage("assets/image/animal_floating/0.png"),
                     ),
                   ),
                 ),
