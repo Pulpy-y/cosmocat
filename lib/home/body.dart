@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:cosmocat/size_config.dart';
 import 'package:cosmocat/components/background.dart';
 
+import '../constant.dart';
+
 class Body extends StatefulWidget {
   final User? user;
   Body(this.user);
@@ -22,10 +24,12 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String name;
+  int stars = 0;
   bool loading = true;
 
-  Future<void> getName() async {
+  Future<void> getNameAndStars() async {
     name = await DatabaseService().getUserName(widget.user!.uid);
+    stars = await DatabaseService().getStars();
     setState(() {
       loading = false;
     });
@@ -33,9 +37,10 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    getName();
+    getNameAndStars();
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +53,29 @@ class _BodyState extends State<Body> {
                 padding: EdgeInsets.only(top: defaultSize * 5),
                 child: Stack(
                   children: [
+                    Positioned(
+                      top: defaultSize * 5,
+                      left: defaultSize,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
+                            width: 40,
+                            height: 25,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: primaryColor, width: 1),
+                                borderRadius: BorderRadius.all(Radius.circular(5))),
+                            child: Text("$stars"), //Number of stars of the users
+                          )
+                        ],
+                      ),
+                    ),
                     Positioned(
                         child: SideBar(), right: 0, top: 0),
                     Column(

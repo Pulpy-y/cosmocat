@@ -57,9 +57,9 @@ class _HeatMapState extends State<HeatMap> {
           loading? Loading():HeatMapCalendar(
             input: mapInput,
             colorThresholds: {
-              1: Colors.green[100]!,
-              10:Colors.green[300]!,
-              30:Colors.green[500]!
+              1: Color.fromARGB(255, 170, 212, 192),
+              10:Color.fromARGB(255, 72, 174, 157),
+              30:Color.fromARGB(255, 3, 135, 134)
             },
             weekDaysLabels: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
             monthsLabels: [

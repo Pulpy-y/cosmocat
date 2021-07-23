@@ -38,7 +38,7 @@ class _ToDoState extends State<ToDo> {
             height: defualtHeight * 4.5,
             padding: EdgeInsets.all(defaultSize * 1.5),
             child: Card(
-                color: primaryColor,
+                color: Color.fromARGB(255, 149, 130, 161),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
                 child: Container(

@@ -16,8 +16,7 @@ class Info extends StatelessWidget {
 
     return SizedBox(
       height: defualtHeight * 3.5, // 240
-      child: Stack(
-        children: <Widget>[
+      child:
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -49,8 +48,6 @@ class Info extends StatelessWidget {
               ],
             ),
           )
-        ],
-      ),
     );
   }
 }

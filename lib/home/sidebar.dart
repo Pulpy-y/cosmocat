@@ -7,7 +7,6 @@ import 'package:cosmocat/friendboard/friendboard_page.dart';
 import 'package:cosmocat/shop/shop_page.dart';
 import 'package:cosmocat/statistics/statistics_page.dart';
 import 'package:flutter/material.dart';
-import 'package:cosmocat/database.dart';
 
 import '../size_config.dart';
 
@@ -17,53 +16,15 @@ class SideBar extends StatefulWidget {
 }
 
 class _SideBarState extends State<SideBar> {
-  int stars = 0;
-  bool loading = true;
 
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
-
-  Future<void> getData() async {
-    stars = await DatabaseService().getStars();
-    print("get data: stars:$stars");
-    if (this.mounted) {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return user!.isAnonymous
         ? _guest()
-        : loading
-            ? Loading()
-            : Column(
+        : Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
-                        width: 40,
-                        height: 25,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: primaryColor, width: 1),
-                            borderRadius: BorderRadius.all(Radius.circular(5))),
-                        child: Text("$stars"), //Number of stars of the users
-                      )
-                    ],
-                  ),
                   Column(children: <Widget>[
                     IconButton(
                       //collection button
