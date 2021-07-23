@@ -12,25 +12,29 @@ import 'package:cosmocat/database.dart';
 import '../size_config.dart';
 
 class SideBar extends StatefulWidget {
+  final int stars;
+
+
+  SideBar(this.stars);
+
   @override
-  _SideBarState createState() => _SideBarState();
+  _SideBarState createState() => _SideBarState(stars);
 }
 
 class _SideBarState extends State<SideBar> {
-  int stars = 0;
+  int stars;
   bool _selected = false;
-  bool loading = true;
   double defaultWidth = SizeConfig.screenWidth! * 0.1;
   double defaultHeight = SizeConfig.screenHeight! * 0.1;
+
+  _SideBarState(this.stars);
 
 
   @override
   Widget build(BuildContext context) {
     return user!.isAnonymous
         ? _guest()
-        : loading
-            ? Loading()
-            : Stack(
+        : Stack(
                 children: [
                   Positioned(right: 0, top: 0, child: _starCount()),
                   AnimatedPositioned(

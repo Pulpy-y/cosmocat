@@ -52,7 +52,7 @@ class _BodyState extends State<Body> {
             child: Padding(
                 padding: EdgeInsets.only(top: defaultSize * 5),
                 child: Stack(children: [
-                  SideBar(),
+                  SideBar(stars),
                   Column(
                     children: <Widget>[
                       Info(name: name),
