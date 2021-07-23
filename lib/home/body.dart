@@ -29,7 +29,7 @@ class _BodyState extends State<Body> {
   Future<void> getNameAndStars() async {
     name = await DatabaseService().getUserName(widget.user!.uid);
     stars = await DatabaseService().getStars();
-    userAnimal = await DatabaseService().getProfileAnimal();
+    userAnimal = await DatabaseService().getProfileAnimal(widget.user!.uid);
     setState(() {
       loading = false;
     });

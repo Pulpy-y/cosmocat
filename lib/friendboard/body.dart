@@ -126,9 +126,8 @@ class _BodyState extends State<Body> {
   }
 
   Future<void> getData() async {
-    userProfileAnimal = await DatabaseService().getProfileAnimal();
-
     String currUserId = user!.uid;
+    userProfileAnimal = await DatabaseService().getProfileAnimal(currUserId);
     List<String> friendIdList =
         await DatabaseService().getFriendList(currUserId);
     String name = await DatabaseService().getUserName(currUserId);
