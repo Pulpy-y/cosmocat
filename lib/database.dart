@@ -28,8 +28,6 @@ class DatabaseService {
 
     userCollection = instance.collection('users');
     userDoc = instance.collection('users').doc(uid);
-    focusTimeCollection =
-        instance.collection('users').doc(uid).collection('FocusTime');
 
     tagsCollection = instance.collection('users').doc(uid).collection('Tags');
     townCollection = instance.collection('towns');
@@ -208,6 +206,16 @@ class DatabaseService {
     return id == "" ? "0" : id;
   }
 
+  Future<String> getUserProfileAnimal(String uid) async {
+    String id = "0";
+    await userDoc.get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        id = documentSnapshot.get("uid");
+      }
+    });
+    return id == "" ? "0" : id;
+  }
+
   Future<void> updateProfileAnimal(String id) async {
     userDoc.update({"uid": id});
   }
@@ -325,6 +333,8 @@ class DatabaseService {
   Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;
 
+    focusTimeCollection = userCollection.doc(uid).collection('FocusTime');
+
     await focusTimeCollection.doc(day).get().then((DocumentSnapshot doc) {
       if (doc.exists) {
         totalMinutes = doc.get("totalTime");
@@ -345,7 +355,7 @@ class DatabaseService {
       String date =
           "${thisDay.year}-${thisDay.month.toString().padLeft(2, '0')}-${thisDay.day.toString().padLeft(2, '0')}";
 
-      await DatabaseService().getTimeOfTheDay(user!.uid, date).then((value) {
+      await DatabaseService().getTimeOfTheDay(uid, date).then((value) {
         time += value;
       });
     }
