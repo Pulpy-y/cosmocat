@@ -35,7 +35,7 @@ class _ToDoState extends State<ToDo> {
     return _loading
         ? Loading()
         : Container(
-            height: defualtHeight * 4.5,
+            height: defualtHeight * 5,
             padding: EdgeInsets.all(defaultSize * 1.5),
             child: Card(
                 color: primaryColor,

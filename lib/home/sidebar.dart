@@ -49,7 +49,7 @@ class _SideBarState extends State<SideBar> {
                   Positioned(right: 0, top: 0, child: _starCount()),
                   AnimatedPositioned(
                       right: _selected ? 0 : -defaultWidth * 2.5,
-                      top: defaultHeight * 1,
+                      top: defaultHeight * 0.7,
                       child: _iconDrawer(),
                       duration: Duration(milliseconds: 500))
                 ],
@@ -83,17 +83,21 @@ class _SideBarState extends State<SideBar> {
         Icon(
           Icons.star,
           color: Colors.yellow,
+          size: defaultWidth * 0.8,
         ),
         Container(
           alignment: Alignment.center,
           margin: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
-          width: 40,
-          height: 25,
+          width: 45,
+          height: 30,
           decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: primaryColor, width: 1),
+              border: Border.all(color: Colors.white, width: 1),
               borderRadius: BorderRadius.all(Radius.circular(5))),
-          child: Text("$stars"), //Number of stars of the users
+          child: Text(
+            "$stars",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ), //Number of stars of the users
         )
       ],
     );
@@ -101,6 +105,7 @@ class _SideBarState extends State<SideBar> {
 
   Widget _iconDrawer() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -136,16 +141,6 @@ class _SideBarState extends State<SideBar> {
                     color: themeSecondaryColor,
                   ),
                   IconButton(
-                    //shop button
-                    padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-                    onPressed: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => Shop()));
-                    },
-                    icon: Icon(Icons.storefront),
-                    color: themeSecondaryColor,
-                  ),
-                  IconButton(
                       padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 00),
                       onPressed: () {
                         Navigator.push(context,
@@ -153,10 +148,6 @@ class _SideBarState extends State<SideBar> {
                       },
                       icon: Icon(Icons.group),
                       color: themeSecondaryColor),
-                ],
-              ),
-              Column(
-                children: [
                   IconButton(
                       padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
                       onPressed: () {
@@ -167,6 +158,20 @@ class _SideBarState extends State<SideBar> {
                       },
                       icon: Icon(Icons.bar_chart_rounded),
                       color: themeSecondaryColor),
+                ],
+              ),
+              Column(
+                children: [
+                  IconButton(
+                    //shop button
+                    padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => Shop()));
+                    },
+                    icon: Icon(Icons.storefront),
+                    color: themeSecondaryColor,
+                  ),
                   IconButton(
                       padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
                       onPressed: () {
@@ -174,7 +179,7 @@ class _SideBarState extends State<SideBar> {
                             context, MaterialPageRoute(builder: (_) => Town()));
                       },
                       icon: Icon(Icons.home_rounded),
-                      color: themeSecondaryColor)
+                      color: themeSecondaryColor),
                 ],
               )
             ],
@@ -183,8 +188,7 @@ class _SideBarState extends State<SideBar> {
           width: defaultWidth * 2.5,
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5), bottomLeft: Radius.circular(5))),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5))),
         )
       ],
     );

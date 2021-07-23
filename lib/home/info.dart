@@ -15,7 +15,7 @@ class Info extends StatelessWidget {
     double defualtHeight = SizeConfig.screenHeight! / 10;
 
     return SizedBox(
-      height: defualtHeight * 3.5, // 240
+      height: defualtHeight * 3, // 240
       child: Stack(
         children: <Widget>[
           Center(
