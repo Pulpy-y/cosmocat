@@ -41,10 +41,24 @@ class _ChartState extends State<Chart> {
   Widget build(BuildContext context) {
     double defaultSize = SizeConfig.defaultSize!;
 
-    return loading
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.all(SizeConfig.defaultSize! * 1.8),
+          child: Text(
+            'Weekly Focus Time',
+            style: TextStyle(
+              color: themeSecondaryColor,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ), textAlign: TextAlign.left,
+          ),
+        ),
+        loading
         ? Loading()
         : Padding(
-            padding: EdgeInsets.fromLTRB(defaultSize * 2, defaultSize * 1.6,
+            padding: EdgeInsets.fromLTRB(defaultSize * 2, 0,
                 defaultSize * 2, defaultSize * 1.6),
             child: AspectRatio(
               aspectRatio: 4 / 3,
@@ -61,14 +75,7 @@ class _ChartState extends State<Chart> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Text(
-                            'Your Weekly Focus Time',
-                            style: TextStyle(
-                              color: themeSecondaryColor,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          /*
                           const SizedBox(
                             height: 4,
                           ),
@@ -79,6 +86,8 @@ class _ChartState extends State<Chart> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
+
+                           */
                           const SizedBox(
                             height: 38,
                           ),
@@ -101,7 +110,7 @@ class _ChartState extends State<Chart> {
                   ],
                 ),
               ),
-            ));
+            ))]);
   }
 
   BarChartGroupData makeGroupData(
@@ -270,7 +279,7 @@ class _ChartState extends State<Chart> {
 
     for (int i = 0; i < 7; i++) {
       DateTime thisDay = monday.add(Duration(days: i));
-      String date = "${thisDay.year}-${thisDay.month}-${thisDay.day}";
+      String date = "${thisDay.year}-${thisDay.month.toString().padLeft(2,'0')}-${thisDay.day.toString().padLeft(2,'0')}";
 
       await DatabaseService().getTimeOfTheDay(user!.uid, date).then((value) {
         setState(() {

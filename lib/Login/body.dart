@@ -26,7 +26,7 @@ class _BodyState extends State<Body> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${user!.uid} signed in'),
+          content: Text('signed in'),
         ),
       );
 
@@ -49,72 +49,72 @@ class _BodyState extends State<Body> {
     return Background(
         child: SingleChildScrollView(
             child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                    Widget>[
-      SizedBox(height: size.height * 0.1),
-      Container(
-          width: size.width * 0.5,
-          height: size.height * 0.25,
-          child: Image.asset('assets/image/coma_sit_trans.png')),
-      SizedBox(
-        width: size.width * 0.5,
-        height: size.height * 0.05,
-      ),
-      RoundedInputField(
-        hintText: "Your Email",
-        onChanged: (value) {
-          setState(() {
-            _email = value.trim();
-          });
-        },
-      ),
-      RoundedPasswordField(
-        icon: Icons.lock,
-        text: "Password",
-        onChanged: (value) {
-          setState(() {
-            _password = value.trim();
-          });
-        },
-      ),
-      RoundedButton(
-          text: "Log In",
-          press: () async {
-            await _logIn();
-          }),
-      Padding(
-          padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            TextButton(
-                style: ElevatedButton.styleFrom(
-                    textStyle: TextStyle(fontWeight: FontWeight.bold),
-                    onPrimary: Colors.white // background
-                    ),
-                child: Text('Sign Up'),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => SignUpScreen()));
-                }),
-            Text(
-              "OR",
-              textAlign: TextAlign.center,
-              style:
-                  TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
-            ),
-            TextButton(
-                style: ElevatedButton.styleFrom(
-                    textStyle: TextStyle(fontWeight: FontWeight.bold),
-                    onPrimary: Colors.white // background
-                    ),
-                onPressed: () async {
-                  auth.signInAnonymously().then((_) {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomePage()));
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                Widget>[
+              SizedBox(height: size.height * 0.1),
+              Container(
+                  width: size.width * 0.5,
+                  height: size.height * 0.25,
+                  child: Image.asset('assets/image/coma_sit_trans.png')),
+              SizedBox(
+                width: size.width * 0.5,
+                height: size.height * 0.05,
+              ),
+              RoundedInputField(
+                hintText: "Your Email",
+                onChanged: (value) {
+                  setState(() {
+                    _email = value.trim();
                   });
                 },
-                child: Text('Guest Login'))
-          ]))
-    ])));
+              ),
+              RoundedPasswordField(
+                icon: Icons.lock,
+                text: "Password",
+                onChanged: (value) {
+                  setState(() {
+                    _password = value.trim();
+                  });
+                },
+              ),
+              RoundedButton(
+                  text: "Log In",
+                  press: () async {
+                    await _logIn();
+                  }),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
+                  child:
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    TextButton(
+                        style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(fontWeight: FontWeight.bold),
+                            onPrimary: Colors.white // background
+                        ),
+                        child: Text('Sign Up'),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) => SignUpScreen()));
+                        }),
+                    Text(
+                      "OR",
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
+                    ),
+                    TextButton(
+                        style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(fontWeight: FontWeight.bold),
+                            onPrimary: Colors.white // background
+                        ),
+                        onPressed: () async {
+                          auth.signInAnonymously().then((_) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) => HomePage()));
+                          });
+                        },
+                        child: Text('Guest Login'))
+                  ]))
+            ])));
   }
 }
