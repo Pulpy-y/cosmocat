@@ -17,6 +17,7 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
   int stars = 0;
+  bool _selected = false;
   bool loading = true;
   double defaultWidth = SizeConfig.screenWidth! * 0.1;
   double defaultHeight = SizeConfig.screenHeight! * 0.1;
@@ -43,98 +44,14 @@ class _SideBarState extends State<SideBar> {
         ? _guest()
         : loading
             ? Loading()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  _starCount(),
-                  SizedBox(
-                    height: defaultHeight * 0.4,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        color: Colors.white,
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_left_rounded)),
-                      ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Column(
-                              children: [
-                                IconButton(
-                                  //collection button
-                                  padding: EdgeInsets.all(4.0),
-
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => Collection()));
-                                  },
-                                  icon: Icon(Icons.import_contacts_rounded),
-                                  color: Colors.white,
-                                ),
-                                IconButton(
-                                  //shop button
-                                  padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => Shop()));
-                                  },
-                                  icon: Icon(Icons.storefront),
-                                  color: Colors.white,
-                                ),
-                                IconButton(
-                                    padding:
-                                        EdgeInsets.fromLTRB(4.0, 0, 4.0, 00),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => Friendboard()));
-                                    },
-                                    icon: Icon(Icons.group),
-                                    color: Colors.white),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                IconButton(
-                                    padding:
-                                        EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  StatisticsPage()));
-                                    },
-                                    icon: Icon(Icons.bar_chart_rounded),
-                                    color: Colors.white),
-                                IconButton(
-                                    padding:
-                                        EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => Town()));
-                                    },
-                                    icon: Icon(Icons.home_rounded),
-                                    color: Colors.white)
-                              ],
-                            )
-                          ],
-                        ),
-                        color: Colors.black,
-                        height: defaultHeight * 2.5,
-                      )
-                    ],
-                  )
+            : Stack(
+                children: [
+                  Positioned(right: 0, top: 0, child: _starCount()),
+                  AnimatedPositioned(
+                      right: _selected ? 0 : -defaultWidth * 2.5,
+                      top: defaultHeight * 1,
+                      child: _iconDrawer(),
+                      duration: Duration(milliseconds: 500))
                 ],
               );
   }
@@ -228,5 +145,96 @@ class _SideBarState extends State<SideBar> {
           icon: Icon(Icons.home_rounded),
           color: Colors.white)
     ]);
+  }
+
+  Widget _iconDrawer() {
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20))),
+          child: IconButton(
+              onPressed: () {
+                _selected = !_selected;
+                if (this.mounted) {
+                  setState(() {});
+                }
+                print("sidebar selected: $_selected");
+              },
+              icon: _selected
+                  ? Icon(Icons.arrow_right_rounded)
+                  : Icon(Icons.arrow_left_rounded)),
+        ),
+        Container(
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  IconButton(
+                    //collection button
+                    padding: EdgeInsets.all(4.0),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => Collection()));
+                    },
+                    icon: Icon(Icons.import_contacts_rounded),
+                    color: themeSecondaryColor,
+                  ),
+                  IconButton(
+                    //shop button
+                    padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => Shop()));
+                    },
+                    icon: Icon(Icons.storefront),
+                    color: themeSecondaryColor,
+                  ),
+                  IconButton(
+                      padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 00),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => Friendboard()));
+                      },
+                      icon: Icon(Icons.group),
+                      color: themeSecondaryColor),
+                ],
+              ),
+              Column(
+                children: [
+                  IconButton(
+                      padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => StatisticsPage()));
+                      },
+                      icon: Icon(Icons.bar_chart_rounded),
+                      color: themeSecondaryColor),
+                  IconButton(
+                      padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_) => Town()));
+                      },
+                      icon: Icon(Icons.home_rounded),
+                      color: themeSecondaryColor)
+                ],
+              )
+            ],
+          ),
+          height: defaultHeight * 2,
+          width: defaultWidth * 2.5,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5), bottomLeft: Radius.circular(5))),
+        )
+      ],
+    );
   }
 }

@@ -46,11 +46,9 @@ class _BodyState extends State<Body> {
         : Background(
             child: Padding(
                 padding: EdgeInsets.only(top: defaultSize * 5),
-                child: Stack(
-                  children: [
-                    Positioned(
-                        child: SideBar(), right: 0, top: 0),
-                    Column(
+                child: Stack(children: [
+                  SideBar(),
+                  Column(
                     children: <Widget>[
                       Info(name: name, image: "assets/image/coma_as.png"),
                       ToDo(),
@@ -66,7 +64,7 @@ class _BodyState extends State<Body> {
                             },
                           ))
                     ],
-                  ),]
-                )));
+                  ),
+                ])));
   }
 }
