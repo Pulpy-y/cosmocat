@@ -23,6 +23,7 @@ class _BodyState extends State<Body> {
   double screenHeight = SizeConfig.screenHeight!;
   double screenWidth = SizeConfig.screenWidth!;
   String _category;
+  String userProfileAnimal = "0";
 
   _BodyState(this._category);
 
@@ -63,6 +64,7 @@ class _BodyState extends State<Body> {
   Widget selfInfo(UserModel user) {
     double defaultWidth = screenWidth * 0.1;
     double defaultHeight = screenHeight * 2 / 11 * 0.1;
+    double defaultSize = SizeConfig.defaultSize!;
 
     String time;
     if (_category == "day") {
@@ -79,8 +81,19 @@ class _BodyState extends State<Body> {
         Container(
             //mimic display pic
             width: defaultWidth * 2.5,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.brown)),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white,
+                width: defaultSize * 0.8, //8
+              ),
+              color: Colors.white,
+              image: DecorationImage(
+                fit: BoxFit.contain,
+                image: AssetImage(
+                    "assets/image/animal_floating/$userProfileAnimal.png"),
+              ),
+            )),
         Container(
           width: defaultWidth * 0.5,
         ),
@@ -114,20 +127,23 @@ class _BodyState extends State<Body> {
 
   Future<void> getData() async {
     String currUserId = user!.uid;
+    userProfileAnimal = await DatabaseService().getProfileAnimal(currUserId);
     List<String> friendIdList =
         await DatabaseService().getFriendList(currUserId);
     String name = await DatabaseService().getUserName(currUserId);
     num daytime = await DatabaseService().getTimeOfTheDay(currUserId, date);
     num weekTime = await DatabaseService().getTimeOfTheWeek(currUserId);
 
-    currUser = new UserModel(name, "", daytime, weekTime);
+    currUser = new UserModel(name, "", userProfileAnimal, daytime, weekTime);
 
     for (var id in friendIdList) {
       String name = await DatabaseService().getUserName(id);
       num daytime = await DatabaseService().getTimeOfTheDay(id, date);
       num weekTime = await DatabaseService().getTimeOfTheWeek(id);
+      String userProfileAnimal = await DatabaseService().getProfileAnimal(id);
 
-      friendList.add(new UserModel(name, id, daytime, weekTime));
+      friendList
+          .add(new UserModel(name, id, userProfileAnimal, daytime, weekTime));
     }
 
     setState(() {

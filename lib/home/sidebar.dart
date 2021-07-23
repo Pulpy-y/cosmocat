@@ -1,19 +1,15 @@
 import 'package:cosmocat/Login/log_in.dart';
 import 'package:cosmocat/Town/town.dart';
 import 'package:cosmocat/collection/collection.dart';
-import 'package:cosmocat/components/loading.dart';
 import 'package:cosmocat/constant.dart';
 import 'package:cosmocat/friendboard/friendboard_page.dart';
 import 'package:cosmocat/shop/shop_page.dart';
 import 'package:cosmocat/statistics/statistics_page.dart';
 import 'package:flutter/material.dart';
-import 'package:cosmocat/database.dart';
-
 import '../size_config.dart';
 
 class SideBar extends StatefulWidget {
   final int stars;
-
 
   SideBar(this.stars);
 
@@ -29,22 +25,20 @@ class _SideBarState extends State<SideBar> {
 
   _SideBarState(this.stars);
 
-
   @override
   Widget build(BuildContext context) {
     return user!.isAnonymous
         ? _guest()
         : Stack(
-                children: [
-                  Positioned(right: 0, top: 0, child: _starCount()),
-                  AnimatedPositioned(
-                      right: _selected ? 0 : -defaultWidth * 2.5,
-                      top: defaultHeight * 0.7,
-                      child: _iconDrawer(),
-                      duration: Duration(milliseconds: 500))
-
-                ],
-              );
+            children: [
+              Positioned(right: 0, top: 0, child: _starCount()),
+              AnimatedPositioned(
+                  right: _selected ? 0 : -defaultWidth * 2.5,
+                  top: defaultHeight * 0.7,
+                  child: _iconDrawer(),
+                  duration: Duration(milliseconds: 500))
+            ],
+          );
   }
 
   Widget _guest() {
@@ -175,7 +169,7 @@ class _SideBarState extends State<SideBar> {
               )
             ],
           ),
-          height: defaultHeight * 2,
+          height: defaultHeight * 2.2,
           width: defaultWidth * 2.5,
           decoration: BoxDecoration(
               color: Colors.white,
