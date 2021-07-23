@@ -51,36 +51,11 @@ class _BodyState extends State<Body> {
         : Background(
             child: Padding(
                 padding: EdgeInsets.only(top: defaultSize * 5),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: defaultSize * 5,
-                      left: defaultSize,
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
-                            width: 40,
-                            height: 25,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: primaryColor, width: 1),
-                                borderRadius: BorderRadius.all(Radius.circular(5))),
-                            child: Text("$stars"), //Number of stars of the users
-                          )
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                        child: SideBar(), right: 0, top: 0),
-                    Column(
+                child: Stack(children: [
+                  SideBar(),
+                  Column(
                     children: <Widget>[
-                      Info(name: name, image: "assets/image/coma_as.png"),
+                      Info(name: name),
                       ToDo(),
                       Container(
                           height: SizeConfig.screenHeight! * 0.1,
@@ -94,7 +69,7 @@ class _BodyState extends State<Body> {
                             },
                           ))
                     ],
-                  ),]
-                )));
+                  ),
+                ])));
   }
 }
