@@ -32,7 +32,7 @@ class _TimePickerState extends State<TimePicker> {
               children: <Widget>[
                 Container(
                     child: Text(
-                      "Pick a time",
+                      "Focus Duration",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: defaultSize * 2.2, //22

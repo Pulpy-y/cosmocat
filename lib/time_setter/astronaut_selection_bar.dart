@@ -30,7 +30,7 @@ class _AstronautSelectionBarState extends State<AstronautSelectionBar> {
             children: <Widget>[
               Container(
                   child: Text(
-                    "Astronaut",
+                    "Astronaut ฅ•ω•ฅ",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

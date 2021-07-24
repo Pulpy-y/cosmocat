@@ -33,7 +33,7 @@ class _SideBarState extends State<SideBar> {
             children: [
               Positioned(right: 0, top: 0, child: _starCount()),
               AnimatedPositioned(
-                  right: _selected ? 0 : -defaultWidth * 4,
+                  right: _selected ? 0 : -defaultWidth * 3.5,
                   top: defaultHeight * 0.7,
                   child: _iconDrawer(),
                   duration: Duration(milliseconds: 500))
@@ -114,84 +114,63 @@ class _SideBarState extends State<SideBar> {
         ),
         Container(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                IconButton(
-                  //collection button
-                  padding: EdgeInsets.all(4.0),
+              TextButton.icon(
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => Collection()));
                   },
-                  icon: Icon(Icons.import_contacts_rounded),
-                  color: themeSecondaryColor,
-                ),
-                Text(
-                  "Collection",
-                  style: _textstyle,
-                )
-              ]),
-              Row(children: [
-                IconButton(
-                  //shop button
-                  padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+                  icon: Icon(Icons.import_contacts_rounded,
+                      color: themeSecondaryColor),
+                  label: Text(
+                    "Collection",
+                    style: _textstyle,
+                  )),
+              TextButton.icon(
                   onPressed: () {
                     Navigator.push(
                         context, MaterialPageRoute(builder: (_) => Shop()));
                   },
-                  icon: Icon(Icons.storefront),
-                  color: themeSecondaryColor,
-                ),
-                Text(
-                  "Shop",
-                  style: _textstyle,
-                )
-              ]),
-              Row(children: [
-                IconButton(
-                    padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 00),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => Friendboard()));
-                    },
-                    icon: Icon(Icons.group),
-                    color: themeSecondaryColor),
-                Text(
-                  "Friendboard",
-                  style: _textstyle,
-                )
-              ]),
-              Row(children: [
-                IconButton(
-                    padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-                    onPressed: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => Town()));
-                    },
-                    icon: Icon(Icons.home_rounded),
-                    color: themeSecondaryColor),
-                Text(
-                  "Town",
-                  style: _textstyle,
-                )
-              ]),
-              Row(children: [
-                IconButton(
-                    padding: EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => StatisticsPage()));
-                    },
-                    icon: Icon(Icons.bar_chart_rounded),
-                    color: themeSecondaryColor),
-                Text(
-                  "Statistic",
-                  style: _textstyle,
-                )
-              ])
+                  icon: Icon(Icons.storefront, color: themeSecondaryColor),
+                  label: Text(
+                    "Shop",
+                    style: _textstyle,
+                  )),
+              TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => Friendboard()));
+                  },
+                  icon: Icon(Icons.group, color: themeSecondaryColor),
+                  label: Text(
+                    "Friendboard",
+                    style: _textstyle,
+                  )),
+              TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => Town()));
+                  },
+                  icon: Icon(Icons.home_rounded, color: themeSecondaryColor),
+                  label: Text(
+                    "Town",
+                    style: _textstyle,
+                  )),
+              TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => StatisticsPage()));
+                  },
+                  icon:
+                      Icon(Icons.bar_chart_rounded, color: themeSecondaryColor),
+                  label: Text(
+                    "Statistic",
+                    style: _textstyle,
+                  )),
             ],
           ),
-          width: defaultWidth * 3.8,
+          width: defaultWidth * 3.5,
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5))),
