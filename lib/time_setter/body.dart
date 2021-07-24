@@ -31,16 +31,14 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TaskCategory(),
-            AstronautSelectionBar(),
-            TimePicker(),
-            FocusButton(text)
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TaskCategory(),
+          AstronautSelectionBar(),
+          TimePicker(),
+          FocusButton(text)
+        ],
       ),
     );
   }
