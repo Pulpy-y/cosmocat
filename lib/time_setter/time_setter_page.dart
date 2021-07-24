@@ -12,7 +12,7 @@ class TimeSetter extends StatelessWidget {
         child: Scaffold(
       extendBodyBehindAppBar: false,
       backgroundColor: Colors.transparent,
-      resizeToAvoidBottomInset: false, //fix pixel overflow
+      resizeToAvoidBottomInset: true, //fix pixel overflow
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text("Time Setter"),
