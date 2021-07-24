@@ -30,14 +30,11 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
-              height: SizeConfig.screenHeight! * 0.05,
-            ),
             TaskCategory(),
             AstronautSelectionBar(),
             TimePicker(),

@@ -1,3 +1,4 @@
+import 'package:cosmocat/components/background.dart';
 import 'package:cosmocat/time_setter/body.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,9 @@ class TimeSetter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
+    return Background(
+        child: Scaffold(
+      extendBodyBehindAppBar: false,
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false, //fix pixel overflow
       appBar: AppBar(
@@ -17,6 +19,6 @@ class TimeSetter extends StatelessWidget {
         centerTitle: true,
       ),
       body: Body(text),
-    );
+    ));
   }
 }
