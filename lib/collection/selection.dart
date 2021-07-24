@@ -50,6 +50,7 @@ class _SelectionState extends State<Selection> {
         },
         title: Text(animalList[index].name),
         leading: CircleAvatar(
+          backgroundColor: Colors.white,
           backgroundImage: AssetImage('$animal_profile_path$animalID.png'),
         ),
       );
