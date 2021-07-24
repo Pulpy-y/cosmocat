@@ -175,7 +175,8 @@ class DatabaseService {
   Future<void> addAnimal(String userId, String animalId) async {
     var animalList = await getAnimalList(userId);
     var doc = userCollection.doc(userId);
-    animalList.add(animalId);
+    if (!animalList.contains(animalId)) animalList.add(animalId);
+
     doc.update({"animals": animalList});
   }
 
