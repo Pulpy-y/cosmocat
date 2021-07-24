@@ -28,7 +28,8 @@ class CountDown extends StatefulWidget {
   _CountDownState createState() => _CountDownState(hour, minute, tag, animalID);
 }
 
-class _CountDownState extends State<CountDown> {
+class _CountDownState extends State<CountDown>
+    with SingleTickerProviderStateMixin {
   int _counter = 0;
   int _set = 0;
   int _actual = 0;
@@ -41,6 +42,19 @@ class _CountDownState extends State<CountDown> {
   late String _animalID;
   var helper = CountdownHelper();
 
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(0.0, 0.2),
+  ).animate(CurvedAnimation(
+    parent: _controller,
+    curve: Curves.linear,
+  ));
+
+  late AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  )..repeat(reverse: true);
+
   //DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   _CountDownState(int hour, int minute, String tag, String animalID) {
     _counter = hour * 3600 + minute * 60;
@@ -48,6 +62,12 @@ class _CountDownState extends State<CountDown> {
     _timeFormatted = helper.timeString(_counter);
     _tag = tag;
     _animalID = animalID;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   void _startTimer() {
@@ -86,8 +106,8 @@ class _CountDownState extends State<CountDown> {
               height: SizeConfig.screenHeight! * 0.3,
               child: _timerWidget(),
             ),
-            Bounce(
-                infinite: true,
+            SlideTransition(
+                position: _offsetAnimation,
                 child: Container(
                   height: SizeConfig.screenHeight! * 0.3,
                   width: SizeConfig.screenWidth! * 0.6,
