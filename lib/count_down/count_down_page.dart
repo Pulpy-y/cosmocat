@@ -218,7 +218,8 @@ class _CountDownState extends State<CountDown>
             DatabaseService().saveFocusTime(_tag!, _actual, date);
             print(date);
             DatabaseService().updateStars(_stars);
-            Navigator.push(
+            Navigator.pop(context);
+            Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (_) => HomePage()));
           },
           child: Text("Return to Home"),
