@@ -99,48 +99,44 @@ class _ToDoState extends State<ToDo> {
   }
 
   Widget todoTitle() {
-    return Row(children: [
-      Row(
-        children: <Widget>[
-          Text(
-            'Todo List',
-            style: TextStyle(
-              color: themeSecondaryColor,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return Stack(
+      children: [
+        Row(
+          children: <Widget>[
+            Text(
+              'Todo List',
+              style: TextStyle(
+                color: themeSecondaryColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => TodoSetter()));
-              },
-              padding: EdgeInsets.zero,
-              icon: Icon(
-                Icons.add_rounded,
-                color: themeSecondaryColor,
-                semanticLabel: "add task",
-              ))
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          SizedBox(
-            width: SizeConfig.screenWidth! * 2 / 5,
-          ),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => TodoDetail()));
-              },
-              icon: Icon(
-                Icons.read_more,
-                color: themeSecondaryColor,
-              ))
-        ],
-      )
-    ]);
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => TodoSetter()));
+                },
+                padding: EdgeInsets.zero,
+                icon: Icon(
+                  Icons.add_rounded,
+                  color: themeSecondaryColor,
+                  semanticLabel: "add task",
+                ))
+          ],
+        ),
+        Positioned(
+            right: 0,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => TodoDetail()));
+                },
+                icon: Icon(
+                  Icons.read_more,
+                  color: themeSecondaryColor,
+                )))
+      ],
+    );
   }
 
   ListTile _buildTile(int index) {
