@@ -82,46 +82,31 @@ class _BodyState extends State<Body> {
                   press: () async {
                     await _logIn();
                   }),
-              RoundedButton(
-                  text: "Sign Up",
-                  press: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => SignUpScreen()));
-                  },),
-              /*
               Padding(
-                  padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
-                  child:
-                  Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      "Do not have an account?",
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(color: Colors.white),
+                    ),
                     TextButton(
-                        style: ElevatedButton.styleFrom(
-                            textStyle: TextStyle(fontWeight: FontWeight.bold),
-                            onPrimary: Colors.white // background
-                        ),
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        onPrimary: Colors.white // background
+                    ),
                         child: Text('Sign Up'),
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (_) => SignUpScreen()));
                         }),
-                    Text(
-                      "OR",
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(color: Colors.white, fontStyle: FontStyle.italic),
-                    ),
-                    TextButton(
-                        style: ElevatedButton.styleFrom(
-                            textStyle: TextStyle(fontWeight: FontWeight.bold),
-                            onPrimary: Colors.white // background
-                        ),
-                        onPressed: () async {
-                          auth.signInAnonymously().then((_) {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(builder: (context) => HomePage()));
-                          });
-                        },
-                        child: Text('Guest Login'))
-                  ]))*/
+                  ],
+                ),
+              ),
+
+
             ])));
   }
 }
