@@ -33,7 +33,7 @@ class _FocusButtonState extends State<FocusButton> {
           onPressed: () {
             if (!selected) {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Please select a tag!"),
+                content: Text("Please click on the tag to select it!"),
               ));
             } else if (hour == 0 && minute == 0) {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

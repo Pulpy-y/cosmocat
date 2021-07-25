@@ -33,10 +33,6 @@ class _HeatMapState extends State<HeatMap> {
                 loading = false;
               });
             });
-
-
-
-
   }
 
 

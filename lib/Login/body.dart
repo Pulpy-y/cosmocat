@@ -82,6 +82,13 @@ class _BodyState extends State<Body> {
                   press: () async {
                     await _logIn();
                   }),
+              RoundedButton(
+                  text: "Sign Up",
+                  press: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => SignUpScreen()));
+                  },),
+              /*
               Padding(
                   padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
                   child:
@@ -114,7 +121,7 @@ class _BodyState extends State<Body> {
                           });
                         },
                         child: Text('Guest Login'))
-                  ]))
+                  ]))*/
             ])));
   }
 }
