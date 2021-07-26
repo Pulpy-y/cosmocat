@@ -32,6 +32,7 @@ class DatabaseService {
     tagsCollection = instance.collection('users').doc(uid).collection('Tags');
     townCollection = instance.collection('towns');
     todoCollection = instance.collection('users').doc(uid).collection('Todos');
+    focusTimeCollection = instance.collection('users').doc(uid).collection('FocusTime');
   }
 
   Future<void> addUser(AppUser user, String uid) async {
@@ -336,9 +337,9 @@ class DatabaseService {
   Future<num> getTimeOfTheDay(String uid, String day) async {
     num totalMinutes = 0;
 
-    focusTimeCollection = userCollection.doc(uid).collection('FocusTime');
+    CollectionReference userFocusTime = userCollection.doc(uid).collection('FocusTime');
 
-    await focusTimeCollection.doc(day).get().then((DocumentSnapshot doc) {
+    await userFocusTime.doc(day).get().then((DocumentSnapshot doc) {
       if (doc.exists) {
         totalMinutes = doc.get("totalTime");
       }
