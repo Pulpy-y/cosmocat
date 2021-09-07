@@ -10,6 +10,7 @@ A mobile app that gamifies the process of focusing on tasks with attracting rewa
 - Milestone 3: https://docs.google.com/document/d/12pMaWyEpIfA_sQN07UrR4XTlOIc5iMA_3H8JiT0cDxs/edit?usp=sharing
 - Progress Log: https://docs.google.com/spreadsheets/d/1IBfyqTEkaR4MoaA1mMs7AfjdqYei3X2i6GzJD3osJQw/edit?usp=sharing
 - apk: https://drive.google.com/file/d/1FgDLMQOe2ARnmYgZ5rqM-L98K34Em60o/view?usp=sharing
+- Demo video: https://www.youtube.com/watch?v=K0mXUY_c240&t=10s
 
 
 ## Features 
